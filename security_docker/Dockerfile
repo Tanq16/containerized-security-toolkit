@@ -23,7 +23,7 @@ RUN DEBIAN_FRONTEND="noninteractive" \
     nmap ncat gobuster nikto dirb netdiscover hydra less file binwalk p7zip-full
 RUN DEBIAN_FRONTEND="noninteractive" \
     apt install -y \
-    vim curl strace ltrace bat fd-find wget gdb git tmux tree fzf php ntp
+    vim curl strace ltrace bat fd-find wget gdb git tmux tree fzf php ntp sqlmap
 RUN DEBIAN_FRONTEND="noninteractive" \
     apt install -y \
     default-jre default-jdk john wireshark gcc-multilib nasm unzip fcrackzip
@@ -46,7 +46,7 @@ RUN DEBIAN_FRONTEND="noninteractive" \
 
 
 # ============================================================================================================
-# ============================================================================ Shell Customization Stuff =====
+# =============================================================================== CLI Productivity Suite =====
 # ============================================================================================================
 
 # Install zsh and tmux
