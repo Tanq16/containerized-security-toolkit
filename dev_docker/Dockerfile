@@ -50,11 +50,6 @@ RUN wget https://raw.githubusercontent.com/Tanq16/cli-productivity-suite/master/
 RUN mv tmuxconf ~/.tmux.conf
 RUN git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf 2>/dev/null
 RUN wget https://raw.githubusercontent.com/Tanq16/cli-productivity-suite/master/add_to_rc 2>/dev/null
-RUN echo "if [[ ! "$PATH" == */home/tanq/.fzf/bin* ]]; then" > ~/.fzf.zsh
-RUN echo '  export PATH="${PATH:+${PATH}:}/home/tanq/.fzf/bin"' >> ~/.fzf.zsh
-RUN echo "fi" >> ~/.fzf.zsh
-RUN echo '[[ $- == *i* ]] && source "/home/tanq/.fzf/shell/completion.zsh" 2> /dev/null' >> ~/.fzf.zsh
-RUN echo 'source "/home/tanq/.fzf/shell/key-bindings.zsh"' >> ~/.fzf.zsh
 RUN cat add_to_rc >> ~/.zshrc
 RUN rm add_to_rc
 RUN cp ~/.zshrc temptemp
@@ -62,6 +57,8 @@ RUN cat temptemp | grep -vE "^#" | grep -vE "^$" > ~/.zshrc
 RUN rm temptemp
 RUN echo "export PATH=$PATH:/usr/local/go/bin/" >> ~/.zshrc
 RUN chsh -s /usr/bin/zsh
+RUN git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf 2>/dev/null
+RUN ~/.fzf/install --all 1>/dev/null 2>/dev/null
 RUN echo "[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh" >> ~/.zshrc
 RUN wget https://github.com/Peltoche/lsd/releases/download/0.20.1/lsd_0.20.1_amd64.deb
 RUN apt install -y ./lsd_0.20.1_amd64.deb && rm lsd_0.20.1_amd64.deb
