@@ -8,7 +8,7 @@ FROM ubuntu
 ENV RUNNING_IN_DOCKER true
 ENV SHELL /bin/zsh
 ENV TERM xterm
-ENV LANG=C
+ENV LANG C
 
 RUN apt update && apt upgrade -y
 
@@ -72,6 +72,7 @@ RUN cp ~/.zshrc temptemp
 RUN cat temptemp | grep -vE "^#" | grep -vE "^$" > ~/.zshrc
 RUN rm temptemp
 RUN echo "export PATH=$PATH:/usr/local/go/bin/" >> ~/.zshrc
+RUN echo "export LANG=C" >> ~/.zshrc
 RUN chsh -s /usr/bin/zsh
 RUN git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf 2>/dev/null
 RUN ~/.fzf/install --all 1>/dev/null 2>/dev/null
