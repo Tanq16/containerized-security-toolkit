@@ -1,4 +1,5 @@
 import re
+import os
 import sys
 
 boilerplate_pre = """
@@ -139,18 +140,6 @@ def process(data):
     return middle_html
 
 def process_table(headers, elements):
-    """
-    <thead>
-        <tr>
-             <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-             <td></td>
-        </tr>
-    </tbody>
-    """
     to_return = "<thead><tr>\n"
     for i in headers:
         to_return += ("<th>" + i + "</th>\n")
@@ -169,12 +158,9 @@ def main():
     md_text = f.readlines()
     f.close()
 
-    if sys.argv[2]:
-        boilerplate_pre_formatted = boilerplate_pre.replace("HEADER_STRONG_1", sys.argv[2])
-    if sys.argv[3]:
-        boilerplate_pre_formatted = boilerplate_pre_formatted.replace("HEADER_NORMAL", sys.argv[3])
-    if sys.argv[4]:
-        boilerplate_pre_formatted = boilerplate_pre_formatted.replace("HEADER_STRONG_2", sys.argv[4])
+    boilerplate_pre_formatted = boilerplate_pre.replace("HEADER_STRONG_1", os.environ["HS1"])
+    boilerplate_pre_formatted = boilerplate_pre_formatted.replace("HEADER_NORMAL", os.environ["HN"])
+    boilerplate_pre_formatted = boilerplate_pre_formatted.replace("HEADER_STRONG_2", os.environ["HS2"])
 
     middle_html = process(md_text)
 
