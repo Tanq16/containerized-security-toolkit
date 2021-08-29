@@ -65,6 +65,11 @@ RUN git clone https://github.com/jimeh/tmux-themepack.git ~/.tmux-themepack
 RUN wget https://raw.githubusercontent.com/Tanq16/cli-productivity-suite/master/tmuxconf 2>/dev/null
 RUN mv tmuxconf ~/.tmux.conf
 RUN wget https://raw.githubusercontent.com/Tanq16/cli-productivity-suite/master/add_to_rc 2>/dev/null
+RUN echo "if [[ ! "$PATH" == */home/tanq/.fzf/bin* ]]; then" > ~/.fzf.zsh
+RUN echo '  export PATH="${PATH:+${PATH}:}/home/tanq/.fzf/bin"' >> ~/.fzf.zsh
+RUN echo "fi" >> ~/.fzf.zsh
+RUN echo '[[ $- == *i* ]] && source "/home/tanq/.fzf/shell/completion.zsh" 2> /dev/null' >> ~/.fzf.zsh
+RUN echo 'source "/home/tanq/.fzf/shell/key-bindings.zsh"' >> ~/.fzf.zsh
 RUN cat add_to_rc >> ~/.zshrc
 RUN rm add_to_rc
 RUN cp ~/.zshrc temptemp
@@ -125,23 +130,6 @@ RUN wget https://golang.org/dl/go1.16.7.linux-amd64.tar.gz
 RUN tar -C /usr/local -xzf go1.16.7.linux-amd64.tar.gz && rm go1.16.7.linux-amd64.tar.gz
 
 RUN python3 -m pip install jupyterlab cryptography requests
-
-# For VS Code to run smoothly for golang
-RUN /usr/local/go/bin/go get github.com/uudashr/gopkgs/v2/cmd/gopkgs
-RUN /usr/local/go/bin/go get github.com/ramya-rao-a/go-outline
-RUN /usr/local/go/bin/go get github.com/cweill/gotests/gotests
-RUN /usr/local/go/bin/go get github.com/fatih/gomodifytags
-RUN /usr/local/go/bin/go get github.com/josharian/impl
-RUN /usr/local/go/bin/go get github.com/haya14busa/goplay/cmd/goplay
-RUN /usr/local/go/bin/go get honnef.co/go/tools/cmd/staticcheck
-RUN /usr/local/go/bin/go get golang.org/x/tools/gopls
-
-# Install of these may change
-RUN /usr/local/go/bin/go get github.com/go-delve/delve/cmd/dlv
-RUN /usr/local/go/bin/go get github.com/go-delve/delve/cmd/dlv@f95340ae1bf9
-# Following is for installing dlv-dap manually, otherwise it takes a ton of time installing from VS code
-RUN GOBIN=/tmp/ /usr/local/go/bin/go install github.com/go-delve/delve/cmd/dlv@master
-RUN mv /tmp/dlv /root/go/bin/dlv-dap
 
 # ============================================================================================================
 # ============================================================================================================
