@@ -142,12 +142,12 @@ def process(data):
 def process_table(headers, elements):
     to_return = "<thead><tr>\n"
     for i in headers:
-        to_return += ("<th>" + i + "</th>\n")
+        to_return += ("<th>" + inline_convert(i) + "</th>\n")
     to_return += "</tr></thead><tbody>\n"
     for i in elements:
         to_return += "<tr>\n"
         for j in i:
-            to_return += "<td>" + j + "</td>\n"
+            to_return += "<td>" + inline_convert(j) + "</td>\n"
         to_return += "</tr>\n"
     to_return += "</tbody>\n"
     return to_return

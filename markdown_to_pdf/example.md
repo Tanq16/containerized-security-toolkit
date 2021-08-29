@@ -48,7 +48,7 @@ The following is a table &rarr;
 <!-- start table -->
 | header 1 | header 2 | header 3 |
 | :----: | :----: | :----: |
-| entry 1 | entry 2 | entry 3 |
+| entry 1 | *entry 2* | `entry 3` |
 | data 1 | data 2 | data 3 |
 <!-- end table -->
 
