@@ -5,7 +5,7 @@ boilerplate_pre = """
 <!DOCTYPE HTML>
 <html>
 	<head>
-		<title>BOX_NAME_TO_BE_REPLACED</title>
+		<title>Markdown to HTML</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
@@ -21,7 +21,7 @@ boilerplate_pre = """
 
 							<!-- Header -->
 								<header id="header">
-									<a href="#" class="logo"><strong>BOX_NAME_TO_BE_REPLACED</strong> security assessment by <strong>Tanishq Rupaal</strong></a>
+									<a href="#" class="logo"><strong>HEADER_STRONG_1</strong> HEADER_NORMAL <strong>HEADER_STRONG_2</strong></a>
 								</header>
 
 							<!-- Content -->
@@ -47,101 +47,140 @@ boilerplate_post = """
 table_head = """
 <div class="table-wrapper">
     <table class="alt">
-        <thead>
-            <tr>
-                <th>Port</th>
-                <th>Service</th>
-                <th>Other details (if any)</th>
-            </tr>
-        </thead>
-        <tbody>
 """
 table_end = """
-        </tbody>
     </table>
 </div>
 """
 
-def render_general(line):
-    line = escape_html(line)
-    line = re.sub('\[(.+?)\]\((.+?)\)', r'<a href="\2">\1</a>', line)
-    return "<p>" + re.sub('`(.*?)`', r'<code>\1</code>', line.strip("\n")) + "</p>\n"
+def escape_html(line):
+    line = line.replace('<', '&lt;')
+    return line.replace('>', '&gt;')
 
 def render_heading(line):
     if line[:2] == "# ":
         item = line.split("#")[-1].strip("\n").strip()
-        return '<h2 id="' + item + '">' + item + '</h2>\n'
+        return '<h2>' + escape_html(item) + '</h2>\n'
+    elif line[:3] == "## ":
+        item = line.split("#")[-1].strip("\n").strip()
+        return '<h3>' + escape_html(item) + '</h3>\n'
     elif line[:4] == "### ":
         item = line.split("#")[-1].strip("\n").strip()
-        return '<h3>' + item + '</h3>\n'
+        return '<h4>' + escape_html(item) + '</h4>\n'
+    elif line[:5] == "#### ":
+        item = line.split("#")[-1].strip("\n").strip()
+        return '<p>' + escape_html(item) + '</p>\n'
     else:
         return ''
 
-def escape_html(line):
-    line = line.replace('<', '&lt;')
-    return line.replace('>', '&gt;') 
+def inline_convert(line):
+    line = escape_html(line)
+    line = re.sub('\*\*(.*?)\*\*', r'<b>\1</b>', line)
+    line = re.sub('\*(.*?)\*', r'<em>\1</em>', line)
+    line = re.sub('!\[(.+?)\]\((.+?)\)', r'<figure><img src="\2" /><figcaption>\1</figcaption></figure>', line)
+    line = re.sub('\[(.+?)\]\((.+?)\)', r'<a href="\2">\1</a>', line)
+    line = re.sub('`(.*?)`', r'<code>\1</code>', line)
+    return line.strip("\n")
 
-def render_line(line):
-    if line.startswith("#"):
-        return render_heading(line)
-    elif line == "---\n" or line == "---":
-        return '<hr class="major" />\n'
-    elif line == "\n":
-        return ""
-    else:
-        return render_general(line)
+def process(data):
+    i = 0
+    middle_html = ""
+    while i < len(data):
+        if data[i] == "---" or data[i] == "***" or data[i] == "---\n" or data[i] == "***\n":
+            middle_html += '<hr class="major" />\n'
+            i += 1
+        elif "```" in data[i]:
+            i += 1
+            middle_html += "<pre><code>"
+            while "```" not in data[i]:
+                middle_html += escape_html(data[i])
+                i += 1
+            middle_html += "</code></pre>\n"
+            i += 1
+        elif data[i] == "<!-- start bullet list -->\n":
+            i += 1
+            middle_html += "<ul>\n"
+            while data[i] != "<!-- end bullet list -->\n":
+                middle_html += "<li>" + inline_convert(data[i][2:]) + "</li>\n"
+                i += 1
+            middle_html += "</ul>\n"
+            i += 1
+        elif data[i] == "<!-- start number list -->\n":
+            i += 1
+            middle_html += "<ol>\n"
+            while data[i] != "<!-- end number list -->\n":
+                line_to_edit = re.search('^[0-9]{1,2}\. (.+)', data[i]).group(1)
+                middle_html += "<li>" + inline_convert(line_to_edit) + "</li>\n"
+                i += 1
+            middle_html += "</ol>\n"
+            i += 1
+        elif data[i] == "<!-- start table -->\n":
+            middle_html += table_head
+            i += 1
+            headers = data[i].split("|")[1:-1]
+            i += 2
+            elements = []
+            while data[i] != "<!-- end table -->\n":
+                elements.append(data[i].split("|")[1:-1])
+                i += 1
+            middle_html += process_table(headers, elements)
+            middle_html += table_end
+            i += 1
+        elif data[i].startswith("#"):
+            middle_html += render_heading(data[i])
+            i += 1
+        elif data[i] == "\n":
+            middle_html += "\n"
+            i += 1
+        else:
+            middle_html += ("<p>" + inline_convert(data[i]) + "</p>\n")
+            i += 1
     
+    return middle_html
+
+def process_table(headers, elements):
+    """
+    <thead>
+        <tr>
+             <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+             <td></td>
+        </tr>
+    </tbody>
+    """
+    to_return = "<thead><tr>\n"
+    for i in headers:
+        to_return += ("<th>" + i + "</th>\n")
+    to_return += "</tr></thead><tbody>\n"
+    for i in elements:
+        to_return += "<tr>\n"
+        for j in i:
+            to_return += "<td>" + j + "</td>\n"
+        to_return += "</tr>\n"
+    to_return += "</tbody>\n"
+    return to_return
+
 def main():
     md_file = sys.argv[1]
     f = open(md_file, "r")
     md_text = f.readlines()
     f.close()
 
-    middle_html = ""
+    if sys.argv[2]:
+        boilerplate_pre_formatted = boilerplate_pre.replace("HEADER_STRONG_1", sys.argv[2])
+    if sys.argv[3]:
+        boilerplate_pre_formatted = boilerplate_pre_formatted.replace("HEADER_NORMAL", sys.argv[3])
+    if sys.argv[4]:
+        boilerplate_pre_formatted = boilerplate_pre_formatted.replace("HEADER_STRONG_2", sys.argv[4])
 
-    i = 0
-    while i < len(md_text):
-        if "```" in md_text[i]:
-            i += 1
-            middle_html += "<pre><code>"
-            while "```" not in md_text[i]:
-                middle_html += md_text[i]
-                i += 1
-            middle_html += "</code></pre>\n"
-            i += 1
-        elif md_text[i].startswith("*"):
-            middle_html += "<ul>\n"
-            while md_text[i].startswith("*"):
-                line_new = re.sub('`(.*?)`', r'<code>\1</code>', escape_html(md_text[i]).strip("\n"))
-                middle_html += "<li>" + line_new.split("*")[-1].strip().strip("\n") + "</li>\n"
-                i += 1
-            middle_html += "</ul>\n"
-        elif md_text[i].startswith("|"):
-            middle_html += table_head
-            i += 2
-            while md_text[i].startswith("|"):
-                vals = md_text[i].split("|")
-                middle_html += "<tr>\n"
-                middle_html += "<td>" + (vals[1]) + "</td>\n" + "<td>" + (vals[2]) + "</td>\n" + "<td>" + (vals[3]) + "</td>\n"
-                middle_html += "</tr>\n"
-                i += 1
-            middle_html += table_end
-        middle_html += render_line(md_text[i])
-        i += 1
-    
+    middle_html = process(md_text)
+
     f = open("/root/index.html", "w")
-    box_name = md_file.split("/")[-1].split(".")[0]
-    f.write(boilerplate_pre.replace("BOX_NAME_TO_BE_REPLACED", box_name) + middle_html + boilerplate_post)
+    f.write(boilerplate_pre_formatted + middle_html + boilerplate_post)
     f.close()
 
-if __name__ == '__main__':
+if __name__=="__main__":
     main()
-
-
-"""
-1. inline conversion - bold italics strikethrough etc., image, link and inline code
-2. Line level - para, bullet, child bullet, numbered, child numbered, headings, hline
-3. Para level - Table, code block
-
-Give comment help for table, code and lists. Lists comment for sublists as well.
-"""
