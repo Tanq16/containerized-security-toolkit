@@ -6,8 +6,8 @@ FROM ubuntu
 
 # Set environment variables
 ENV RUNNING_IN_DOCKER true
-ENV TERM xterm
 ENV SHELL /bin/zsh
+ENV TERM xterm
 
 RUN apt update && apt upgrade -y
 
