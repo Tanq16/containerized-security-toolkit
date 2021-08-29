@@ -74,7 +74,7 @@ RUN echo "export PATH=$PATH:/usr/local/go/bin/" >> ~/.zshrc
 RUN chsh -s /usr/bin/zsh
 RUN echo "[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh" >> ~/.zshrc
 RUN wget https://github.com/Peltoche/lsd/releases/download/0.20.1/lsd_0.20.1_amd64.deb
-RUN apt install ./lsd_0.20.1_amd64.deb && rm lsd_0.20.1_amd64.deb
+RUN apt install -y ./lsd_0.20.1_amd64.deb && rm lsd_0.20.1_amd64.deb
 
 # Install vim extensions
 RUN git clone https://github.com/itchyny/lightline.vim ~/.vim/pack/plugins/start/lightline
