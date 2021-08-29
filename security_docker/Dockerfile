@@ -26,7 +26,7 @@ RUN DEBIAN_FRONTEND="noninteractive" \
     vim curl strace ltrace bat fd-find wget gdb git tmux tree fzf php ntp sqlmap
 RUN DEBIAN_FRONTEND="noninteractive" \
     apt install -y \
-    default-jre default-jdk john wireshark gcc-multilib nasm unzip fcrackzip
+    default-jre default-jdk john wireshark gcc-multilib nasm unzip fcrackzip ncdu htop
 RUN DEBIAN_FRONTEND="noninteractive" \
     apt install -y \
     python3-pkg-resources python3-setuptools python3-pip python3 python3-dev ipython3 iproute2
