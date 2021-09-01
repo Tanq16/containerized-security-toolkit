@@ -8,7 +8,7 @@ FROM ubuntu:20.04
 ENV RUNNING_IN_DOCKER true
 ENV SHELL /bin/zsh
 ENV TERM xterm
-ENV LANG C
+ENV LANG enUS.utf-8
 
 RUN apt update && apt upgrade -y
 
