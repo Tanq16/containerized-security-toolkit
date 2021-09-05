@@ -1,33 +1,76 @@
-# Docker Images
+# Using This Repository
 
-The two docker images in this repository are intended to be used for cybersecurity related operations and for python/go development. The security docker is effectively a combination of all the good tools required for basic pentesting. Both the images include the command line enhancements listed above. The intended way to use it is to run the docker and then ssh into the instance via VS code and a terminal application, use tmux and work.
+This repository contains several directories, each of which has a Dockerfile and other requirements needed to build the respective docker images. The 4 images here are as follows &rarr;
+<!-- start bullet list -->
+* Image for Python and Go development
+* Image for security focussed tools
+* Image for general cli work
+* Image to generate a PDF from a markdown file
+<!-- end bullet list -->
 
-This is specific to x86 machines and the best way to get access is to pull the image by using -
+These images are also available to be directly pulled from docker hub repositories. Each of the following sections provides a brief on both pulling or building these images. All images except for the `markdown_to_pdf` image have the [cli-productivity-suite](https://github.com/tanq16/cli-productivity-suite) preinstalled in them i.e., a funky shell along with customized vim and tmux.
+
+## Conventions and Running Containers
+
+All the work related images are built with the intention of ssh-ing into them and making use of tmux to work in them. Further, the conventions followed for building the images (also useful if edits are needed) are &rarr;
+<!-- start bullet list -->
+* ports mapping follows convention &rarr; shared port = port + 50000
+* volume mount to `/work`
+* general installations made using Dockerfile should be placed under `/opt`
+* run the images with `--rm` option and start ssh as a command (shown below)
+<!-- end bullet list -->
+
+The images are meant to be run using the following docker run command syntax &rarr;
 ```bash
-docker pull tanq16/sec_docker:main # For the security docker image
-docker pull tanq16/sec_docker:dev # For the development docker image
+docker run --name="amazing_docker" \
+-v /path/to/host/go_programs/:/root/go/src \
+-v /path/to/host/work:/work \
+-p 50022:22 -p 50080:80 \
+--rm -it image_tag \
+zsh -c "service ssh start; zsh"
 ```
-Then, it can be run by using -
+
+This will spawn the container's shell on a terminal which can be left as a master window to exit and stop the image using `Ctrl+d` on the spawned shell when done. Another terminal window can be used to ssh into the machine and work.
+
+Another possible workflow is to replace the last `zsh` command by `tail -f /dev/null` and adding the `-d` (detached) flag. This will keep the container running in the background. `docker stop amazing_docker -t 0` can be used to stop the container.
+
+## Building the Images
+
+To build, use the following &rarr;
 ```bash
-# The dev docker image - mount the programming folders from host and map the ssh port
-docker run --name="sec_docker" -v ~/go_programs/:/root/go/src -v ~/python_programs/:/root/python/ --rm -p 50022:22 -it tanq16/sec_docker:dev zsh -c "service ssh start; zsh"
-
-# The security docker image - map the ssh port and the jupyterlab port
-docker run --name="sec_docker" --rm -p 58080:8080 -p 50022:22 -it tanq16/sec_docker:main zsh -c "service ssh start; zsh"
+git clone https://github.com/tanq16/dockers
+cd dockers/dev_docker # or any other directory (work_docker or security_docker)
+docker build -t <you_tag> .
 ```
 
-The security image also has the development instructions in its `Dockerfile`, so the volumes can be mounted there as well. On connecting the VS code via the remote ssh extension to the docker image, the python package and the go package should be installed everytime the docker is run. This is not a cumbersome process for doing manually but is cumbersome doing it in an automated fashion. The advantage of using the development image over the security image, despite the security image containing both the development environments, is that the development image is only ``1.45 GB`` in size compared to ``6.5 GB`` for the security image.
+The `p10k.zsh` file for each directory must be inside the same directory as the Dockerfile of the respective docker image, as the build process copies it and prevents the configuration wizard of oh-my-zsh from running when accessing the shell of the docker image. If the wizard is still needed for customization, then run `p10k configure` inside the docker and replace the contents of the `p10k.zsh` file in the image with those of the `~/.p10k.zsh` file inside the directory for the required docker image.
 
-The `service ssh start` section of the command to be executed is needed to enable ssh access. Direct loading of the shell interferes with the oh-my-zsh themes and not all things are loaded. Therefore, the docker image should be run either in background or as stated above to signify a control shell and then use ssh and tmux to simulate work environment. After this, it is possible to ssh into the docker with the `root` user and password `docker`.
+Note: All images in this repository work on x86-64 architecture. There are no specific instructions to build on arm i.e., not tested on M1 macs.
 
-The general norm for mapping ports for these images is 50000+port for consistency and interoperability.
+---
+
+# Python and Go Development Docker
+
+This image is useful for Python and Go development and has both of them preinstalled. It also contains some packages for the proper functioning of the VS Code Go plugin. This image is meant to be sshed into by VS Code's remote ssh plugin for a well balanced development experience.
+
+On connecting the VS code via the remote ssh extension to the docker image, the python package and the go package should be installed everytime the docker is run. This is not a cumbersome process for doing manually but is cumbersome doing it in an automated fashion.
+
+Notably, the image has python3, jupyterlab and go installed.
+
+To pull a prebuilt image, use `docker pull tanq16/sec_docker:dev`.
+
+It can be run using the command discussed in the first section.
 
 ## Golang environment for development docker
 
-Given the unique file structure for the go root directory, it is best to map the ``src/`` directory or a code store directory of the host to that of the `src` directory in the actual go structure inside the image. This avoids writing the built binaries and added packages into the code saved on the host, thereby allowing a clean sync of the code directory on the host to a version control system.
+Given the unique file structure for the go root directory, it is best to map the `src/` directory or a code store directory of the host to that of the `src` directory in the actual go structure inside the image. This avoids writing the built binaries and added packages into the code directory saved on the host, thereby allowing a clean sync of the code directory on the host to a version control system.
 
-## Notable installations in the security docker
+---
 
+# Security Focussed Docker
+
+The security docker is effectively a combination of many of the good tools required for basic pentesting. It has the dev_docker image's packages installed as well. The following are the notable installations in the image &rarr;
+<!-- start bullet list -->
 * nmap, ncat & ncrack
 * ltrace & strace
 * gobuster, nikto & dirb
@@ -37,23 +80,51 @@ Given the unique file structure for the go root directory, it is best to map the
 * metasploit-framework & searchsploit (with exploit-database)
 * jupyter-lab & golang
 * seclists & rockyou.txt
+<!-- end bullet list -->
 
-## Build on your own
+It can be built and run in the same way as discussed in the previous sections.
 
-The repository includes the required files to build both the images. If the existing tools are not required or extra tools must be installed or replaced, the given `Dockerfile`s in the respective directories should be edited. 
+---
 
-The `p10k.zsh` file for each directory must be inside the same directory as the `Dockerfile` of the respective docker image, as the vuild process copies it and prevents the configuration wizard of oh-my-zsh from running when accessing the shell of the docker image. If the wizard is still needed for customization, then run `p10k configure` inside the docker and replace the contents of the `p10k.zsh` file in the host with those of the `~/.p10k.zsh` file inside the directory for the required docker image.
+# Work Docker
 
-To build the docker use this command in the required folder that contains the files -
+This image is mainly meant to be used as a linux system for general work. It's a lightweight image and has all the tools from `cli-productivity-suite` and `python3`. It's meant for the most basic workflows and can be used as a starting point to customize for a specific workflow. The building and running instructions are the same as in the previous sections.
+
+---
+
+# Markdown to PDF (HTML) Docker
+
+This image can be used to render a PDF from a markdown file. The intent is to use a great looking template and produce high quality PDFs. The html template used for this is at [html5up - editorial](https://html5up.net/editorial).
+
+The best way to use this is to build the image like mentioned under the first section. It can then be run as follows &rarr;
 ```bash
-docker build -t dev_docker .
-```
-Thereafter, run the following command to execute the shell within the image -
-```bash
-docker run --name="aio_docker_instance" --rm -p 50022:22 -it aio_docker zsh -c "service ssh start; zsh"
+docker run --name "render_md" \
+-p 8000:8000 \
+-e HS1="page header strong 1" -e HN="page header normal" -e HS2="page header strong 2" \
+-v <md file and images directory>:/root/md_files/ \
+--rm -it <image_tag> bash /root/run.sh <name of file>.md
 ```
 
-## Bonus information
+The page has a header on top which follows the a bold-normal-bold format. These are controlled using the env variables of HS1, HN and HS2 passed in the run command above. They can be left as empty strings as well if a header is not needed.
+
+This command will serve the rendered output on port 8000 and can be accessible at `http://localhost:8000/`. From here, the browser print option can be used to print the PDF version of the rendered file.
+
+The markdown rendering script is a naive one and required the following hard requirements to be followed &rarr;
+<!-- start bullet list -->
+* Any kind of headings (`# heading` to `### heading`) are supported and `#### heading` produces normal text
+* Tables should be preceded by an html comment `<!-- start table -->` and ended by `<!-- end table -->`
+* Only single level bulleted lists using `*` are supprted and lists must be enclose between the `<!-- start bullet list -->` and `<!-- end bullet list -->` lines
+* Only single level numbered lists are supported and they must be enclosed between `<!-- start number list -->` and `<!-- end number list -->`
+* Blockquotes are not supported yet
+* Images and links follow normal format
+* Horizontal lines are supported as `---`
+<!-- end bullet list -->
+
+An example markdown file is present inside the directory.
+
+---
+
+# Bonus information
 
 To ssh into the docker without adding it to the hosts file, use the following command -
 ```bash
@@ -69,3 +140,5 @@ It is also useful to have buildkit enabled. This can be done by using the follow
 export DOCKER_BUILDKIT=1
 ```
 Disabling can be done by making the above 0.
+
+---

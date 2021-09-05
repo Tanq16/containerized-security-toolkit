@@ -19,7 +19,7 @@
 
 #### h4 just returns <p> blocks
 
-Normal <p> blocks are just normal. This is how they look. blah odifh oishoihaF LIUSR AIUSLIB LHBIb li bsgfdhliug lijadba bgxjfbk jv jfhkajhlkfjhg ljahl dfjhljadhlkj fhlgdfhlihal ihglkdhfl sih lhfguhs ouhfshdoifh soihdvoihs ojgosjbdo vh osuhdfoi sdhvi sndlkn . This is also how a long sentence looks.
+Normal <p> blocks are just rendered from normal text. This is how they look. blah odifh oishoihaF LIUSR AIUSLIB LHBIb li bsgfdhliug lijadba bgxjfbk jv jfhkajhlkfjhg ljahl dfjhljadhlkj fhlgdfhlihal ihglkdhfl sih lhfguhs ouhfshdoifh soihdvoihs ojgosjbdo vh osuhdfoi sdhvi sndlkn . This is also how a long sentence looks.
 
 This is what a [link](https://google.com) looks like.
 
