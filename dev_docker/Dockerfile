@@ -52,7 +52,6 @@ RUN git clone https://github.com/jimeh/tmux-themepack.git ~/.tmux-themepack
 # Append conf files tmux conf and zsh rc
 RUN wget https://raw.githubusercontent.com/Tanq16/cli-productivity-suite/master/tmuxconf 2>/dev/null
 RUN mv tmuxconf ~/.tmux.conf
-RUN rm tmuxconf
 RUN wget https://raw.githubusercontent.com/Tanq16/cli-productivity-suite/master/add_to_rc 2>/dev/null
 RUN cat add_to_rc >> ~/.zshrc
 RUN rm add_to_rc
