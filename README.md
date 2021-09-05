@@ -90,6 +90,36 @@ It can be built and run in the same way as discussed in the previous sections.
 
 This image is mainly meant to be used as a linux system for general work. It's a lightweight image and has all the tools from `cli-productivity-suite` and `python3`. It's meant for the most basic workflows and can be used as a starting point to customize for a specific workflow. The building and running instructions are the same as in the previous sections.
 
+This can also be used as a working dock from any machine. An example workflow is as follows &rarr;
+Use a normal distribution to launch activities via the work docker by mounting a persistent storage directory. The zsh history or any required conf file can also be shared with the docker. To do this, create a directory in the host home directory `docker_work`. The structure of the directory can be as follows &rarr;
+```
+$ tree docker_work -a -L 1
+docker_work
+├── persist
+└── .zsh_history
+```
+
+With this in place, 2 functions can be added to the host profile or rc file. These are &rarr;
+```bash
+start_work(){
+    docker run --name="sec_docker" --rm -d \
+    -v $HOME/docker_work/persist/:/persist -p 50022:22 -it tanq16/sec_docker:main \
+    zsh -c "service ssh start; tail -f /dev/null"
+    if [ -f $HOME/docker_work/.zsh_history ]
+        then docker cp $HOME/docker_work/.zsh_history sec_docker:/root/.zsh_history
+    fi
+}
+
+stop_work(){
+    docker cp sec_docker:/root/.zsh_history $HOME/docker_work/.zsh_history
+    docker stop sec_docker -t 0
+}
+```
+
+Now, just calling `start_work` runs the docker in a detached state and calling `stop_work` will stop the running container. After the container is started in detached state, it can be easily sshed into for work.
+
+A bonus idea is to share sshkeys for remote servers such as aws consoles, gcp compute engines or github with the work docker.
+
 ---
 
 # Markdown to PDF (HTML) Docker
