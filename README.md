@@ -94,7 +94,7 @@ This image is mainly meant to be used as a linux system for general work. It's a
 
 # Markdown to PDF (HTML) Docker
 
-This image can be used to render a PDF from a markdown file. The intent is to use a great looking template and produce high quality PDFs. The html template used for this is at [html5up - editorial](https://html5up.net/editorial).
+This image can be used to render a webpage from a markdown file. The intent is to use a great looking template and produce high quality webpages. The html template used for this is at [html5up - editorial](https://html5up.net/editorial).
 
 The best way to use this is to build the image like mentioned under the first section. It can then be run as follows &rarr;
 ```bash
