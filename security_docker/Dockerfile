@@ -6,6 +6,7 @@ FROM ubuntu
 
 # Set environment variables
 ENV RUNNING_IN_DOCKER true
+ENV TZ America/Chicago
 ENV LANG enUS.utf-8
 ENV SHELL /bin/zsh
 ENV TERM xterm
@@ -27,7 +28,7 @@ RUN DEBIAN_FRONTEND="noninteractive" \
     vim curl strace ltrace bat fd-find wget gdb git tmux tree php ntp sqlmap locales
 RUN DEBIAN_FRONTEND="noninteractive" \
     apt install -y \
-    default-jre default-jdk john wireshark gcc-multilib nasm unzip fcrackzip ncdu htop
+    default-jre default-jdk john wireshark gcc-multilib nasm unzip fcrackzip ncdu htop tzdata
 RUN DEBIAN_FRONTEND="noninteractive" \
     apt install -y \
     python3-pkg-resources python3-setuptools python3-pip python3 python3-dev ipython3 iproute2
@@ -160,6 +161,7 @@ RUN cd /opt/wp-scan && gem install wpscan
 
 
 # Final steps for perfect run
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
 RUN echo 'root:docker' | chpasswd 
 COPY ./p10k.zsh .

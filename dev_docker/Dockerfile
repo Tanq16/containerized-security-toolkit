@@ -6,6 +6,7 @@ FROM ubuntu
 
 # Set environment variables
 ENV RUNNING_IN_DOCKER true
+ENV TZ America/Chicago
 ENV LANG enUS.utf-8
 ENV SHELL /bin/zsh
 ENV TERM xterm
@@ -17,7 +18,7 @@ RUN DEBIAN_FRONTEND="noninteractive" \
     less openssl openssh-server openvpn vim curl bat fd-find
 RUN DEBIAN_FRONTEND="noninteractive" \
     apt install -y --no-install-recommends \
-    wget git tmux tree php unzip p7zip-full ncdu htop
+    wget git tmux tree php unzip p7zip-full ncdu htop tzdata
 RUN DEBIAN_FRONTEND="noninteractive" \
     apt install -y --no-install-recommends \
     python3-setuptools python3-pip python3 ipython3 iproute2
@@ -127,6 +128,7 @@ RUN mv /tmp/dlv /root/go/bin/dlv-dap
 
 
 # Final steps for perfect run
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
 RUN echo 'root:docker' | chpasswd 
 COPY ./p10k.zsh .
