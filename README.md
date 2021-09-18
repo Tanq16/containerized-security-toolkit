@@ -96,6 +96,8 @@ Use a normal distribution to launch activities via the work docker by mounting a
 $ tree docker_work -a -L 1
 docker_work
 ├── persist
+├── run.sh
+├── sshkeys
 └── .zsh_history
 ```
 
@@ -108,17 +110,22 @@ start_work(){
     if [ -f $HOME/docker_work/.zsh_history ]
         then docker cp $HOME/docker_work/.zsh_history sec_docker:/root/.zsh_history
     fi
+    docker cp $HOME/docker_work/sshkeys/ sec_docker:/root/.ssh/
+    docker cp $HOME/docker_work/run.sh sec_docker:/root/run.sh
 }
 
 stop_work(){
     docker cp sec_docker:/root/.zsh_history $HOME/docker_work/.zsh_history
+    docker cp sec_docker:/root/.ssh/known_hosts $HOME/docker_work/sshkeys/known_hosts
     docker stop sec_docker -t 0
 }
 ```
 
+The `run.sh` script can be customized to contain any instructions needed to get a container ready for work. This can be directly run from the home directory as per the copy operation.
+
 Now, just calling `start_work` runs the docker in a detached state and calling `stop_work` will stop the running container. After the container is started in detached state, it can be easily sshed into for work.
 
-A bonus idea is to share sshkeys for remote servers such as aws consoles, gcp compute engines or github with the work docker.
+A bonus idea is to share other keys apart from ssh keys such as for remote servers such as aws consoles, gcp compute engines or github with the work docker.
 
 ---
 
