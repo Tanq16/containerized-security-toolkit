@@ -169,6 +169,6 @@ It is also useful to have buildkit enabled. This can be done by using the follow
 ```bash
 export DOCKER_BUILDKIT=1
 ```
-Disabling can be done by making the above 0.
+Docker buildkit can be disabled by making the above 0.
 
 ---
