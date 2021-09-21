@@ -31,7 +31,7 @@ RUN DEBIAN_FRONTEND="noninteractive" \
     default-jre default-jdk john wireshark gcc-multilib nasm unzip fcrackzip ncdu htop tzdata
 RUN DEBIAN_FRONTEND="noninteractive" \
     apt install -y \
-    python3-pkg-resources python3-setuptools python3-pip python3 python3-dev ipython3 iproute2
+    python3-pkg-resources python3-setuptools python3-pip python3 python3-dev ipython3 iproute2 python3-venv
 RUN DEBIAN_FRONTEND="noninteractive" \
     apt install -y \
     inetutils-ping inetutils-telnet inetutils-inetd inetutils-ftpd inetutils-telnetd inetutils-talkd

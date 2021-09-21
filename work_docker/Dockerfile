@@ -18,10 +18,10 @@ RUN DEBIAN_FRONTEND="noninteractive" \
     less openssh-server vim curl bat fd-find
 RUN DEBIAN_FRONTEND="noninteractive" \
     apt install -y --no-install-recommends \
-    wget git tmux tree unzip ncdu htop tzdata
+    wget git tmux tree unzip ncdu htop tzdata inetutils-ping inetutils-traceroute
 RUN DEBIAN_FRONTEND="noninteractive" \
     apt install -y --no-install-recommends \
-    python3-setuptools python3-pip python3 ipython3 iproute2 inetutils-ping inetutils-traceroute
+    python3-setuptools python3-pip python3 ipython3 iproute2 python3-venv
 
 # ============================================================================================================
 # ============================================================================================================

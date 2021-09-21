@@ -21,7 +21,7 @@ RUN DEBIAN_FRONTEND="noninteractive" \
     wget git tmux tree php unzip p7zip-full ncdu htop tzdata
 RUN DEBIAN_FRONTEND="noninteractive" \
     apt install -y --no-install-recommends \
-    python3-setuptools python3-pip python3 ipython3 iproute2
+    python3-setuptools python3-pip python3 ipython3 iproute2 python3-venv
 
 # ============================================================================================================
 # ============================================================================================================
