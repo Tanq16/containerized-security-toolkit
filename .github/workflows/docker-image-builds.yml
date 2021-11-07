@@ -23,7 +23,7 @@ jobs:
       run: cd work_docker && docker build . --file Dockerfile --tag tanq16/sec_docker:work
     
     - name: Build the work docker apple
-      run: cd work_docker && docker buildx . --platform linux/arm64 --file Dockerfile.AppleSilicon --tag tanq16/sec_docker:work_apple
+      run: cd work_docker && docker buildx build . --platform linux/arm64 --file Dockerfile.AppleSilicon --tag tanq16/sec_docker:work_apple
 
     - name: Docker push work
       run: docker push tanq16/sec_docker:work
