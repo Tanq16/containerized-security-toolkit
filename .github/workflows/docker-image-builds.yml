@@ -3,13 +3,11 @@ name: Docker Image CI
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
+  schedule:
+    cron:  '0 0 1,14,28 * *'
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -21,29 +19,26 @@ jobs:
         username: tanq16
         password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
     
-    - name: Prune
-      run: docker system prune -f
-
     - name: Build the work docker
       run: cd work_docker && docker build . --file Dockerfile --tag tanq16/sec_docker:work
     
+    - name: Build the work docker apple
+      run: cd work_docker && docker buildx . --platform linux/arm64 --file Dockerfile.AppleSilicon --tag tanq16/sec_docker:work_apple
+
     - name: Docker push work
       run: docker push tanq16/sec_docker:work
     
-    - name: Prune
-      run: docker system prune -f
+    - name: Docker push work apple
+      run: docker push tanq16/sec_docker:work_apple
       
-    - name: Build the dev docker
-      run: cd dev_docker && docker build . --file Dockerfile --tag tanq16/sec_docker:dev
+    # - name: Build the dev docker
+    #   run: cd dev_docker && docker build . --file Dockerfile --tag tanq16/sec_docker:dev
     
-    - name: Docker push dev
-      run: docker push tanq16/sec_docker:dev
-    
-    - name: Prune
-      run: docker system prune -f
+    # - name: Docker push dev
+    #   run: docker push tanq16/sec_docker:dev
       
-    - name: Build the security docker
-      run: cd security_docker && docker build . --file Dockerfile --tag tanq16/sec_docker:main
+    # - name: Build the security docker
+    #   run: cd security_docker && docker build . --file Dockerfile --tag tanq16/sec_docker:main
       
-    - name: Docker push scurity
-      run: docker push tanq16/sec_docker:main
+    # - name: Docker push scurity
+    #   run: docker push tanq16/sec_docker:main
