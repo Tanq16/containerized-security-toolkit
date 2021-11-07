@@ -16,3 +16,20 @@ jobs:
     - uses: actions/checkout@v2
     - name: Build the Docker image
       run: cd work_docker && docker build . --file Dockerfile --tag tanq16/sec_docker:$(date +%s)
+    
+    - name: Docker Login
+      # You may pin to the exact commit or the version.
+      # uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+      uses: docker/login-action@v1.10.0
+      with:
+        # Server address of Docker registry. If not set then will default to Docker Hub
+        # registry: # optional
+        # Username used to log against the Docker registry
+        username: tanq16
+        # Password or personal access token used to log against the Docker registry
+        password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
+        # Log out from the Docker registry at the end of a job
+        # logout: # optional, default is true
+      
+    - name: Docker push
+      run: docker push tanq16/sec_docker:$(date +%s)
