@@ -8,7 +8,11 @@ This repository contains several directories, each of which has a Dockerfile and
 * Image to generate a PDF from a markdown file
 <!-- end bullet list -->
 
-These images are also available to be directly pulled from docker hub repositories. Each of the following sections provides a brief on both pulling or building these images. All images except for the `markdown_to_pdf` image have the [cli-productivity-suite](https://github.com/tanq16/cli-productivity-suite) preinstalled in them i.e., a funky shell along with customized vim and tmux.
+These images are also available to be directly pulled from docker hub repositories. A GitHub CI Action builds and pushes the images to docker hub bi-weekly. The Apple Silicon images are built using [Buildx](https://docs.docker.com/buildx/working-with-buildx/).
+
+Each of the following sections provides a brief on both pulling or building these images.
+
+All images except for the `markdown_to_pdf` image have the [cli-productivity-suite](https://github.com/tanq16/cli-productivity-suite) preinstalled in them i.e., a funky shell along with customized vim and tmux.
 
 ## Conventions and Running Containers
 
@@ -43,9 +47,9 @@ cd dockers/dev_docker # or any other directory (work_docker or security_docker)
 docker build -t <you_tag> .
 ```
 
-The `p10k.zsh` file for each directory must be inside the same directory as the Dockerfile of the respective docker image, as the build process copies it and prevents the configuration wizard of oh-my-zsh from running when accessing the shell of the docker image. If the wizard is still needed for customization, then run `p10k configure` inside the docker and replace the contents of the `p10k.zsh` file in the image with those of the `~/.p10k.zsh` file inside the directory for the required docker image.
+Each directory also contains a dockerfile for Apple Silicon macs, which can be specified using the `--file Dockerfile.AppleSilicon` flag for the `docker build` command.
 
-Note: All images in this repository work on x86-64 architecture. There are no specific instructions to build on arm i.e., not tested on M1 macs.
+The `p10k.zsh` file for each directory must be inside the same directory as the Dockerfile of the respective docker image, as the build process copies it and prevents the configuration wizard of oh-my-zsh from running when accessing the shell of the docker image. If the wizard is still needed for customization, then run `p10k configure` inside the docker and replace the contents of the `p10k.zsh` file in the image with those of the `~/.p10k.zsh` file inside the directory for the required docker image.
 
 ---
 
@@ -57,7 +61,7 @@ On connecting the VS code via the remote ssh extension to the docker image, the 
 
 Notably, the image has python3, jupyterlab and go installed.
 
-To pull a prebuilt image, use `docker pull tanq16/sec_docker:dev`.
+To pull a prebuilt image, use `docker pull tanq16/sec_docker:dev`. For the Apple Silicon version, use the tag `tanq16/sec_docker:dev_apple`.
 
 It can be run using the command discussed in the first section.
 
@@ -82,6 +86,8 @@ The security docker is effectively a combination of many of the good tools requi
 * seclists & rockyou.txt
 <!-- end bullet list -->
 
+To pull a prebuilt image, use `docker pull tanq16/sec_docker:main`. For the Apple Silicon version, use the tag `tanq16/sec_docker:main_apple`.
+
 It can be built and run in the same way as discussed in the previous sections.
 
 ---
@@ -89,6 +95,8 @@ It can be built and run in the same way as discussed in the previous sections.
 # Work Docker
 
 This image is mainly meant to be used as a linux system for general work. It's a lightweight image and has all the tools from `cli-productivity-suite` and `python3`. It's meant for the most basic workflows and can be used as a starting point to customize for a specific workflow. The building and running instructions are the same as in the previous sections.
+
+To pull a prebuilt image, use `docker pull tanq16/sec_docker:work`. For the Apple Silicon version, use the tag `tanq16/sec_docker:work_apple`.
 
 This can also be used as a working dock from any machine. An example workflow is as follows &rarr;
 Use a normal distribution to launch activities via the work docker by mounting a persistent storage directory. The zsh history or any required conf file can also be shared with the docker. To do this, create a directory in the host home directory `docker_work`. The structure of the directory can be as follows &rarr;

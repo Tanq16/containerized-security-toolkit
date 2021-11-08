@@ -15,7 +15,7 @@ RUN apt update && apt upgrade -y
 
 RUN DEBIAN_FRONTEND="noninteractive" \
     apt install -y --no-install-recommends \
-    less openssl openssh-server openvpn vim curl bat fd-find gcc-multilib
+    less openssl openssh-server openvpn vim curl bat fd-find
 RUN DEBIAN_FRONTEND="noninteractive" \
     apt install -y --no-install-recommends \
     wget git tmux tree php unzip p7zip-full ncdu htop tzdata gcc
