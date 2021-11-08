@@ -5,7 +5,7 @@ on:
     branches:
       - 'main'
   schedule:
-    - cron: '0 0 1,14,28 * *'
+    - cron: '0 0 7,22 * *'
 
 jobs:
   docker:
