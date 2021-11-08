@@ -55,7 +55,7 @@ The `p10k.zsh` file for each directory must be inside the same directory as the 
 
 # Python and Go Development Docker
 
-This image is useful for Python and Go development and has both of them preinstalled. It also contains some packages for the proper functioning of the VS Code Go plugin. This image is meant to be sshed into by VS Code's remote ssh plugin for a well balanced development experience.
+This image is useful for Python and Go development and has both of them preinstalled.This image is meant to be sshed into by VS Code's remote ssh plugin for a well balanced development experience.
 
 On connecting the VS code via the remote ssh extension to the docker image, the python package and the go package should be installed everytime the docker is run. This is not a cumbersome process for doing manually but is cumbersome doing it in an automated fashion.
 
@@ -73,7 +73,7 @@ Given the unique file structure for the go root directory, it is best to map the
 
 # Security Focussed Docker
 
-The security docker is effectively a combination of many of the good tools required for basic pentesting. It has the dev_docker image's packages installed as well. The following are the notable installations in the image &rarr;
+The security docker is effectively a combination of many of the good tools required for basic pentesting. It has the development image's packages installed as well. The following are the notable installations in the image &rarr;
 <!-- start bullet list -->
 * nmap, ncat & ncrack
 * ltrace & strace

@@ -102,23 +102,6 @@ RUN tar -C /usr/local -xzf go1.16.7.linux-arm64.tar.gz && rm go1.16.7.linux-arm6
 
 RUN python3 -m pip install cryptography requests 
 
-# For VS code to run smoothly for golang
-RUN /usr/local/go/bin/go get github.com/uudashr/gopkgs/v2/cmd/gopkgs
-RUN /usr/local/go/bin/go get github.com/ramya-rao-a/go-outline
-RUN /usr/local/go/bin/go get github.com/cweill/gotests/gotests
-RUN /usr/local/go/bin/go get github.com/fatih/gomodifytags
-RUN /usr/local/go/bin/go get github.com/josharian/impl
-RUN /usr/local/go/bin/go get github.com/haya14busa/goplay/cmd/goplay
-RUN /usr/local/go/bin/go get honnef.co/go/tools/cmd/staticcheck
-RUN /usr/local/go/bin/go get golang.org/x/tools/gopls
-
-# Install of these may change
-RUN /usr/local/go/bin/go get github.com/go-delve/delve/cmd/dlv
-RUN /usr/local/go/bin/go get github.com/go-delve/delve/cmd/dlv@f95340ae1bf9
-# Following is for installing dlv-dap manually, otherwise it takes a ton of time installing from VS code
-RUN GOBIN=/tmp/ /usr/local/go/bin/go install github.com/go-delve/delve/cmd/dlv@master
-RUN mv /tmp/dlv /root/go/bin/dlv-dap
-
 # ============================================================================================================
 # ============================================================================================================
 # ============================================================================================================
