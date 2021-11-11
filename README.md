@@ -129,7 +129,17 @@ stop_work(){
 }
 ```
 
-The `run.sh` script can be customized to contain any instructions needed to get a container ready for work. This can be directly run from the home directory as per the copy operation.
+The `run.sh` script can be customized to contain any instructions needed to get a container ready for work. This can be directly run from the home directory as per the copy operation. An example for the script can be the following -
+
+```bash
+#!/bin/zsh
+sed -i "s/autoload -Uz bracketed-paste-magic/#autoload -Uz bracketed-paste-magic/" ~/.oh-my-zsh/lib/misc.sh
+sed -i "s/zle -N bracketed-paste bracketed-paste-magic/#zle -N bracketed-paste bracketed-paste-magic/" ~/.oh-my-zsh/lib/misc.sh
+sed -i "s/autoload -Uz url-quote-magic/#autoload -Uz url-quote-magic/" ~/.oh-my-zsh/lib/misc.sh
+sed -i "s/zle -N self-insert url-quote-magic/#zle -N self-insert url-quote-magic/" ~/.oh-my-zsh/lib/misc.sh
+```
+
+This is a script to fix so pastes on Oh-My-Zsh shells, which are caused due to magic-* functions. The scripts can be run as the first thing after sshing into the docker.
 
 Now, just calling `start_work` runs the docker in a detached state and calling `stop_work` will stop the running container. After the container is started in detached state, it can be easily sshed into for work.
 
