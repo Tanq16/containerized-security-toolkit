@@ -22,7 +22,7 @@ RUN DEBIAN_FRONTEND="noninteractive" \
     apt-transport-https software-properties-common openssl gpg-agent openssh-server openvpn
 RUN DEBIAN_FRONTEND="noninteractive" \
     apt install -y \
-    nmap ncat gobuster nikto dirb netdiscover hydra less file binwalk p7zip-full
+    nmap ncat nikto dirb netdiscover hydra less file binwalk p7zip-full
 RUN DEBIAN_FRONTEND="noninteractive" \
     apt install -y \
     vim curl strace ltrace bat fd-find wget gdb git tmux tree php ntp sqlmap locales
@@ -126,6 +126,8 @@ RUN git clone https://github.com/offensive-security/exploitdb.git /opt/exploit-d
 RUN ln -sf /opt/exploit-database/searchsploit /usr/local/bin/searchsploit
 
 RUN git clone https://github.com/danielmiessler/SecLists.git /opt/SecLists
+
+RUN git clone https://github.com/OJ/gobuster.git /opt/GoBuster
 
 RUN wget https://github.com/brannondorsey/naive-hashcat/releases/download/data/rockyou.txt
 RUN mv rockyou.txt /opt/SecLists/rockyou.txt
