@@ -135,7 +135,11 @@ RUN mv rockyou.txt /opt/SecLists/rockyou.txt
 RUN wget https://golang.org/dl/go1.16.7.linux-amd64.tar.gz
 RUN tar -C /usr/local -xzf go1.16.7.linux-amd64.tar.gz && rm go1.16.7.linux-amd64.tar.gz
 
-RUN python3 -m pip install jupyterlab cryptography requests
+RUN python3 -m pip install jupyterlab cryptography requests scoutsuite principalmapper
+
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+RUN unzip awscliv2.zip
+RUN aws/install
 
 # ============================================================================================================
 # ============================================================================================================
