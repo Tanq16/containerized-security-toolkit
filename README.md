@@ -8,7 +8,7 @@ This repository contains several directories, each of which has a Dockerfile and
 * Image to generate a PDF from a markdown file
 <!-- end bullet list -->
 
-These images are also available to be directly pulled from docker hub repositories. A GitHub CI Action builds and pushes the images to docker hub bi-weekly. The Apple Silicon images are built using [Buildx](https://docs.docker.com/buildx/working-with-buildx/).
+These images are also available to be directly pulled from docker hub repositories. A GitHub CI Action builds and pushes the images to docker hub monthly and on every commit. The Apple Silicon images are built using [Buildx](https://docs.docker.com/buildx/working-with-buildx/).
 
 Each of the following sections provides a brief on both pulling or building these images.
 
