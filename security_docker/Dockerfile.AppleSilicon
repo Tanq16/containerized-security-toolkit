@@ -22,7 +22,7 @@ RUN DEBIAN_FRONTEND="noninteractive" \
     apt-transport-https software-properties-common openssl gpg-agent openssh-server openvpn
 RUN DEBIAN_FRONTEND="noninteractive" \
     apt install -y \
-    nmap ncat nikto dirb netdiscover hydra less file binwalk p7zip-full groff
+    nmap ncat nikto dirb netdiscover hydra less file binwalk p7zip-full groff dnsutils
 RUN DEBIAN_FRONTEND="noninteractive" \
     apt install -y \
     vim curl strace ltrace bat fd-find wget gdb git tmux tree php ntp sqlmap locales
