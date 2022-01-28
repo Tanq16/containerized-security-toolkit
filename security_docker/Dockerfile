@@ -22,13 +22,13 @@ RUN DEBIAN_FRONTEND="noninteractive" \
     apt-transport-https software-properties-common openssl gpg-agent openssh-server openvpn
 RUN DEBIAN_FRONTEND="noninteractive" \
     apt install -y \
-    nmap ncat nikto dirb netdiscover hydra less file binwalk p7zip-full groff dnsutils
+    nmap ncat nikto dirb netdiscover hydra less file binwalk p7zip-full groff dnsutils nodejs
 RUN DEBIAN_FRONTEND="noninteractive" \
     apt install -y \
-    vim curl strace ltrace bat fd-find wget gdb git tmux tree php ntp sqlmap locales
+    vim curl strace ltrace bat fd-find wget gdb git tmux tree php ntp sqlmap locales npm
 RUN DEBIAN_FRONTEND="noninteractive" \
     apt install -y \
-    default-jre default-jdk john wireshark gcc nasm unzip fcrackzip ncdu htop tzdata
+    default-jre default-jdk john wireshark gcc nasm unzip fcrackzip ncdu htop tzdata php nginx
 RUN DEBIAN_FRONTEND="noninteractive" \
     apt install -y \
     python3-pkg-resources python3-setuptools python3-pip python3 python3-dev ipython3 iproute2 python3-venv

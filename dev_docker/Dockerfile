@@ -15,10 +15,10 @@ RUN apt update && apt upgrade -y
 
 RUN DEBIAN_FRONTEND="noninteractive" \
     apt install -y --no-install-recommends \
-    less openssl openssh-server openvpn vim curl bat fd-find
+    less openssl openssh-server openvpn vim curl bat fd-find nodejs npm
 RUN DEBIAN_FRONTEND="noninteractive" \
     apt install -y --no-install-recommends \
-    wget git tmux tree php unzip p7zip-full ncdu htop tzdata gcc
+    wget git tmux tree php unzip p7zip-full ncdu htop tzdata gcc php nginx
 RUN DEBIAN_FRONTEND="noninteractive" \
     apt install -y --no-install-recommends \
     python3-setuptools python3-pip python3 ipython3 iproute2 python3-venv
