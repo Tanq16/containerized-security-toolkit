@@ -25,7 +25,7 @@ RUN DEBIAN_FRONTEND="noninteractive" \
     nmap ncat nikto dirb netdiscover hydra less file binwalk p7zip-full groff dnsutils nodejs
 RUN DEBIAN_FRONTEND="noninteractive" \
     apt install -y \
-    vim curl strace ltrace bat fd-find wget gdb git tmux tree php ntp sqlmap locales npm
+    vim curl strace ltrace bat fd-find wget gdb git tmux tree php ntp sqlmap locales npm hexedit
 RUN DEBIAN_FRONTEND="noninteractive" \
     apt install -y \
     default-jre default-jdk john wireshark gcc nasm unzip fcrackzip ncdu htop tzdata php nginx
@@ -128,6 +128,7 @@ RUN ln -sf /opt/exploit-database/searchsploit /usr/local/bin/searchsploit
 RUN git clone https://github.com/danielmiessler/SecLists.git /opt/SecLists
 
 RUN git clone https://github.com/OJ/gobuster.git /opt/GoBuster
+RUN cd /opt/GoBuster && go get && go build
 
 RUN wget https://github.com/brannondorsey/naive-hashcat/releases/download/data/rockyou.txt
 RUN mv rockyou.txt /opt/SecLists/rockyou.txt
