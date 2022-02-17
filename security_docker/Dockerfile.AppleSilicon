@@ -127,14 +127,14 @@ RUN ln -sf /opt/exploit-database/searchsploit /usr/local/bin/searchsploit
 
 RUN git clone https://github.com/danielmiessler/SecLists.git /opt/SecLists
 
+RUN wget https://golang.org/dl/go1.16.7.linux-arm64.tar.gz
+RUN tar -C /usr/local -xzf go1.16.7.linux-arm64.tar.gz && rm go1.16.7.linux-arm64.tar.gz
+
 RUN git clone https://github.com/OJ/gobuster.git /opt/GoBuster
-RUN cd /opt/GoBuster && go get && go build
+RUN cd /opt/GoBuster && /usr/local/go/bin/go get && /usr/local/go/bin/go build
 
 RUN wget https://github.com/brannondorsey/naive-hashcat/releases/download/data/rockyou.txt
 RUN mv rockyou.txt /opt/SecLists/rockyou.txt
-
-RUN wget https://golang.org/dl/go1.16.7.linux-arm64.tar.gz
-RUN tar -C /usr/local -xzf go1.16.7.linux-arm64.tar.gz && rm go1.16.7.linux-arm64.tar.gz
 
 RUN python3 -m pip install jupyterlab cryptography requests
 
