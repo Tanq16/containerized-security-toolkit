@@ -1,0 +1,14 @@
+FROM ubuntu
+
+RUN apt update && apt upgrade -y
+
+RUN DEBIAN_FRONTEND="noninteractive" \
+    apt install -y --no-install-recommends \
+    python3-setuptools python3-pip python3 python3-dev ipython3 python3-venv
+
+RUN DEBIAN_FRONTEND="noninteractive" \
+    apt install -y --no-install-recommends \
+    openssh-server git tmux wget curl vim zsh locales tzdata
+
+RUN python3 -m pip install jupyterlab tensorflow scikit-learn statsmodels matplotlib
+RUN python3 -m pip install seaborn plotly yellowbrick numpy pandas opencv-python spacy nltk gensim scipy
