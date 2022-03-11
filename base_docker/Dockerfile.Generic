@@ -1,12 +1,7 @@
-FROM ubuntu AS builder
-RUN apt update && apt upgrade -y && \
-    apt install build-essential git zlib1g-dev -y && \
-    apt install openssl -y
-RUN git clone https://github.com/rbsec/sslscan && cd sslscan && make static
+# FROM ubuntu AS builder
+# RUN apt update && apt upgrade -y
 
-FROM golang:buster AS gobuster
-RUN apt update && apt install git && git clone https://github.com/OJ/gobuster.git && \
-    cd gobuster && go get && go build
+# Space for Multi-Stage Builds
 
 # ============================================================================================================
 # ======================================================================= FINAL IMAGE Post Builder Stage =====
@@ -27,22 +22,15 @@ ENV TERM xterm
 
 RUN apt update && apt upgrade -y
 
-# Install packages using APT
 RUN DEBIAN_FRONTEND="noninteractive" \
     apt install -y --no-install-recommends \
-    apt-transport-https openssl gpg-agent openssh-server openvpn git gdb tmux tree gnupg gnupg2
+    less openssl openssh-server openvpn vim curl bat fd-find nodejs npm
 RUN DEBIAN_FRONTEND="noninteractive" \
     apt install -y --no-install-recommends \
-    nmap ncat nikto hydra less file binwalk p7zip-full dnsutils nodejs npm htop ncdu vim curl bat fd-find php
+    wget git tmux tree php unzip p7zip-full ncdu htop tzdata gcc php nginx
 RUN DEBIAN_FRONTEND="noninteractive" \
     apt install -y --no-install-recommends \
-    strace ltrace wget ntp sqlmap locales hexedit john tshark gcc nasm unzip fcrackzip tzdata nginx
-RUN DEBIAN_FRONTEND="noninteractive" \
-    apt install -y --no-install-recommends \
-    python3-setuptools python3-pip python3 python3-dev ipython3 iproute2 python3-venv make groff
-RUN DEBIAN_FRONTEND="noninteractive" \
-    apt install -y --no-install-recommends \
-    inetutils-ping inetutils-telnet inetutils-tools inetutils-traceroute inetutils-ftp
+    python3-setuptools python3-pip python3 ipython3 iproute2 python3-venv
 
 # ============================================================================================================
 # =============================================================================== CLI Productivity Suite =====
@@ -74,8 +62,8 @@ RUN git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf 2>/dev/null &
 RUN echo "[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh" >> ~/.zshrc
 # Install colored ls
 RUN a=$(curl -s https://github.com/Peltoche/lsd/releases/latest | grep -oE "tag.+\"" | cut -d '/' -f2 | cut -d "\"" -f1) && \
-    wget "https://github.com/Peltoche/lsd/releases/download/$a/lsd_$a""_arm64.deb" && \
-    apt install -y "./lsd_$a""_arm64.deb" && rm "lsd_$a""_arm64.deb"
+    wget "https://github.com/Peltoche/lsd/releases/download/$a/lsd_$a""_amd64.deb" && \
+    apt install -y "./lsd_$a""_amd64.deb" && rm "lsd_$a""_amd64.deb"
 
 # Install vim extensions
 RUN git clone --depth=1  https://github.com/itchyny/lightline.vim ~/.vim/pack/plugins/start/lightline && \
@@ -96,45 +84,15 @@ RUN wget https://raw.githubusercontent.com/Tanq16/cli-productivity-suite/master/
 # ============================================================================================================
 
 # More tool installations
-RUN git clone --depth=1  https://github.com/pwndbg/pwndbg /opt/pwndbg && cd /opt/pwndbg && ./setup.sh
-
-RUN curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb > msfinstall && chmod 755 msfinstall && ./msfinstall && rm msfinstall
-
-COPY --from=builder /sslscan/sslscan /opt/
-
-RUN git clone --depth=1  https://github.com/offensive-security/exploitdb.git /opt/exploit-database && \
-    ln -sf /opt/exploit-database/searchsploit /usr/local/bin/searchsploit
-
-RUN git clone --depth=1  https://github.com/danielmiessler/SecLists.git /opt/SecLists && cd /opt/SecLists && \
-    tar -xvf ./Passwords/Leaked-Databases/rockyou.txt.tar.gz && \
-    rm -rf ./Passwords/BiblePass && rm -rf ./Fuzzing/User-Agents/software-type-specific && \
-    rm -rf ./Fuzzing/User-Agents/software-name && rm -rf ./Fuzzing/User-Agents/operating-system-name && \
-    rm -rf ./Fuzzing/User-Agents/operating-platform && rm -rf ./Fuzzing/User-Agents/layout-engine-name && \
-    rm -rf ./Fuzzing/User-Agents/hardware-type-specific && rm -rf .git && \
-    rm -rf ./Passwords/Leaked-Databases/rockyou-05.txt ./Passwords/Leaked-Databases/rockyou-10.txt ./Passwords/Leaked-Databases/rockyou-15.txt && \
-    rm -rf ./Passwords/Leaked-Databases/rockyou-20.txt ./Passwords/Leaked-Databases/rockyou-25.txt ./Passwords/Leaked-Databases/rockyou-30.txt && \
-    rm -rf ./Passwords/Leaked-Databases/rockyou-35.txt ./Passwords/Leaked-Databases/rockyou-40.txt ./Passwords/Leaked-Databases/rockyou-45.txt && \
-    rm -rf ./Passwords/Leaked-Databases/rockyou-50.txt ./Passwords/Leaked-Databases/rockyou-55.txt ./Passwords/Leaked-Databases/rockyou-60.txt && \
-    rm -rf ./Passwords/Leaked-Databases/rockyou-65.txt ./Passwords/Leaked-Databases/rockyou-70.txt ./Passwords/Leaked-Databases/rockyou-75.txt && \
-    rm -rf ./Passwords/Leaked-Databases/rockyou.txt.tar.gz ./Passwords/Leaked-Databases/rockyou-withcount.txt.tar.gz
-
 RUN a=$(curl -s https://go.dev/dl/ | grep -B1 "platform\">Linux" | cut -d "\"" -f4 | head -n1) && \
     wget "https://golang.org$a" && b=$(echo $a | cut -d "/" -f3) && \
     tar -C /usr/local -xzf "$b" && rm "$b"
-
-COPY --from=gobuster /go/gobuster/gobuster /opt/
-
-RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-aarch64.zip" -o "awscliv2.zip" && \
-    unzip awscliv2.zip && aws/install && rm awscliv2.zip && rm -rf aws
 
 # ============================================================================================================
 # ====================================================================== Miscellaneous apt Installations =====
 # ============================================================================================================
 
-# All other installations go here to benefit from layer caching of other installs
-RUN DEBIAN_FRONTEND="noninteractive" apt install ruby-full perl -y && \
-    git clone --depth=1  https://github.com/wpscanteam/wpscan.git /opt/wp-scan && \
-    cd /opt/wp-scan && gem install wpscan && rm -rf /opt/wp-scan
+# Other installations go here to benefit from layer caching if something needs to be added later on.
 
 # ============================================================================================================
 # ============================================================================================================
