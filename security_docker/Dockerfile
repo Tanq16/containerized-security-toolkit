@@ -73,7 +73,7 @@ RUN git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf 2>/dev/null &
     ~/.fzf/install --all 1>/dev/null 2>/dev/null
 RUN echo "[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh" >> ~/.zshrc
 # Install colored ls
-RUN a=$(curl -s https://github.com/Peltoche/lsd/releases/latest | grep -oE "tag.+\"" | cut -d '/' -f2 | cut -d "\"" -f1) && \
+RUN a=$(curl -L -s https://github.com/Peltoche/lsd/releases/latest | grep -oE "tag.+\"" | cut -d '/' -f2 | cut -d "\"" -f1 | head -n 1) && \
     wget "https://github.com/Peltoche/lsd/releases/download/$a/lsd_$a""_amd64.deb" && \
     apt install -y "./lsd_$a""_amd64.deb" && rm "lsd_$a""_amd64.deb"
 
@@ -126,6 +126,10 @@ COPY --from=gobuster /go/gobuster/gobuster /opt/
 
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
     unzip awscliv2.zip && aws/install && rm awscliv2.zip && rm -rf aws
+
+RUN a=$(curl -L -s https://github.com/projectdiscovery/nuclei/releases/latest | grep -oE "tag.+\"" | cut -d "/" -f2 | cut -d "\"" -f1 | head -n 1 | cut -d "v" -f2) && \
+    wget "https://github.com/projectdiscovery/nuclei/releases/download/v2.6.5/nuclei_""$a""_linux_amd64.zip" && \
+    unzip "nuclei_""$a""_linux_amd64.zip" && mv nuclei /opt/
 
 # ============================================================================================================
 # ====================================================================== Miscellaneous apt Installations =====
