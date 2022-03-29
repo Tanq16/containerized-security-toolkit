@@ -135,10 +135,6 @@ RUN a=$(curl -L -s https://github.com/projectdiscovery/nuclei/releases/latest | 
     wget "https://github.com/projectdiscovery/nuclei/releases/download/v2.6.5/nuclei_""$a""_linux_amd64.zip" && \
     unzip "nuclei_""$a""_linux_amd64.zip" && mv nuclei /opt/
 
-RUN a=$(curl -L -s https://github.com/insidersec/insider/releases/latest | grep -oE "tag.+\"" | cut -d '/' -f2 | cut -d "\"" -f1 | head -n 1) && \
-    wget "https://github.com/insidersec/insider/releases/download/3.0.0/insider_""$a""_linux_x86_64.tar.gz" && \
-    unzip "insider_""$a""_linux_x86_64.tar.gz" && mv insider /opt/ && rm "insider_""$a""_linux_x86_64.tar.gz"
-
 # ============================================================================================================
 # ====================================================================== Miscellaneous apt Installations =====
 # ============================================================================================================
