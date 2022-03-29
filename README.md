@@ -43,7 +43,7 @@ To build, use the following &rarr;
 ```bash
 git clone https://github.com/tanq16/dockers
 cd dockers/security_docker
-docker build -t <you_tag> .
+docker build -t <your_tag> .
 ```
 
 The `security_docker` directory also contains a dockerfile for Apple Silicon Macs, which can be specified using the `--file Dockerfile.AppleSilicon` flag for the `docker build` command.
@@ -56,12 +56,11 @@ The `p10k.zsh` file for each directory must be inside the same directory as the 
 
 The security docker is effectively a combination of many of the good tools required for basic pentesting. It has the development image's packages installed as well. The following are the notable installations in the image &rarr;
 <!-- start bullet list -->
-* nmap, ncat & ncrack
-* ltrace & strace
-* gobuster, nikto & dirb
+* nmap, ncat & ncrack, nuclei
+* ltrace, strace & gdb with pwndbg
+* golang, gobuster, nikto & dirb
 * netdiscover & wireshark (tshark mainly, because its cli)
 * hydra, fcrackzip & john the ripper
-* gdb with pwndbg and golang
 * metasploit-framework & searchsploit (with exploit-database)
 * seclists & rockyou.txt
 <!-- end bullet list -->

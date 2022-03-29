@@ -73,9 +73,9 @@ RUN git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf 2>/dev/null &
     ~/.fzf/install --all 1>/dev/null 2>/dev/null
 RUN echo "[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh" >> ~/.zshrc
 # Install colored ls
-RUN a=$(curl -L -s https://github.com/Peltoche/lsd/releases/latest | grep -oE "tag.+\"" | cut -d '/' -f2 | cut -d "\"" -f1 head -n 1) && \
-    wget "https://github.com/Peltoche/lsd/releases/download/$a/lsd_$a""_arm64.deb" && \
-    apt install -y "./lsd_$a""_arm64.deb" && rm "lsd_$a""_arm64.deb"
+RUN a=$(curl -L -s https://github.com/Peltoche/lsd/releases/latest | grep -oE "tag.+\"" | cut -d '/' -f2 | cut -d "\"" -f1 | head -n 1) && \
+    wget "https://github.com/Peltoche/lsd/releases/download/$a/lsd_""$a""_arm64.deb" && \
+    apt install -y "./lsd_""$a""_arm64.deb" && rm "lsd_""$a""_arm64.deb"
 
 # Install vim extensions
 RUN git clone --depth=1  https://github.com/itchyny/lightline.vim ~/.vim/pack/plugins/start/lightline && \
