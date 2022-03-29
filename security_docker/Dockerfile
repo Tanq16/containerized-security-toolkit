@@ -8,6 +8,10 @@ FROM golang:buster AS gobuster
 RUN apt update && apt install git && git clone https://github.com/OJ/gobuster.git && \
     cd gobuster && go get && go build
 
+FROM golang AS insider_builder
+RUN apt update && apt install git && git clone https://github.com/insidersec/insider && \
+    cd insider/cmd/insider && go get && go build
+
 # ============================================================================================================
 # ======================================================================= FINAL IMAGE Post Builder Stage =====
 # ============================================================================================================
@@ -100,8 +104,6 @@ RUN git clone --depth=1  https://github.com/pwndbg/pwndbg /opt/pwndbg && cd /opt
 
 RUN curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb > msfinstall && chmod 755 msfinstall && ./msfinstall && rm msfinstall
 
-COPY --from=builder /sslscan/sslscan /opt/
-
 RUN git clone --depth=1  https://github.com/offensive-security/exploitdb.git /opt/exploit-database && \
     ln -sf /opt/exploit-database/searchsploit /usr/local/bin/searchsploit
 
@@ -122,7 +124,9 @@ RUN a=$(curl -s https://go.dev/dl/ | grep -B1 "platform\">Linux" | cut -d "\"" -
     wget "https://golang.org$a" && b=$(echo $a | cut -d "/" -f3) && \
     tar -C /usr/local -xzf "$b" && rm "$b"
 
+COPY --from=builder /sslscan/sslscan /opt/
 COPY --from=gobuster /go/gobuster/gobuster /opt/
+COPY --from=insider_builder /go/insider/cmd/insider/insider /opt/
 
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
     unzip awscliv2.zip && aws/install && rm awscliv2.zip && rm -rf aws
@@ -130,6 +134,10 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2
 RUN a=$(curl -L -s https://github.com/projectdiscovery/nuclei/releases/latest | grep -oE "tag.+\"" | cut -d "/" -f2 | cut -d "\"" -f1 | head -n 1 | cut -d "v" -f2) && \
     wget "https://github.com/projectdiscovery/nuclei/releases/download/v2.6.5/nuclei_""$a""_linux_amd64.zip" && \
     unzip "nuclei_""$a""_linux_amd64.zip" && mv nuclei /opt/
+
+RUN a=$(curl -L -s https://github.com/insidersec/insider/releases/latest | grep -oE "tag.+\"" | cut -d '/' -f2 | cut -d "\"" -f1 | head -n 1) && \
+    wget "https://github.com/insidersec/insider/releases/download/3.0.0/insider_""$a""_linux_x86_64.tar.gz" && \
+    unzip "insider_""$a""_linux_x86_64.tar.gz" && mv insider /opt/ && rm "insider_""$a""_linux_x86_64.tar.gz"
 
 # ============================================================================================================
 # ====================================================================== Miscellaneous apt Installations =====
