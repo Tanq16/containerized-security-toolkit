@@ -124,7 +124,7 @@ RUN git clone --depth=1  https://github.com/danielmiessler/SecLists.git /opt/Sec
     rm -rf ./Passwords/Leaked-Databases/rockyou-65.txt ./Passwords/Leaked-Databases/rockyou-70.txt ./Passwords/Leaked-Databases/rockyou-75.txt && \
     rm -rf ./Passwords/Leaked-Databases/rockyou.txt.tar.gz ./Passwords/Leaked-Databases/rockyou-withcount.txt.tar.gz
 
-RUN a=$(curl -s https://go.dev/dl/ | grep -oE "(/dl/go.+?\.linux-amd64\.tar\.gz)" | head -n 1) && \
+RUN a=$(curl -s https://go.dev/dl/ | grep -oE "(/dl/go[\.0-9]{2,7}\.linux-amd64\.tar\.gz)" | head -n 1) && \
     wget "https://golang.org$a" && b=$(echo $a | cut -d "/" -f3) && \
     tar -C /usr/local -xzf "$b" && rm "$b"
 
@@ -147,7 +147,9 @@ RUN a=$(curl -L -s https://github.com/projectdiscovery/nuclei/releases/latest | 
 # All other installations go here to benefit from layer caching of other installs
 RUN DEBIAN_FRONTEND="noninteractive" apt install ruby-full perl -y && \
     git clone --depth=1  https://github.com/wpscanteam/wpscan.git /opt/wp-scan && \
-    cd /opt/wp-scan && gem install wpscan && rm -rf /opt/wp-scan
+    cd /opt/wp-scan && gem install wpscan && rm -rf /opt/wp-
+    
+RUN python3 -m pip install --upgrade pip setuptools wheel
 
 # ============================================================================================================
 # ============================================================================================================
