@@ -12,6 +12,10 @@ FROM golang AS insider_builder
 RUN apt update && apt install git && git clone https://github.com/insidersec/insider && \
     cd insider/cmd/insider && go get && go build
 
+FROM golang AS smap_builder
+RUN apt update && apt install git && git clone https://github.com/s0md3v/Smap && \
+    cd Smap/cmd/smap && go get && go build
+
 # ============================================================================================================
 # ======================================================================= FINAL IMAGE Post Builder Stage =====
 # ============================================================================================================
@@ -120,12 +124,13 @@ RUN git clone --depth=1  https://github.com/danielmiessler/SecLists.git /opt/Sec
     rm -rf ./Passwords/Leaked-Databases/rockyou-65.txt ./Passwords/Leaked-Databases/rockyou-70.txt ./Passwords/Leaked-Databases/rockyou-75.txt && \
     rm -rf ./Passwords/Leaked-Databases/rockyou.txt.tar.gz ./Passwords/Leaked-Databases/rockyou-withcount.txt.tar.gz
 
-RUN a=$(curl -s https://go.dev/dl/ | grep -B1 "platform\">Linux" | cut -d "\"" -f4 | head -n1) && \
+RUN a=$(curl -s https://go.dev/dl/ | grep -oE "(/dl/go.+?\.linux-arm64\.tar\.gz)" | head -n 1) && \
     wget "https://golang.org$a" && b=$(echo $a | cut -d "/" -f3) && \
     tar -C /usr/local -xzf "$b" && rm "$b"
 
 COPY --from=builder /sslscan/sslscan /opt/
 COPY --from=gobuster /go/gobuster/gobuster /opt/
+COPY --from=smap_builder /go/Smap/cmd/smap/smap /opt/
 COPY --from=insider_builder /go/insider/cmd/insider/insider /opt/
 
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-aarch64.zip" -o "awscliv2.zip" && \
