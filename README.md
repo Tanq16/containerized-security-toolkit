@@ -1,11 +1,9 @@
 # What is this
 
 This repository contains Dockerfiles for ARM (Apple Silicon) and x86_64 variants of a security focussed docker image. The 3 use cases here are as follows &rarr;
-<!-- start bullet list -->
 * An image that contains many security focussed tools
 * Dockerfile to be used as a base for building other images
 * An image to generate a PDF from a markdown file (WIP)
-<!-- end bullet list -->
 
 The Security focussed image is also available to be directly pulled from docker hub. A GitHub CI Action builds and pushes the images to docker hub monthly and on every commit. The Apple Silicon images are built using [Buildx](https://docs.docker.com/buildx/working-with-buildx/).
 
@@ -18,12 +16,10 @@ Information on the Markdown to PDF image is within it's directory.
 ## Conventions and Running the Container
 
 The Seccurity Image as well as the base image is built with the intention of ssh-ing into it and making use of tmux to work in them. Further, the conventions followed for building the images (also useful if edits are needed) are &rarr;
-<!-- start bullet list -->
 * ports mapping follows convention &rarr; shared port = port + 50000
 * volume mount to `/work` or `/persist` &rarr; helps with persistence
 * general installations made using Dockerfile should be placed under `/opt`
 * maintain a `run.sh` file for common stuff to run when the container starts (also helps with persistence)
-<!-- end bullet list -->
 
 The images are meant to be run using the following docker run command syntax &rarr;
 ```bash
@@ -55,15 +51,13 @@ The `p10k.zsh` file for each directory must be inside the same directory as the 
 # Security Focussed Docker
 
 The security docker is effectively a combination of many of the good tools required for basic pentesting. It has the development image's packages installed as well. The following are the notable installations in the image &rarr;
-<!-- start bullet list -->
-* nmap, ncat & ncrack, nuclei
+* nmap, ncat, ncrack & nuclei
 * ltrace, strace & gdb with pwndbg
-* golang, gobuster, nikto & dirb
-* netdiscover & wireshark (tshark mainly, because its cli)
+* golang, gobuster, nikto, subfinder & dirb
+* sqlmap, tshark & dalfox
 * hydra, fcrackzip & john the ripper
 * metasploit-framework & searchsploit (with exploit-database)
 * seclists & rockyou.txt
-<!-- end bullet list -->
 
 To pull a prebuilt image, use `docker pull tanq16/sec_docker:main`. For the Apple Silicon version, use the tag `tanq16/sec_docker:main_apple`.
 

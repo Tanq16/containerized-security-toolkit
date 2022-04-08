@@ -16,6 +16,14 @@ FROM golang AS smap_builder
 RUN apt update && apt install git && git clone https://github.com/s0md3v/Smap && \
     cd Smap/cmd/smap && go get && go build
 
+FROM golang AS dalfox_builder
+RUN apt update && apt install git && git clone https://github.com/hahwul/dalfox && \
+    cd dalfox/ && go get && go build
+
+FROM golang AS subfinder_builder
+RUN apt update && apt install git && git clone https://github.com/projectdiscovery/subfinder && \
+    cd subfinder/v2/cmd/subfinder && go get && go build
+
 # ============================================================================================================
 # ======================================================================= FINAL IMAGE Post Builder Stage =====
 # ============================================================================================================
@@ -111,6 +119,8 @@ RUN curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/conf
 RUN git clone --depth=1  https://github.com/offensive-security/exploitdb.git /opt/exploit-database && \
     ln -sf /opt/exploit-database/searchsploit /usr/local/bin/searchsploit
 
+RUN git clone --depth=1 https://github.com/sqlmapproject/sqlmap /opt/sqlmap
+
 RUN git clone --depth=1  https://github.com/danielmiessler/SecLists.git /opt/SecLists && cd /opt/SecLists && \
     tar -xvf ./Passwords/Leaked-Databases/rockyou.txt.tar.gz && \
     rm -rf ./Passwords/BiblePass && rm -rf ./Fuzzing/User-Agents/software-type-specific && \
@@ -130,8 +140,10 @@ RUN a=$(curl -s https://go.dev/dl/ | grep -oE "(/dl/go[\.0-9]{2,7}\.linux-amd64\
 
 COPY --from=builder /sslscan/sslscan /opt/
 COPY --from=gobuster /go/gobuster/gobuster /opt/
+COPY --from=dalfox_builder /go/dalfox/dalfox /opt/
 COPY --from=smap_builder /go/Smap/cmd/smap/smap /opt/
 COPY --from=insider_builder /go/insider/cmd/insider/insider /opt/
+COPY --from=subfinder_builder /go/subfinder/v2/cmd/subfinder /opt/
 
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
     unzip awscliv2.zip && aws/install && rm awscliv2.zip && rm -rf aws
