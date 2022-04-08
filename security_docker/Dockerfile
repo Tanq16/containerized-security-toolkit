@@ -5,43 +5,43 @@ RUN apt update && apt upgrade -y && \
 RUN git clone https://github.com/rbsec/sslscan && cd sslscan && make static
 
 FROM golang:buster AS gobuster
-RUN apt update && apt install git && git clone https://github.com/OJ/gobuster.git && \
+RUN apt update && apt install git -y && git clone https://github.com/OJ/gobuster.git && \
     cd gobuster && go get && go build
 
 FROM golang AS insider_builder
-RUN apt update && apt install git && git clone https://github.com/insidersec/insider && \
+RUN apt update && apt install git -y && git clone https://github.com/insidersec/insider && \
     cd insider/cmd/insider && go get && go build
 
 FROM golang AS smap_builder
-RUN apt update && apt install git && git clone https://github.com/s0md3v/Smap && \
+RUN apt update && apt install git -y && git clone https://github.com/s0md3v/Smap && \
     cd Smap/cmd/smap && go get && go build
 
 FROM golang AS dalfox_builder
-RUN apt update && apt install git && git clone https://github.com/hahwul/dalfox && \
+RUN apt update && apt install git -y && git clone https://github.com/hahwul/dalfox && \
     cd dalfox/ && go get && go build
 
 FROM golang AS subfinder_builder
-RUN apt update && apt install git && git clone https://github.com/projectdiscovery/subfinder && \
+RUN apt update && apt install git -y && git clone https://github.com/projectdiscovery/subfinder && \
     cd subfinder/v2/cmd/subfinder && go get && go build
 
 FROM golang AS naabu_builder
-RUN apt update && apt install git && git clone https://github.com/projectdiscovery/naabu && \
+RUN apt update && apt install git libpcap-dev -y && git clone https://github.com/projectdiscovery/naabu && \
     cd naabu/v2/cmd/naabu && go get && go build
 
 FROM golang AS httpx_builder
-RUN apt update && apt install git && git clone https://github.com/projectdiscovery/httpx && \
+RUN apt update && apt install git -y && git clone https://github.com/projectdiscovery/httpx && \
     cd httpx/cmd/httpx && go get && go build
 
 FROM golang AS dnsx_builder
-RUN apt update && apt install git && git clone https://github.com/projectdiscovery/dnsx && \
+RUN apt update && apt install git -y && git clone https://github.com/projectdiscovery/dnsx && \
     cd dnsx/cmd/dnsx && go get && go build
 
 FROM golang AS proxify_builder
-RUN apt update && apt install git && git clone https://github.com/projectdiscovery/proxify && \
+RUN apt update && apt install git -y && git clone https://github.com/projectdiscovery/proxify && \
     cd proxify/cmd/proxify && go get && go build
 
 FROM golang AS nuclei_builder
-RUN apt update && apt install git && git clone https://github.com/projectdiscovery/nuclei && \
+RUN apt update && apt install git -y && git clone https://github.com/projectdiscovery/nuclei && \
     cd nuclei/v2/cmd/nuclei && go get && go build
 
 # ============================================================================================================
