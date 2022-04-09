@@ -1,7 +1,7 @@
 FROM ubuntu AS builder
 RUN apt update && apt upgrade -y && \
     apt install build-essential git zlib1g-dev openssl -y && \
-RUN git clone https://github.com/rbsec/sslscan && cd sslscan && make static
+    git clone https://github.com/rbsec/sslscan && cd sslscan && make static
 
 FROM golang AS go_builder
 RUN git clone https://github.com/OJ/gobuster.git && \
