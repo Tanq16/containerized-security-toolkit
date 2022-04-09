@@ -4,44 +4,28 @@ RUN apt update && apt upgrade -y && \
     apt install openssl -y
 RUN git clone https://github.com/rbsec/sslscan && cd sslscan && make static
 
-FROM golang:buster AS gobuster
-RUN apt update && apt install git -y && git clone https://github.com/OJ/gobuster.git && \
+FROM golang AS go_builder
+RUN git clone https://github.com/OJ/gobuster.git && \
     cd gobuster && go get && go build
-
-FROM golang AS insider_builder
-RUN apt update && apt install git -y && git clone https://github.com/insidersec/insider && \
+RUN git clone https://github.com/insidersec/insider && \
     cd insider/cmd/insider && go get && go build
-
-FROM golang AS smap_builder
-RUN apt update && apt install git -y && git clone https://github.com/s0md3v/Smap && \
+RUN git clone https://github.com/s0md3v/Smap && \
     cd Smap/cmd/smap && go get && go build
-
-FROM golang AS dalfox_builder
-RUN apt update && apt install git -y && git clone https://github.com/hahwul/dalfox && \
+RUN git clone https://github.com/hahwul/dalfox && \
     cd dalfox/ && go get && go build
 
-FROM golang AS subfinder_builder
-RUN apt update && apt install git -y && git clone https://github.com/projectdiscovery/subfinder && \
+FROM golang AS projectdiscovery_builder
+RUN apt update && apt install git libpcap-dev -y && git clone https://github.com/projectdiscovery/subfinder && \
     cd subfinder/v2/cmd/subfinder && go get && go build
-
-FROM golang AS naabu_builder
-RUN apt update && apt install git libpcap-dev -y && git clone https://github.com/projectdiscovery/naabu && \
+RUN git clone https://github.com/projectdiscovery/naabu && \
     cd naabu/v2/cmd/naabu && go get && go build
-
-FROM golang AS httpx_builder
-RUN apt update && apt install git -y && git clone https://github.com/projectdiscovery/httpx && \
+RUN git clone https://github.com/projectdiscovery/httpx && \
     cd httpx/cmd/httpx && go get && go build
-
-FROM golang AS dnsx_builder
-RUN apt update && apt install git -y && git clone https://github.com/projectdiscovery/dnsx && \
+RUN clone https://github.com/projectdiscovery/dnsx && \
     cd dnsx/cmd/dnsx && go get && go build
-
-FROM golang AS proxify_builder
-RUN apt update && apt install git -y && git clone https://github.com/projectdiscovery/proxify && \
+RUN git clone https://github.com/projectdiscovery/proxify && \
     cd proxify/cmd/proxify && go get && go build
-
-FROM golang AS nuclei_builder
-RUN apt update && apt install git -y && git clone https://github.com/projectdiscovery/nuclei && \
+RUN git clone https://github.com/projectdiscovery/nuclei && \
     cd nuclei/v2/cmd/nuclei && go get && go build
 
 # ============================================================================================================
@@ -66,7 +50,7 @@ RUN apt update && apt upgrade -y
 # Install packages using APT
 RUN DEBIAN_FRONTEND="noninteractive" \
     apt install -y --no-install-recommends \
-    apt-transport-https openssl gpg-agent openssh-server openvpn git gdb tmux tree gnupg gnupg2
+    apt-transport-https openssl gpg-agent openssh-server openvpn git gdb tmux tree gnupg gnupg2 ruby-full perl
 RUN DEBIAN_FRONTEND="noninteractive" \
     apt install -y --no-install-recommends \
     nmap ncat nikto hydra less file binwalk p7zip-full dnsutils nodejs npm htop ncdu vim curl bat fd-find php
@@ -139,37 +123,35 @@ RUN curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/conf
 RUN git clone --depth=1  https://github.com/offensive-security/exploitdb.git /opt/exploit-database && \
     ln -sf /opt/exploit-database/searchsploit /usr/local/bin/searchsploit
 
-RUN git clone --depth=1 https://github.com/sqlmapproject/sqlmap /opt/sqlmap
-
-RUN git clone --depth=1  https://github.com/danielmiessler/SecLists.git /opt/SecLists && cd /opt/SecLists && \
-    tar -xvf ./Passwords/Leaked-Databases/rockyou.txt.tar.gz && \
-    rm -rf ./Passwords/BiblePass && rm -rf ./Fuzzing/User-Agents/software-type-specific && \
-    rm -rf ./Fuzzing/User-Agents/software-name && rm -rf ./Fuzzing/User-Agents/operating-system-name && \
-    rm -rf ./Fuzzing/User-Agents/operating-platform && rm -rf ./Fuzzing/User-Agents/layout-engine-name && \
-    rm -rf ./Fuzzing/User-Agents/hardware-type-specific && rm -rf .git && \
-    rm -rf ./Passwords/Leaked-Databases/rockyou-05.txt ./Passwords/Leaked-Databases/rockyou-10.txt ./Passwords/Leaked-Databases/rockyou-15.txt && \
-    rm -rf ./Passwords/Leaked-Databases/rockyou-20.txt ./Passwords/Leaked-Databases/rockyou-25.txt ./Passwords/Leaked-Databases/rockyou-30.txt && \
-    rm -rf ./Passwords/Leaked-Databases/rockyou-35.txt ./Passwords/Leaked-Databases/rockyou-40.txt ./Passwords/Leaked-Databases/rockyou-45.txt && \
-    rm -rf ./Passwords/Leaked-Databases/rockyou-50.txt ./Passwords/Leaked-Databases/rockyou-55.txt ./Passwords/Leaked-Databases/rockyou-60.txt && \
-    rm -rf ./Passwords/Leaked-Databases/rockyou-65.txt ./Passwords/Leaked-Databases/rockyou-70.txt ./Passwords/Leaked-Databases/rockyou-75.txt && \
-    rm -rf ./Passwords/Leaked-Databases/rockyou.txt.tar.gz ./Passwords/Leaked-Databases/rockyou-withcount.txt.tar.gz
+RUN mkdir /opt/lists/ && cd /opt/lists/ && \
+    wget https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/DNS/subdomains-top1million-110000.txt -O subdomains_top_110000.txt && \
+    wget https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/Infrastructure/common-router-ips.txt -O common_router_ips.txt && \
+    wget https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/Infrastructure/common-http-ports.txt -O common_http_ports.txt && \
+    wget https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/SNMP/snmp.txt -O snmp.txt && \
+    wget https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/Variables/secret-keywords.txt -O secret_keywords.txt && \
+    wget https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/Web-Content/directory-list-lowercase-2.3-big.txt -O directory_brute_big.txt && \
+    wget https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/Web-Content/directory-list-lowercase-2.3-medium.txt -O directory_brute_medium.txt && \
+    wget https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/Web-Content/directory-list-lowercase-2.3-small.txt -O directory_brute_small.txt && \
+    wget https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/Web-Content/oauth-oidc-scopes.txt -O oauth_oidc_scopes.txt && \
+    wget https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/Web-Content/common.txt -O directory_brute_common.txt && \
+    wget https://github.com/danielmiessler/SecLists/raw/master/Passwords/Leaked-Databases/rockyou.txt.tar.gz && tar -xzf rockyou.txt.tar.gz && rm rockyou.txt.tar.gz
 
 RUN a=$(curl -s https://go.dev/dl/ | grep -oE "(/dl/go[\.0-9]{2,7}\.linux-amd64\.tar\.gz)" | head -n 1) && \
     wget "https://golang.org$a" && b=$(echo $a | cut -d "/" -f3) && \
     tar -C /usr/local -xzf "$b" && rm "$b"
 
-COPY --from=builder /sslscan/sslscan /opt/
-COPY --from=gobuster /go/gobuster/gobuster /opt/
-COPY --from=insider_builder /go/insider/cmd/insider/insider /opt/
-COPY --from=smap_builder /go/Smap/cmd/smap/smap /opt/
-COPY --from=dalfox_builder /go/dalfox/dalfox /opt/
+COPY --from=go_builder /sslscan/sslscan /opt/
+COPY --from=go_builder /go/gobuster/gobuster /opt/
+COPY --from=go_builder /go/insider/cmd/insider/insider /opt/
+COPY --from=go_builder /go/Smap/cmd/smap/smap /opt/
+COPY --from=go_builder /go/dalfox/dalfox /opt/
 
-COPY --from=subfinder_builder /go/subfinder/v2/cmd/subfinder /opt/
-COPY --from=naabu_builder /go/naabu/v2/cmd/naabu /opt/
-COPY --from=httpx_builder /go/httpx/cmd/httpx/httpx /opt/
-COPY --from=dnsx_builder /go/dnsx/cmd/dnsx/dnsx /opt/
-COPY --from=proxify_builder /go/proxify/cmd/proxify/proxify /opt/
-COPY --from=nuclei_builder /go/nuclei/v2/cmd/nuclei/nuclei /opt/
+COPY --from=projectdiscovery_builder /go/subfinder/v2/cmd/subfinder /opt/
+COPY --from=projectdiscovery_builder /go/naabu/v2/cmd/naabu/naabu /opt/
+COPY --from=projectdiscovery_builder /go/httpx/cmd/httpx/httpx /opt/
+COPY --from=projectdiscovery_builder /go/dnsx/cmd/dnsx/dnsx /opt/
+COPY --from=projectdiscovery_builder /go/proxify/cmd/proxify/proxify /opt/
+COPY --from=projectdiscovery_builder /go/nuclei/v2/cmd/nuclei/nuclei /opt/
 
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
     unzip awscliv2.zip && aws/install && rm awscliv2.zip && rm -rf aws
@@ -179,20 +161,17 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2
 # ============================================================================================================
 
 # All other installations go here to benefit from layer caching of other installs
-RUN DEBIAN_FRONTEND="noninteractive" apt install ruby-full perl -y && \
-    git clone --depth=1  https://github.com/wpscanteam/wpscan.git /opt/wp-scan && \
+RUN git clone --depth=1 https://github.com/wpscanteam/wpscan.git /opt/wp-scan && \
     cd /opt/wp-scan && gem install wpscan && rm -rf /opt/wp-scan
-    
+
+# ============================================================================================================
+# ============================================================================================================
+# ============================================================================================================
+
 RUN python3 -m pip install --upgrade pip setuptools wheel
-
-# ============================================================================================================
-# ============================================================================================================
-# ============================================================================================================
-
 RUN apt autoclean -y && apt autoremove -y
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
 
 # Final steps for perfect run
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && \
