@@ -140,7 +140,7 @@ RUN a=$(curl -s https://go.dev/dl/ | grep -oE "(/dl/go[\.0-9]{2,7}\.linux-arm64\
     wget "https://golang.org$a" && b=$(echo $a | cut -d "/" -f3) && \
     tar -C /usr/local -xzf "$b" && rm "$b"
 
-COPY --from=go_builder /sslscan/sslscan /opt/
+COPY --from=builder /sslscan/sslscan /opt/
 COPY --from=go_builder /go/gobuster/gobuster /opt/
 COPY --from=go_builder /go/insider/cmd/insider/insider /opt/
 COPY --from=go_builder /go/Smap/cmd/smap/smap /opt/
