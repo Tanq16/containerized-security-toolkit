@@ -1,7 +1,6 @@
 FROM ubuntu AS builder
 RUN apt update && apt upgrade -y && \
-    apt install build-essential git zlib1g-dev -y && \
-    apt install openssl -y
+    apt install build-essential git zlib1g-dev openssl -y && \
 RUN git clone https://github.com/rbsec/sslscan && cd sslscan && make static
 
 FROM golang AS go_builder
@@ -15,7 +14,8 @@ RUN git clone https://github.com/hahwul/dalfox && \
     cd dalfox/ && go get && go build
 
 FROM golang AS projectdiscovery_builder
-RUN apt update && apt install git libpcap-dev -y && git clone https://github.com/projectdiscovery/subfinder && \
+RUN apt update && apt install git libpcap-dev -y && \
+    git clone https://github.com/projectdiscovery/subfinder && \
     cd subfinder/v2/cmd/subfinder && go get && go build
 RUN git clone https://github.com/projectdiscovery/naabu && \
     cd naabu/v2/cmd/naabu && go get && go build
@@ -62,15 +62,13 @@ RUN DEBIAN_FRONTEND="noninteractive" \
     python3-setuptools python3-pip python3 python3-dev ipython3 iproute2 python3-venv make groff
 RUN DEBIAN_FRONTEND="noninteractive" \
     apt install -y --no-install-recommends \
-    inetutils-ping inetutils-telnet inetutils-tools inetutils-traceroute inetutils-ftp
+    inetutils-ping inetutils-telnet inetutils-tools inetutils-traceroute inetutils-ftp zsh
 
 # ============================================================================================================
 # =============================================================================== CLI Productivity Suite =====
 # ============================================================================================================
 
-# Install zsh and oh my zsh
-Run DEBIAN_FRONTEND="noninteractive" \
-    apt install -y zsh
+# Install oh my zsh
 RUN curl -L http://install.ohmyz.sh | sh && \
     git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/powerlevel10k 2>/dev/null && \
     sed -i "s/robbyrussell/powerlevel10k\/powerlevel10k/" ~/.zshrc
@@ -154,7 +152,7 @@ COPY --from=projectdiscovery_builder /go/proxify/cmd/proxify/proxify /opt/
 COPY --from=projectdiscovery_builder /go/nuclei/v2/cmd/nuclei/nuclei /opt/
 
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-aarch64.zip" -o "awscliv2.zip" && \
-    unzip awscliv2.zip && aws/install && rm awscliv2.zip && rm -rf aws
+    unzip awscliv2.zip && aws/install && rm awscliv2.zip && rm -rf aws && python3 -m pip install boto3
 
 # ============================================================================================================
 # ====================================================================== Miscellaneous apt Installations =====
