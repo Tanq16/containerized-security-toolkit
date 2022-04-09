@@ -21,7 +21,7 @@ RUN git clone https://github.com/projectdiscovery/naabu && \
     cd naabu/v2/cmd/naabu && go get && go build
 RUN git clone https://github.com/projectdiscovery/httpx && \
     cd httpx/cmd/httpx && go get && go build
-RUN clone https://github.com/projectdiscovery/dnsx && \
+RUN git clone https://github.com/projectdiscovery/dnsx && \
     cd dnsx/cmd/dnsx && go get && go build
 RUN git clone https://github.com/projectdiscovery/proxify && \
     cd proxify/cmd/proxify && go get && go build
