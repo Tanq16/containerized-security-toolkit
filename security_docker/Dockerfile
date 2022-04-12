@@ -23,6 +23,8 @@ RUN git clone https://github.com/projectdiscovery/httpx && \
     cd httpx/cmd/httpx && go get && go build
 RUN git clone https://github.com/projectdiscovery/dnsx && \
     cd dnsx/cmd/dnsx && go get && go build
+RUN git clone https://github.com/projectdiscovery/mapcidr && \
+    cd mapcidr/cmd/mapcidr && go get && go build
 RUN git clone https://github.com/projectdiscovery/proxify && \
     cd proxify/cmd/proxify && go get && go build
 RUN git clone https://github.com/projectdiscovery/nuclei && \
@@ -50,13 +52,13 @@ RUN apt update && apt upgrade -y
 # Install packages using APT
 RUN DEBIAN_FRONTEND="noninteractive" \
     apt install -y --no-install-recommends \
-    apt-transport-https openssl gpg-agent openssh-server openvpn git gdb tmux tree gnupg gnupg2 ruby-full perl
+    apt-transport-https openssl gpg-agent openssh-server openvpn git gdb tmux tree gnupg gnupg2 ruby-full
 RUN DEBIAN_FRONTEND="noninteractive" \
     apt install -y --no-install-recommends \
-    nmap ncat nikto hydra less file binwalk p7zip-full dnsutils nodejs npm htop ncdu vim curl bat fd-find php
+    nmap ncat nikto hydra less file binwalk p7zip-full dnsutils nodejs npm htop ncdu vim curl bat fd-find
 RUN DEBIAN_FRONTEND="noninteractive" \
     apt install -y --no-install-recommends \
-    strace ltrace wget ntp sqlmap locales hexedit john tshark gcc nasm unzip fcrackzip tzdata nginx
+    strace ltrace wget ntp locales hexedit john tshark gcc nasm unzip fcrackzip tzdata nginx perl php
 RUN DEBIAN_FRONTEND="noninteractive" \
     apt install -y --no-install-recommends \
     python3-setuptools python3-pip python3 python3-dev ipython3 iproute2 python3-venv make groff
@@ -148,6 +150,7 @@ COPY --from=projectdiscovery_builder /go/subfinder/v2/cmd/subfinder /opt/
 COPY --from=projectdiscovery_builder /go/naabu/v2/cmd/naabu/naabu /opt/
 COPY --from=projectdiscovery_builder /go/httpx/cmd/httpx/httpx /opt/
 COPY --from=projectdiscovery_builder /go/dnsx/cmd/dnsx/dnsx /opt/
+COPY --from=projectdiscovery_builder /go/mapcidr/cmd/mapcidr/mapcidr /opt/
 COPY --from=projectdiscovery_builder /go/proxify/cmd/proxify/proxify /opt/
 COPY --from=projectdiscovery_builder /go/nuclei/v2/cmd/nuclei/nuclei /opt/
 
@@ -161,6 +164,7 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2
 # All other installations go here to benefit from layer caching of other installs
 RUN git clone --depth=1 https://github.com/wpscanteam/wpscan.git /opt/wp-scan && \
     cd /opt/wp-scan && gem install wpscan && rm -rf /opt/wp-scan
+RUN git clone --depth=1 https://github.com/sqlmapproject/sqlmap /opt/sqlmap
 
 # ============================================================================================================
 # ============================================================================================================
