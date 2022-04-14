@@ -146,7 +146,7 @@ COPY --from=go_builder /go/insider/cmd/insider/insider /opt/
 COPY --from=go_builder /go/Smap/cmd/smap/smap /opt/
 COPY --from=go_builder /go/dalfox/dalfox /opt/
 
-COPY --from=projectdiscovery_builder /go/subfinder/v2/cmd/subfinder /opt/
+COPY --from=projectdiscovery_builder /go/subfinder/v2/cmd/subfinder/subfinder /opt/
 COPY --from=projectdiscovery_builder /go/naabu/v2/cmd/naabu/naabu /opt/
 COPY --from=projectdiscovery_builder /go/httpx/cmd/httpx/httpx /opt/
 COPY --from=projectdiscovery_builder /go/dnsx/cmd/dnsx/dnsx /opt/
