@@ -64,7 +64,7 @@ RUN DEBIAN_FRONTEND="noninteractive" \
     python3-setuptools python3-pip python3 python3-dev ipython3 iproute2 python3-venv make groff
 RUN DEBIAN_FRONTEND="noninteractive" \
     apt install -y --no-install-recommends \
-    inetutils-ping inetutils-telnet inetutils-tools inetutils-traceroute inetutils-ftp zsh
+    inetutils-ping inetutils-telnet inetutils-tools inetutils-traceroute inetutils-ftp zsh jq
 
 # ============================================================================================================
 # =============================================================================== CLI Productivity Suite =====
@@ -165,6 +165,7 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2
 RUN git clone --depth=1 https://github.com/wpscanteam/wpscan.git /opt/wp-scan && \
     cd /opt/wp-scan && gem install wpscan && rm -rf /opt/wp-scan
 RUN git clone --depth=1 https://github.com/sqlmapproject/sqlmap /opt/sqlmap
+RUN git clone --depth=1 https://github.com/projectdiscovery/nuclei-templates /root/nuclei-templates
 
 # ============================================================================================================
 # ============================================================================================================
