@@ -52,13 +52,13 @@ RUN DEBIAN_FRONTEND="noninteractive" apt update && \
     DEBIAN_FRONTEND="noninteractive" apt upgrade -y && \
     DEBIAN_FRONTEND="noninteractive" \
     apt install -y --no-install-recommends \
-    apt-transport-https openssl gpg-agent openssh-server openvpn git gdb tmux tree gnupg2 ruby-full vim curl bat fd-find p7zip-full jq
+    apt-transport-https openssl gpg-agent openssh-server openvpn git gdb tmux tree gnupg2 ruby-full vim curl bat fd-find p7zip-full
 RUN DEBIAN_FRONTEND="noninteractive" \
     apt install -y --no-install-recommends \
     strace ltrace wget ntp locales hexedit john tshark gcc nasm unzip zip fcrackzip tzdata perl php yarnpkg less file htop ncdu gnupg
 RUN DEBIAN_FRONTEND="noninteractive" \
     apt install -y --no-install-recommends \
-    python3-setuptools python3-pip python3 python3-dev ipython3 iproute2 python3-venv make nginx nmap ncat nikto hydra dnsutils trivy
+    python3-setuptools python3-pip python3 python3-dev ipython3 iproute2 python3-venv make nginx nmap ncat nikto hydra dnsutils jq
 RUN DEBIAN_FRONTEND="noninteractive" \
     apt install -y --no-install-recommends \
     inetutils-ping inetutils-telnet inetutils-tools inetutils-traceroute inetutils-ftp zsh language-pack-en nodejs npm binwalk groff
@@ -76,6 +76,7 @@ RUN curl -L http://install.ohmyz.sh | sh && \
     sed -i "s/plugins=/plugins=(git zsh-autosuggestions zsh-syntax-highlighting) #/" ~/.zshrc && \
     git clone --depth=1  https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm 2>/dev/null && \
     git clone --depth=1  https://github.com/jimeh/tmux-themepack.git ~/.tmux-themepack
+
 # Append conf files tmux conf and zsh rc
 RUN wget https://raw.githubusercontent.com/Tanq16/cli-productivity-suite/master/tmuxconf 2>/dev/null && \
     mv tmuxconf ~/.tmux.conf && \
@@ -87,6 +88,7 @@ RUN wget https://raw.githubusercontent.com/Tanq16/cli-productivity-suite/master/
     rm temptemp && \
     echo "export PATH=$PATH:/usr/local/go/bin/" >> ~/.zshrc && \
     chsh -s /usr/bin/zsh
+
 # Setup fzf and colored ls (lsd)
 RUN git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf 2>/dev/null && \
     ~/.fzf/install --all 1>/dev/null 2>/dev/null && \
@@ -175,11 +177,17 @@ COPY --from=projectdiscovery_builder /go/nuclei/v2/cmd/nuclei/nuclei /opt/
 
 # All other installations go here to benefit from layer caching of other installs
 
-# wpscan and sqlmap
+# wpscan trivy and sqlmap
 RUN git clone --depth=1 https://github.com/wpscanteam/wpscan.git /opt/wp-scan && \
     cd /opt/wp-scan && \
     gem install wpscan && \
     rm -rf /opt/wp-scan && \
+    a=$(curl -L -s https://github.com/aquasecurity/trivy/releases/latest | grep -oE "tag.+\"" | cut -d '/' -f2 | cut -d "\"" -f1 | head -n 1) && \
+    b=$(echo $a | tr -d "v") && \
+    wget "https://github.com/aquasecurity/trivy/releases/download/$a/trivy_""$b""_Linux-64bit.tar.gz" && \
+    tar -xzf "trivy_""$b""_Linux-64bit.tar.gz" && \
+    mv trivy /opt && \
+    rm "trivy_""$b""_Linux-64bit.tar.gz" && \
     git clone --depth=1 https://github.com/sqlmapproject/sqlmap /opt/sqlmap
 
 # ============================================================================================================
