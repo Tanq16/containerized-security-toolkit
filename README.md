@@ -20,6 +20,7 @@ The security images are built with the intention of ssh-ing into them and making
 
 <details>
 <summary>Example docker run command</summary>
+
 ```bash
 docker run --name="amazing_docker" \
 -v /path/to/host/go_programs/:/root/go/src \
@@ -32,8 +33,9 @@ zsh -c "service ssh start; tail -f /dev/null"
 This will start the container which can be ssh-ed into. The `tail -f /dev/null` keeps the the container running in the background. `docker stop amazing_docker -t 0` can be used to stop the container. The run command can also be made into a function with a `$@` within the command somewhere to allow for more arguments to be passed.
 </details>
 
-<detalis>
+<details>
 <summary>Example build command</summary>
+
 To build, use the following &rarr;
 ```bash
 git clone https://github.com/tanq16/dockers
@@ -71,6 +73,7 @@ With this in place, 2 functions can be added to the host profile or the respecti
 
 <details>
 <summary>Start Image Function</summary>
+
 ```bash
 start_work(){
     # run the container
@@ -89,6 +92,7 @@ start_work(){
 
 <details>
 <summary>Stop Image Function</summary>
+
 ```bash
 stop_work(){
     # copy (save) the command history
@@ -102,6 +106,7 @@ The `run.sh` script can be customized to contain any instructions needed to get 
 
 <details>
 <summary>Solve Oh-My-Zsh slow paste</summary>
+
 ```bash
 #!/bin/zsh
 sed -i "s/autoload -Uz bracketed-paste-magic/#autoload -Uz bracketed-paste-magic/" ~/.oh-my-zsh/lib/misc.zsh
