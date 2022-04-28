@@ -94,8 +94,14 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2
     echo '[default]\naws_access_key_id = \naws_secret_access_key = ' >> ~/.aws/credentials && \
     echo '[default]\nregion = us-east-1' >> ~/.aws/config
 
-# install scoutsuite
-RUN python3 -m pip install --upgrade setuptools wheel pip && \
+# install scoutsuite and trivy
+RUN a=$(curl -L -s https://github.com/aquasecurity/trivy/releases/latest | grep -oE "tag.+\"" | cut -d '/' -f2 | cut -d "\"" -f1 | head -n 1) && \
+    b=$(echo $a | tr -d "v") && \
+    wget "https://github.com/aquasecurity/trivy/releases/download/$a/trivy_""$b""_Linux-64bit.tar.gz" && \
+    tar -xzf "trivy_""$b""_Linux-64bit.tar.gz" && \
+    mv trivy /opt && \
+    rm -rf "trivy_""$b""_Linux-64bit.tar.gz" LICENSE README.md contrib && \
+    python3 -m pip install --upgrade setuptools wheel pip && \
     cd /root && \
     git clone -b v6-alpha https://github.com/nccgroup/ScoutSuite && \
     cd ScoutSuite && \

@@ -1,4 +1,4 @@
-name: Docker Image Build CI
+name: Cloudsec Image
 
 on:
   push:
@@ -19,14 +19,7 @@ jobs:
         with:
           username: tanq16
           password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
-        
-      - name: Build and push security docker
-        uses: docker/build-push-action@v2
-        with:
-          context: security_docker
-          push: true
-          tags: tanq16/sec_docker:main
-      
+
       - name: Build and push cloudsec docker
         uses: docker/build-push-action@v2
         with:

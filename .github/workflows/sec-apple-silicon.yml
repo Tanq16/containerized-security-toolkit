@@ -1,4 +1,4 @@
-name: Docker Image Apple Silicon Build CI
+name: Security Image Apple Silicon
 
 on:
   push:
@@ -34,12 +34,3 @@ jobs:
           platforms: linux/arm64
           push: true
           tags: tanq16/sec_docker:main_apple
-      
-      - name: Build and push cloudsec docker
-        uses: docker/build-push-action@v2
-        with:
-          context: cloudsec_docker
-          file: cloudsec_docker/Dockerfile.AppleSilicon
-          platforms: linux/arm64
-          push: true
-          tags: tanq16/sec_docker:cloudsec_apple

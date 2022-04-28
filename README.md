@@ -48,7 +48,7 @@ The `security_docker` directory also contains a dockerfile for Apple Silicon Mac
 
 The `p10k.zsh` file for each directory must be inside the same directory as the Dockerfile, as the build process copies it and prevents the configuration wizard of `oh-my-zsh` from running when accessing the shell of the docker image via SSH. If the wizard is still needed for customization, then run `p10k configure` inside the docker and replace the contents of the `p10k.zsh` file in the image with those of the `~/.p10k.zsh` file inside the directory for the required docker image. `docker cp` can be used for this to copy out of a running container.
 
-The security docker is effectively a combination of many of the good tools required for basic pentesting. It has the development image's packages installed as well. The cloudsec image contains ScoutSuite, CloudSploit and PMapper.
+The security docker is effectively a combination of many of the good tools required for basic pentesting. It has the development image's packages installed as well. The cloudsec image contains ScoutSuite, CloudSploit, Trivy and PMapper.
 
 To pull a prebuilt image, use `docker pull tanq16/sec_docker:main`. For the Apple Silicon version, use the tag `tanq16/sec_docker:main_apple`. The cloudsec images have the tags `cloudsec` and `cloudsec_apple`.
 
