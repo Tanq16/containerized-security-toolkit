@@ -188,7 +188,7 @@ RUN git clone --depth=1 https://github.com/wpscanteam/wpscan.git /opt/wp-scan &&
     wget "https://github.com/aquasecurity/trivy/releases/download/$a/trivy_""$b""_Linux-ARM64.tar.gz" && \
     tar -xzf "trivy_""$b""_Linux-ARM64.tar.gz" && \
     mv trivy /opt && \
-    rm "trivy_""$b""_Linux-ARM64.tar.gz" && \
+    rm -rf "trivy_""$b""_Linux-64bit.tar.gz" LICENSE README.md contrib && \
     git clone --depth=1 https://github.com/sqlmapproject/sqlmap /opt/sqlmap
 
 # ============================================================================================================
