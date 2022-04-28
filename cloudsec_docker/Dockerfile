@@ -32,17 +32,18 @@ RUN DEBIAN_FRONTEND="noninteractive" apt update && \
 
 # Install oh my zsh and tmux
 RUN curl -L http://install.ohmyz.sh | sh && \
-    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/powerlevel10k 2>/dev/null && \
+    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/powerlevel10k && \
     sed -i "s/robbyrussell/powerlevel10k\/powerlevel10k/" ~/.zshrc && \
-    git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions.git ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions 2>/dev/null && \
-    git clone --depth=1  https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting 2>/dev/null && \
+    git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions.git ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions && \
+    git clone --depth=1  https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting && \
     sed -i "s/plugins=/plugins=(git zsh-autosuggestions zsh-syntax-highlighting) #/" ~/.zshrc && \
-    git clone --depth=1  https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm 2>/dev/null && \
+    git clone --depth=1  https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm && \
     git clone --depth=1  https://github.com/jimeh/tmux-themepack.git ~/.tmux-themepack
+
 # Append conf files tmux conf and zsh rc
-RUN wget https://raw.githubusercontent.com/Tanq16/cli-productivity-suite/master/tmuxconf 2>/dev/null && \
+RUN wget https://raw.githubusercontent.com/Tanq16/cli-productivity-suite/master/tmuxconf && \
     mv tmuxconf ~/.tmux.conf && \
-    wget https://raw.githubusercontent.com/Tanq16/cli-productivity-suite/master/add_to_rc 2>/dev/null && \
+    wget https://raw.githubusercontent.com/Tanq16/cli-productivity-suite/master/add_to_rc && \
     cat add_to_rc >> ~/.zshrc && \
     rm add_to_rc && \
     cp ~/.zshrc temptemp && \
@@ -50,9 +51,10 @@ RUN wget https://raw.githubusercontent.com/Tanq16/cli-productivity-suite/master/
     rm temptemp && \
     echo "export PATH=$PATH:/usr/local/go/bin/" >> ~/.zshrc && \
     chsh -s /usr/bin/zsh
+
 # Setup fzf and colored ls (lsd)
-RUN git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf 2>/dev/null && \
-    ~/.fzf/install --all 1>/dev/null 2>/dev/null && \
+RUN git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && \
+    ~/.fzf/install --all 1>/dev/null && \
     echo "[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh" >> ~/.zshrc && \
     a=$(curl -L -s https://github.com/Peltoche/lsd/releases/latest | grep -oE "tag.+\"" | cut -d '/' -f2 | cut -d "\"" -f1 | head -n 1) && \
     wget "https://github.com/Peltoche/lsd/releases/download/$a/lsd_""$a""_amd64.deb" && \
@@ -100,6 +102,20 @@ RUN python3 -m pip install --upgrade setuptools wheel pip && \
     python3 -m venv .scoutsuite_env && \
     . .scoutsuite_env/bin/activate && \
     python3 -m pip install -r requirements.txt
+
+# install cloudsploit and pmapper
+RUN cd /root && \
+    git clone --depth=1 https://github.com/aquasecurity/cloudsploit && \
+    cd cloudsploit && \
+    npm install && \
+    chmod a+x ./index.js && \
+    cd /root && \
+    python3 -m venv .pmapper_venv && \
+    . .pmapper_venv/bin/activate && \
+    python3 -m pip install pydot graphviz && \
+    git clone https://github.com/nccgroup/PMapper.git && \
+    cd PMapper && \
+    python3 -m pip install .
 
 # ============================================================================================================
 # ====================================================================== Miscellaneous apt Installations =====
