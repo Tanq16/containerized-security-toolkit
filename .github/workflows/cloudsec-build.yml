@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
     inputs:
       tags:
-        description: 'Test scenario tags'
+        description: 'run'
         required: false 
         type: boolean
 

@@ -6,6 +6,12 @@ on:
       - 'main'
   schedule:
     - cron: '0 0 15 * *'
+  workflow_dispatch:
+    inputs:
+      tags:
+        description: 'run'
+        required: false 
+        type: boolean
 
 jobs:
   docker:
