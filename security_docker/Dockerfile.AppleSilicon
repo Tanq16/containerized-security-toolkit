@@ -181,6 +181,7 @@ COPY --from=projectdiscovery_builder /go/nuclei/v2/cmd/nuclei/nuclei /opt/
 RUN git clone --depth=1 https://github.com/wpscanteam/wpscan.git /opt/wp-scan && \
     cd /opt/wp-scan && \
     gem install wpscan && \
+    cd / && \
     rm -rf /opt/wp-scan && \
     a=$(curl -L -s https://github.com/aquasecurity/trivy/releases/latest | grep -oE "tag.+\"" | cut -d '/' -f2 | cut -d "\"" -f1 | head -n 1) && \
     b=$(echo $a | tr -d "v") && \
