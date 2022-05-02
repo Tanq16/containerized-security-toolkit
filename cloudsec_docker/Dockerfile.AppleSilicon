@@ -1,5 +1,6 @@
-# FROM ubuntu AS builder
-# RUN apt update && apt upgrade -y
+FROM golang AS go_builder
+RUN git clone https://github.com/hashicorp/terraform.git && \
+    cd terraform && go get && go build
 
 # Space for Multi-Stage Builds
 
@@ -23,8 +24,9 @@ ENV TERM xterm
 RUN DEBIAN_FRONTEND="noninteractive" apt update && \
     DEBIAN_FRONTEND="noninteractive" apt upgrade -y && \
     DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \
-    less openssl openssh-server openvpn vim curl bat fd-find nodejs npm zsh wget git tmux tree php unzip zip jq p7zip-full ncdu \
-    htop tzdata gcc php nginx python3-setuptools python3-pip python3 ipython3 iproute2 python3-venv python3-dev language-pack-en
+    less openssl openssh-server openvpn vim curl bat fd-find nodejs npm zsh wget git tmux tree php unzip zip \
+    jq p7zip-full ncdu htop tzdata gcc php nginx python3-setuptools python3-pip python3 ipython3 iproute2 \
+    python3-venv python3-dev language-pack-en file
 
 # ============================================================================================================
 # =============================================================================== CLI Productivity Suite =====
@@ -102,26 +104,28 @@ RUN a=$(curl -L -s https://github.com/aquasecurity/trivy/releases/latest | grep 
     mv trivy /opt && \
     rm -rf "trivy_""$b""_Linux-64bit.tar.gz" LICENSE README.md contrib && \
     python3 -m pip install --upgrade setuptools wheel pip && \
-    cd /root && \
-    git clone -b v6-alpha https://github.com/nccgroup/ScoutSuite && \
-    cd ScoutSuite && \
+    cd /opt && \
+    git clone --depth=1 https://github.com/nccgroup/ScoutSuite scoutsuite && \
+    cd /opt/scoutsuite && \
     python3 -m venv .scoutsuite_env && \
     . .scoutsuite_env/bin/activate && \
     python3 -m pip install -r requirements.txt
 
 # install cloudsploit and pmapper
-RUN cd /root && \
+RUN cd /opt && \
     git clone --depth=1 https://github.com/aquasecurity/cloudsploit && \
-    cd cloudsploit && \
+    cd /opt/cloudsploit && \
     npm install && \
     chmod a+x ./index.js && \
-    cd /root && \
+    cd /opt && \
     python3 -m venv .pmapper_venv && \
     . .pmapper_venv/bin/activate && \
     python3 -m pip install pydot graphviz && \
     git clone https://github.com/nccgroup/PMapper.git && \
     cd PMapper && \
     python3 -m pip install .
+
+COPY --from=go_builder /go/terraform/terraform /opt/
 
 # ============================================================================================================
 # ====================================================================== Miscellaneous apt Installations =====
