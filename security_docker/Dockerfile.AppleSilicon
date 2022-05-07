@@ -144,7 +144,7 @@ RUN git clone --depth=1  https://github.com/pwndbg/pwndbg /opt/pwndbg && \
     tar -xzf rockyou.txt.tar.gz && \
     rm rockyou.txt.tar.gz
 
-# install golang and aws cliv2
+# install golang semgrep rich and aws cliv2
 RUN a=$(curl -s https://go.dev/dl/ | grep -oE "(/dl/go[\.0-9]{2,7}\.linux-arm64\.tar\.gz)" | head -n 1) && \
     wget "https://golang.org$a" && \
     b=$(echo $a | cut -d "/" -f3) && \
@@ -155,7 +155,7 @@ RUN a=$(curl -s https://go.dev/dl/ | grep -oE "(/dl/go[\.0-9]{2,7}\.linux-arm64\
     aws/install && \
     rm awscliv2.zip && \
     rm -rf aws && \
-    python3 -m pip install boto3
+    python3 -m pip install boto3 rich rich-cli semgrep
 
 COPY --from=builder /sslscan/sslscan /opt/
 COPY --from=go_builder /go/gobuster/gobuster /opt/
@@ -177,7 +177,7 @@ COPY --from=projectdiscovery_builder /go/nuclei/v2/cmd/nuclei/nuclei /opt/
 
 # All other installations go here to benefit from layer caching of other installs
 
-# wpscan trivy and sqlmap
+# wpscan trivy testssl and sqlmap
 RUN git clone --depth=1 https://github.com/wpscanteam/wpscan.git /opt/wp-scan && \
     cd /opt/wp-scan && \
     gem install wpscan && \
@@ -189,7 +189,9 @@ RUN git clone --depth=1 https://github.com/wpscanteam/wpscan.git /opt/wp-scan &&
     tar -xzf "trivy_""$b""_Linux-ARM64.tar.gz" && \
     mv trivy /opt && \
     rm -rf "trivy_""$b""_Linux-64bit.tar.gz" LICENSE README.md contrib && \
-    git clone --depth=1 https://github.com/sqlmapproject/sqlmap /opt/sqlmap
+    git clone --depth=1 https://github.com/sqlmapproject/sqlmap /opt/sqlmap && \
+    cd /opt && \
+    wget https://testssl.sh/testssl.sh
 
 # ============================================================================================================
 # ============================================================================================================
