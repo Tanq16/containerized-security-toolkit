@@ -52,13 +52,13 @@ RUN DEBIAN_FRONTEND="noninteractive" apt update && \
     DEBIAN_FRONTEND="noninteractive" apt upgrade -y && \
     DEBIAN_FRONTEND="noninteractive" \
     apt install -y --no-install-recommends \
-    apt-transport-https openssl gpg-agent openssh-server openvpn git gdb tmux tree gnupg2 ruby-full vim curl bat fd-find p7zip-full
+    apt-transport-https openssl gpg-agent openssh-server openvpn git gdb tmux tree gnupg2 ruby-full vim curl bat fd-find p7zip-full make
 RUN DEBIAN_FRONTEND="noninteractive" \
     apt install -y --no-install-recommends \
     strace ltrace wget ntp locales hexedit john tshark gcc nasm unzip zip fcrackzip tzdata perl php yarnpkg less file htop ncdu gnupg
 RUN DEBIAN_FRONTEND="noninteractive" \
     apt install -y --no-install-recommends \
-    python3-setuptools python3-pip python3 python3-dev ipython3 iproute2 python3-venv make nginx nmap ncat nikto hydra dnsutils jq
+    python3-setuptools python3-pip python3 python3-dev ipython3 iproute2 python3-venv nginx nmap ncat nikto hydra dnsutils bsdmainutils jq
 RUN DEBIAN_FRONTEND="noninteractive" \
     apt install -y --no-install-recommends \
     inetutils-ping inetutils-telnet inetutils-tools inetutils-traceroute inetutils-ftp zsh language-pack-en nodejs npm binwalk groff
