@@ -1,19 +1,18 @@
 # About this repo
 
-This repository contains Dockerfiles for ARM (Apple Silicon) and x86_64 variants of two security focussed docker images. The 3 main resources here are as follows &rarr;
+This repository contains Dockerfiles for ARM (Apple Silicon) and x86_64 variants of a security focussed docker image. The 2 main resources here are as follows &rarr;
 * An image that contains many security focussed tools
-* An image that contains a small collection of cloud security tools
 * Dockerfile to be used as a base for building other images
 
-The security focussed images are also available to be directly pulled from docker hub. A GitHub CI Action builds and pushes the images to docker hub monthly and on every commit. The Apple Silicon images are built using [Buildx](https://docs.docker.com/buildx/working-with-buildx/).
+The security focussed image is also available to be directly pulled from docker hub. A GitHub CI Action builds and pushes the images to docker hub monthly and on every commit. The Apple Silicon images are built using [Buildx](https://docs.docker.com/buildx/working-with-buildx/).
 
-The image called `sec_docker` has the [cli-productivity-suite](https://github.com/tanq16/cli-productivity-suite) preinstalled in it i.e., a funky shell along with customized vim and tmux comes with it.
+The image is called `sec_docker` and it has the [cli-productivity-suite](https://github.com/tanq16/cli-productivity-suite) preinstalled i.e., a funky shell along with customized vim and tmux.
 
 ## Information on Conventions and the Container
 
-The security images are built with the intention of ssh-ing into them and making use of tmux to work. Further, the conventions followed for building the images (also useful if edits are needed) are &rarr;
-* ports mapping follows convention &rarr; shared port = port + 50000
-* port for dynamic port forwarding when ssh-ing into the container = 65500
+The security image is built with the intention of ssh-ing into it and making use of tmux to work. Further, the conventions followed for building the images (also useful if edits are needed) are &rarr;
+* ports mapping follows convention &rarr; `shared port = port + 50000`
+* port for dynamic port forwarding when ssh-ing into the container = `65500`
 * volume mount to `/work` or `/persist` &rarr; helps with persistence
 * general installations made using Dockerfile should be placed under `/opt`
 * maintain a `run.sh` file for common stuff to run when the container starts (also helps with persistence)
@@ -46,24 +45,23 @@ docker build -t <your_tag> .
 The `security_docker` directory also contains a dockerfile for Apple Silicon Macs, which can be specified using the `--file Dockerfile.AppleSilicon` flag for the `docker build` command.
 </details>
 
-The `p10k.zsh` file for each directory must be inside the same directory as the Dockerfile, as the build process copies it and prevents the configuration wizard of `oh-my-zsh` from running when accessing the shell of the docker image via SSH. If the wizard is still needed for customization, then run `p10k configure` inside the docker and replace the contents of the `p10k.zsh` file in the image with those of the `~/.p10k.zsh` file inside the directory for the required docker image. `docker cp` can be used for this to copy out of a running container.
+The `p10k.zsh` file must be inside the same directory as the Dockerfile, as the build process copies it and prevents the configuration wizard of `oh-my-zsh` from running when accessing the shell of the docker image via SSH. If the wizard is still needed for customization, then run `p10k configure` inside the docker and replace the contents of the `~/p10k.zsh` file in the image with those of the `p10k.zsh` file inside the directory for the docker image. `docker cp` can be used for this to copy out of a running container.
 
-The security docker is effectively a combination of many of the good tools required for basic pentesting. It has the development image's packages installed as well. The cloudsec image contains ScoutSuite, CloudSploit, Trivy and PMapper.
+The security docker image is effectively a combination of many of the good tools required for basic pentesting. It has the some development tools like golang and nodejs installed as well. Cloud tools are also installed within the image such as ScoutSuite, CloudSploit, Trivy and PMapper. Kubectl and Terraform are also installed in the image.
 
-To pull a prebuilt image, use `docker pull tanq16/sec_docker:main`. For the Apple Silicon version, use the tag `tanq16/sec_docker:main_apple`. The cloudsec images have the tags `cloudsec` and `cloudsec_apple`.
+To pull a prebuilt image, use `docker pull tanq16/sec_docker:main`. For the Apple Silicon version, use the tag `tanq16/sec_docker:main_apple`.
 
 ---
 
 # Example Workflow
 
-The images are mainly meant to be used as linux systems for security work. They are lightweight images and have all the tools from `cli-productivity-suite`. They're meant for security testing workflows and can be used as a starting point to customize for specific workflows.
+The image is mainly meant to be used as a linux system for security work. It is a lightweight image and has all the tools from `cli-productivity-suite`. They're meant for security testing workflows and can be used as a starting point to customize for specific workflows.
 
-Launch the container and mount a persistent storage directory. The zsh history or any required configuration file can also be shared with the docker. To do this, create a directory in the host home directory `docker_work`. The structure of the directory can be as follows &rarr;
+Launch the container and mount a persistent storage directory. The shell history or any required configuration file can also be shared with the docker. To do this, create a directory in the host home directory `docker_work`. The structure of the directory can be as follows &rarr;
 ```
 $ tree docker_work -a -L 1
 docker_work
 ├── persist
-├── cloud_persist
 ├── run.sh
 ├── keys
 └── .zsh_history
