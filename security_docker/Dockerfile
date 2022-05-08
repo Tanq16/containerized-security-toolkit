@@ -168,8 +168,6 @@ RUN a=$(curl -s https://go.dev/dl/ | grep -oE "(/dl/go[\.0-9]{2,7}\.linux-amd64\
     echo '[default]\nregion = us-east-1' >> ~/.aws/config
 
 # COPY --from=builder /sslscan/sslscan /opt/
-RUN cd /opt && \
-    git clone --depth 1 https://github.com/drwetter/testssl.sh.git
 
 COPY --from=go_builder /go/gobuster/gobuster /opt/
 COPY --from=go_builder /go/insider/cmd/insider/insider /opt/
@@ -206,7 +204,7 @@ RUN git clone --depth=1 https://github.com/wpscanteam/wpscan.git /opt/wp-scan &&
     rm -rf "trivy_""$b""_Linux-64bit.tar.gz" LICENSE README.md contrib && \
     git clone --depth=1 https://github.com/sqlmapproject/sqlmap /opt/sqlmap && \
     cd /opt && \
-    wget https://testssl.sh/testssl.sh
+    git clone --depth 1 https://github.com/drwetter/testssl.sh.git
 
 # ============================================================================================================
 # ======================================================================== Cloud Security Specific Tools =====
