@@ -196,7 +196,7 @@ RUN git clone --depth=1 https://github.com/wpscanteam/wpscan.git /opt/wp-scan &&
     gem install wpscan && \
     cd / && \
     rm -rf /opt/wp-scan && \
-    a=$(curl -L -s https://github.com/aquasecurity/trivy/releases/latest | grep -oE "tag.+\"" | cut -d '/' -f2 | cut -d "\"" -f1 | head -n 1) && \
+    a=$(curl -L -s https://github.com/aquasecurity/trivy/releases/latest | grep -oE "tag.+\"" | cut -d '/' -f2 | grep -vE "^[^v]" | cut -d "\"" -f1 | head -n 1) && \
     b=$(echo $a | tr -d "v") && \
     wget "https://github.com/aquasecurity/trivy/releases/download/$a/trivy_""$b""_Linux-ARM64.tar.gz" && \
     tar -xzf "trivy_""$b""_Linux-ARM64.tar.gz" && \
@@ -210,14 +210,8 @@ RUN git clone --depth=1 https://github.com/wpscanteam/wpscan.git /opt/wp-scan &&
 # ======================================================================== Cloud Security Specific Tools =====
 # ============================================================================================================
 
-# install scoutsuite trivy and kubectl
-RUN a=$(curl -L -s https://github.com/aquasecurity/trivy/releases/latest | grep -oE "tag.+\"" | cut -d '/' -f2 | cut -d "\"" -f1 | head -n 1) && \
-    b=$(echo $a | tr -d "v") && \
-    wget "https://github.com/aquasecurity/trivy/releases/download/$a/trivy_""$b""_Linux-ARM64.tar.gz" && \
-    tar -xzf "trivy_""$b""_Linux-ARM64.tar.gz" && \
-    mv trivy /opt && \
-    rm -rf "trivy_""$b""_Linux-64bit.tar.gz" LICENSE README.md contrib && \
-    python3 -m pip install --upgrade setuptools wheel pip && \
+# install scoutsuite and kubectl
+RUN python3 -m pip install --upgrade setuptools wheel pip && \
     cd /opt && \
     git clone --depth=1 https://github.com/nccgroup/ScoutSuite scoutsuite && \
     cd /opt/scoutsuite && \
