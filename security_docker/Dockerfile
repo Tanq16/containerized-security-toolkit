@@ -170,6 +170,8 @@ RUN a=$(curl -s https://go.dev/dl/ | grep -oE "(/dl/go[\.0-9]{2,7}\.linux-amd64\
     echo '[default]\nregion = us-east-1' >> ~/.aws/config && \
     cd /root && \
     eval $(curl -sL "https://cloud.google.com/sdk/docs/install" | grep -oE "curl -O https://dl.google.com/dl/cloudsdk/channels/.+\.tar\.gz" | grep x86_64) && \
+    tar -xzf $(ls | grep "google.*\.tar\.gz") && \
+    rm $(ls | grep "google.*\.tar\.gz") && \
     google-cloud-sdk/install.sh -q
 
 # COPY --from=builder /sslscan/sslscan /opt/
