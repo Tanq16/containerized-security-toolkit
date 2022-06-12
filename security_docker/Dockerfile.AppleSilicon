@@ -76,29 +76,29 @@ RUN DEBIAN_FRONTEND="noninteractive" \
 
 # Install oh my zsh and tmux
 RUN curl -L http://install.ohmyz.sh | sh && \
-    git clone https://github.com/spaceship-prompt/spaceship-prompt.git "$ZSH_CUSTOM/themes/spaceship-prompt" --depth=1 && \
-    ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_CUSTOM/themes/spaceship.zsh-theme" && \
-    sed -i "s/robbyrussell/spaceship/" ~/.zshrc && \
-    git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions.git ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions && \
-    git clone --depth=1  https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting && \
-    sed -i "s/plugins=/plugins=(git zsh-autosuggestions zsh-syntax-highlighting) #/" ~/.zshrc && \
-    git clone --depth=1  https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+    git clone https://github.com/spaceship-prompt/spaceship-prompt.git "/root/.oh-my-zsh/custom/themes/spaceship-prompt" --depth=1 && \
+    ln -s "/root/.oh-my-zsh/custom/themes/spaceship-prompt/spaceship.zsh-theme" "/root/.oh-my-zsh/custom/themes/spaceship.zsh-theme" && \
+    sed -i "s/robbyrussell/spaceship/" /root/.zshrc && \
+    git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions.git /root/.oh-my-zsh/custom/plugins/zsh-autosuggestions && \
+    git clone --depth=1  https://github.com/zsh-users/zsh-syntax-highlighting.git /root/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting && \
+    sed -i "s/plugins=/plugins=(git zsh-autosuggestions zsh-syntax-highlighting) #/" /root/.zshrc && \
+    git clone --depth=1  https://github.com/tmux-plugins/tpm /root/.tmux/plugins/tpm
 
 # Append conf files tmux conf and zsh rc
 RUN wget https://raw.githubusercontent.com/Tanq16/cli-productivity-suite/master/tmuxconf && \
-    mv tmuxconf ~/.tmux.conf && \
+    mv tmuxconf /root/.tmux.conf && \
     wget https://raw.githubusercontent.com/Tanq16/cli-productivity-suite/master/add_to_rc && \
-    cat add_to_rc >> ~/.zshrc && \
+    cat add_to_rc >> /root/.zshrc && \
     rm add_to_rc && \
-    cp ~/.zshrc temptemp && \
-    cat temptemp | grep -vE "^#" | grep -vE "^$" > ~/.zshrc && \
+    cp /root/.zshrc temptemp && \
+    cat temptemp | grep -vE "^#" | grep -vE "^$" > /root/.zshrc && \
     rm temptemp && \
-    echo "export PATH=$PATH:/usr/local/go/bin/" >> ~/.zshrc && \
+    echo "export PATH=$PATH:/usr/local/go/bin/" >> /root/.zshrc && \
     chsh -s /usr/bin/zsh
 
 # Setup vim, fzf and colored ls (lsd)
-RUN git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && \
-    ~/.fzf/install --all 1>/dev/null && \
+RUN git clone --depth 1 https://github.com/junegunn/fzf.git /root/.fzf && \
+    /root/.fzf/install --all 1>/dev/null && \
     a=$(curl -L -s https://github.com/Peltoche/lsd/releases/latest | grep -oE "tag.+\"" | cut -d '/' -f2 | grep -vE "^[^0-9]" | cut -d "\"" -f1 | head -n 1) && \
     wget "https://github.com/Peltoche/lsd/releases/download/$a/lsd_""$a""_arm64.deb" && \
     apt install -y "./lsd_""$a""_arm64.deb" && \
@@ -151,11 +151,11 @@ RUN a=$(curl -s https://go.dev/dl/ | grep -oE "(/dl/go[\.0-9]{2,7}\.linux-arm64\
     rm awscliv2.zip && \
     rm -rf aws && \
     python3 -m pip install boto3 rich rich-cli semgrep && \
-    mkdir ~/.aws && \
-    touch ~/.aws/credentials && \
-    touch ~/.aws/config && \
-    echo '[default]\naws_access_key_id = \naws_secret_access_key = ' >> ~/.aws/credentials && \
-    echo '[default]\nregion = us-east-1' >> ~/.aws/config && \
+    mkdir /root/.aws && \
+    touch /root/.aws/credentials && \
+    touch /root/.aws/config && \
+    echo '[default]\naws_access_key_id = \naws_secret_access_key = ' >> /root/.aws/credentials && \
+    echo '[default]\nregion = us-east-1' >> /root/.aws/config && \
     cd /root && \
     eval $(curl -sL "https://cloud.google.com/sdk/docs/install" | grep -oE "curl -O https://dl.google.com/dl/cloudsdk/channels/.+\.tar\.gz" | grep arm) && \
     tar -xzf $(ls | grep "google.*\.tar\.gz") && \
