@@ -62,13 +62,13 @@ RUN DEBIAN_FRONTEND="noninteractive" apt update && \
     apt-transport-https openssl gpg-agent openssh-server openvpn git gdb tmux tree gnupg2 ruby-full vim curl bat fd-find p7zip-full make
 RUN DEBIAN_FRONTEND="noninteractive" \
     apt install -y --no-install-recommends \
-    strace ltrace wget ntp locales hexedit john tshark gcc nasm unzip zip fcrackzip tzdata perl php yarnpkg less file htop ncdu gnupg
+    strace ltrace wget ntp locales hexedit john tshark gcc nasm unzip zip fcrackzip tzdata perl php yarnpkg less file htop ncdu gnupg jq
 RUN DEBIAN_FRONTEND="noninteractive" \
     apt install -y --no-install-recommends \
-    python3-setuptools python3-pip python3 python3-dev ipython3 iproute2 python3-venv nginx nmap ncat nikto hydra dnsutils bsdmainutils jq
+    python3-setuptools python3-pip python3 python3-dev ipython3 iproute2 python3-venv nginx nmap ncat nikto hydra dnsutils binwalk groff
 RUN DEBIAN_FRONTEND="noninteractive" \
     apt install -y --no-install-recommends \
-    inetutils-ping inetutils-telnet inetutils-tools inetutils-traceroute inetutils-ftp zsh language-pack-en nodejs npm binwalk groff
+    inetutils-ping inetutils-telnet inetutils-tools inetutils-traceroute inetutils-ftp zsh language-pack-en nodejs npm bsdmainutils ripgrep
 
 # ============================================================================================================
 # =============================================================================== CLI Productivity Suite =====
@@ -103,21 +103,10 @@ RUN git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && \
     a=$(curl -L -s https://github.com/Peltoche/lsd/releases/latest | grep -oE "tag.+\"" | cut -d '/' -f2 | grep -vE "^[^0-9]" | cut -d "\"" -f1 | head -n 1) && \
     wget "https://github.com/Peltoche/lsd/releases/download/$a/lsd_""$a""_amd64.deb" && \
     apt install -y "./lsd_""$a""_amd64.deb" && \
-    rm "lsd_""$a""_amd64.deb"
-
-# Install vim extensions
-RUN git clone --depth=1  https://github.com/itchyny/lightline.vim ~/.vim/pack/plugins/start/lightline && \
-    git clone --depth=1  https://github.com/jiangmiao/auto-pairs.git ~/auto_pairs_vim && \
-    mkdir -p ~/.vim/plugin && \
-    cp ~/auto_pairs_vim/plugin/auto-pairs.vim ~/.vim/plugin/ && \
-    rm -rf ~/auto_pairs_vim && \
-    mkdir -p ~/.vim/pack/plugins/start && \
-    git clone --depth=1 https://github.com/ervandew/supertab.git ~/.vim/pack/plugins/start/supertab && \
-    wget https://raw.githubusercontent.com/dylnmc/novum.vim/master/colors/novum.vim && \
-    mkdir -p ~/.vim/colors && \
-    mv novum.vim ~/.vim/colors/novum.vim && \
-    wget https://raw.githubusercontent.com/Tanq16/cli-productivity-suite/master/.vimrcfile && \
-    mv .vimrcfile ~/.vimrc
+    rm "lsd_""$a""_amd64.deb" && \
+    cd /root && \
+    curl -sLf https://spacevim.org/install.sh | bash && \
+    mkdir /root/.SpaceVim.d/
 
 # ============================================================================================================
 # ========================================================================== External Tools Installation =====
@@ -265,4 +254,6 @@ RUN python3 -m pip install --upgrade pip setuptools wheel && \
     echo "PermitRootLogin yes" >> /etc/ssh/sshd_config && \
     echo 'root:docker' | chpasswd 
 COPY ./p10k.zsh .
-RUN mv /p10k.zsh ~/.p10k.zsh
+COPY ./init.toml .
+RUN mv /p10k.zsh /root/.p10k.zsh && \
+    mv /init.toml /root/.SpaceVim.d/init.toml
