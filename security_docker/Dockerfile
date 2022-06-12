@@ -76,13 +76,13 @@ RUN DEBIAN_FRONTEND="noninteractive" \
 
 # Install oh my zsh and tmux
 RUN curl -L http://install.ohmyz.sh | sh && \
-    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/powerlevel10k && \
-    sed -i "s/robbyrussell/powerlevel10k\/powerlevel10k/" ~/.zshrc && \
+    git clone https://github.com/spaceship-prompt/spaceship-prompt.git "$ZSH_CUSTOM/themes/spaceship-prompt" --depth=1 && \
+    ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_CUSTOM/themes/spaceship.zsh-theme" && \
+    sed -i "s/robbyrussell/spaceship/" ~/.zshrc && \
     git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions.git ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions && \
     git clone --depth=1  https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting && \
     sed -i "s/plugins=/plugins=(git zsh-autosuggestions zsh-syntax-highlighting) #/" ~/.zshrc && \
-    git clone --depth=1  https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm && \
-    git clone --depth=1  https://github.com/jimeh/tmux-themepack.git ~/.tmux-themepack
+    git clone --depth=1  https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
 # Append conf files tmux conf and zsh rc
 RUN wget https://raw.githubusercontent.com/Tanq16/cli-productivity-suite/master/tmuxconf && \
@@ -99,7 +99,6 @@ RUN wget https://raw.githubusercontent.com/Tanq16/cli-productivity-suite/master/
 # Setup fzf and colored ls (lsd)
 RUN git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf && \
     ~/.fzf/install --all 1>/dev/null && \
-    echo "[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh" >> ~/.zshrc && \
     a=$(curl -L -s https://github.com/Peltoche/lsd/releases/latest | grep -oE "tag.+\"" | cut -d '/' -f2 | grep -vE "^[^0-9]" | cut -d "\"" -f1 | head -n 1) && \
     wget "https://github.com/Peltoche/lsd/releases/download/$a/lsd_""$a""_amd64.deb" && \
     apt install -y "./lsd_""$a""_amd64.deb" && \
@@ -253,7 +252,5 @@ RUN python3 -m pip install --upgrade pip setuptools wheel && \
     echo $TZ > /etc/timezone && \
     echo "PermitRootLogin yes" >> /etc/ssh/sshd_config && \
     echo 'root:docker' | chpasswd 
-COPY ./p10k.zsh .
 COPY ./init.toml .
-RUN mv /p10k.zsh /root/.p10k.zsh && \
-    mv /init.toml /root/.SpaceVim.d/init.toml
+RUN mv /init.toml /root/.SpaceVim.d/init.toml
