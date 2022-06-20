@@ -183,7 +183,7 @@ COPY --from=projectdiscovery_builder /go/cloudlist/cmd/cloudlist/cloudlist /opt/
 COPY --from=projectdiscovery_builder /go/uncover/cmd/uncover/uncover /opt/executables/
 
 COPY --from=terraform_builder /go/terraform/terraform /opt/executables/
-COPY --from=terraform_builder /go/gron/gron /opt/executables/
+COPY --from=gron_builder /go/gron/gron /opt/executables/
 
 # ============================================================================================================
 # ====================================================================== Miscellaneous apt Installations =====
