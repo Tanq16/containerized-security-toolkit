@@ -95,7 +95,7 @@ RUN wget https://raw.githubusercontent.com/Tanq16/cli-productivity-suite/master/
     cp /root/.zshrc temptemp && \
     cat temptemp | grep -vE "^#" | grep -vE "^$" > /root/.zshrc && \
     rm temptemp && \
-    echo "export PATH=$PATH:/usr/local/go/bin/" >> /root/.zshrc && \
+    echo "export PATH=$PATH:/usr/local/go/bin/:/opt/executables/" >> /root/.zshrc && \
     chsh -s /usr/bin/zsh
 
 # Setup vim, fzf and colored ls (lsd)
