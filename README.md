@@ -31,6 +31,7 @@ zsh -c "service ssh start; tail -f /dev/null"
 ```
 
 This will start the container which can be ssh-ed into. The `tail -f /dev/null` keeps the the container running in the background. `docker stop amazing_docker -t 0` can be used to stop the container. The run command can also be made into a function with a `$@` within the command somewhere to allow for more arguments to be passed.
+
 </details>
 
 <details>
@@ -45,6 +46,7 @@ docker build -t <your_tag> .
 ```
 
 The `security_docker` directory also contains a dockerfile for Apple Silicon Macs, which can be specified using the `--file Dockerfile.AppleSilicon` flag for the `docker build` command.
+
 </details>
 
 The `init.toml` file must be inside the same directory as the Dockerfile, as the build process copies it and prevents the configuration wizard for `SpaceVim`, though the plugins still install during the first run.
@@ -52,6 +54,83 @@ The `init.toml` file must be inside the same directory as the Dockerfile, as the
 The security docker image is effectively a combination of many of the good tools required for basic pentesting. It has the some development tools like golang and nodejs installed as well. Cloud tools are also installed within the image such as ScoutSuite, CloudSploit, Trivy and PMapper. Other tools such as Kubectl and Terraform are also installed in the image.
 
 To pull a prebuilt image, use `docker pull tanq16/sec_docker:main`. For the Apple Silicon version, use the tag `tanq16/sec_docker:main_apple`.
+
+## List of Installed Tools
+
+The following is a list of tools installed on the docker image, grouped by their categories. Expand on each to get the complete list in that section.
+
+<details>
+<summary>General Security-Focussed Tools</summary>
+
+* GDB with PWNdbg and Binwalk
+* Nmap and Ncat
+* GoBuster & Nikto
+* Hydra and John The Ripper
+* Selective wordlists at `/opt/lists`
+* MetaSploit and SearchSploit
+* SemGrep
+* ProjectDiscovery Tools &rarr; 
+    * subfinder
+    * naabu
+    * httpx
+    * dnsx
+    * mapcidr
+    * proxify
+    * nuclei
+    * cloudlist
+    * uncover
+* DalFox
+* Insider
+* SMAP
+* WPScan
+* TestSSL
+* SQLMap
+
+</details>
+
+<details>
+<summary> Cloud Security Tools</summary>
+
+* AWS and GCloud CLI
+* Terraform
+* KubeAudit
+* Trivy
+* ScoutSuite
+* Checkov
+* KubeCTL
+* PMapper
+* CloudSploit
+
+</details>
+
+<details>
+<summary>Development Oriented Tools</summary>
+
+* PHP
+* Python and iPython
+* Golang
+* NodeJS, NPM and YarnPKG
+* Ruby
+* Perl
+* NASM
+* NginX
+* GCC
+* Make
+
+</details>
+
+<details>
+<summary>QoL Tools</summary>
+
+* ZSH shell with Oh-My-Zsh, auto-completion, FZF, LSD, RipGrep, Fd-Find SpaceShip Prompt
+* VIM with SpaceVim and Nord theme
+* TMUX with Nord theme, custom config file with mouse support plugins and custom shortcuts + tmux_sensible plugin
+* Custom aliases within `.zshrc`
+* JSON Tools &rarr; JQ and Gron
+* Python Rich library and Rich-CLI tool
+* OpenSSL, OpenSSH, Tree, Git, WGET, Curl and some INET tools
+
+</details>
 
 ---
 
