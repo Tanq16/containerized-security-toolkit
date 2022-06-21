@@ -129,6 +129,7 @@ The following is a list of tools installed on the docker image, grouped by their
 * JSON Tools &rarr; JQ and Gron
 * Python Rich library and Rich-CLI tool
 * OpenSSL, OpenSSH, Tree, Git, WGET, Curl and some INET tools
+* Shell functions for file encryption/decryption - `fencrypt` and `fdecrypt` to encrypt using AES 256 ECB mode on a file
 
 </details>
 

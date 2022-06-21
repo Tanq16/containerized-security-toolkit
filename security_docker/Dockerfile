@@ -201,7 +201,7 @@ RUN git clone --depth=1 https://github.com/wpscanteam/wpscan.git /opt/wp-scan &&
     b=$(echo $a | tr -d "v") && \
     wget "https://github.com/aquasecurity/trivy/releases/download/$a/trivy_""$b""_Linux-64bit.tar.gz" && \
     tar -xzf "trivy_""$b""_Linux-64bit.tar.gz" && \
-    mv trivy /opt && \
+    mv trivy /opt/executables/ && \
     rm -rf "trivy_""$b""_Linux-64bit.tar.gz" LICENSE README.md contrib && \
     git clone --depth=1 https://github.com/sqlmapproject/sqlmap /opt/sqlmap && \
     cd /opt && \
@@ -220,7 +220,7 @@ RUN python3 -m pip install --upgrade setuptools wheel pip && \
     . .scoutsuite_env/bin/activate && \
     python3 -m pip install -r requirements.txt && \
     deactivate && \
-    cd /opt && \
+    cd /opt/executables/ && \
     curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" && \
     chmod +x kubectl && \
     cd /opt && \
