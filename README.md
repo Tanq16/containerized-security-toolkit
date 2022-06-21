@@ -167,6 +167,13 @@ start_work(){
     fi
     # copy the run.sh file to act as kind of a bootstrap script
     docker cp $HOME/docker_work/run.sh sec_docker:/root/run.sh
+    # create a new password for sshing into the docker image
+    new_pass=$(cat /dev/random | head -c 20 | base64 | tr -d '=+/')
+    # print the new password and store in a file in the current directory
+    echo "Password: $new_pass"
+    echo $new_pass > current_docker_password
+    # set the new password
+    docker exec -e newpp="$new_pass" work_docker zsh -c 'echo "root:$(printenv newpp)" | chpasswd'
 }
 ```
 
