@@ -255,7 +255,6 @@ RUN python3 -m pip install --upgrade pip setuptools wheel && \
     DEBIAN_FRONTEND="noninteractive" apt autoremove -y && \
     ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && \
     echo $TZ > /etc/timezone && \
-    echo "PermitRootLogin yes" >> /etc/ssh/sshd_config && \
-    echo 'root:docker' | chpasswd 
+    echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
 COPY ./init.toml .
 RUN mv /init.toml /root/.SpaceVim.d/init.toml
