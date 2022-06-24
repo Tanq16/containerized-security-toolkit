@@ -39,7 +39,7 @@ default_height = 30
 
 [[layers]]
 name = 'lang#python'
-python_interpreter = '/opt/homebrew/bin/python3'
+python_interpreter = '/usr/bin/python3'
 
 [[custom_plugins]]
 repo = "https://github.com/arcticicestudio/nord-vim"
