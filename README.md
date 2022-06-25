@@ -257,13 +257,17 @@ or add the following alias to the rc file for your default shell &rarr;
 ```bash
 alias sshide='ssh -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null"'
 ```
+    
+This is automatically installed when setting up CLI-Productivity Suite on the host machine.
 
-It is also useful to have buildkit enabled. This can be done by using the following command or adding it to the shell rc file &rarr;
+It is also useful to have buildkit enabled when building the images. This can be done by using the following command or adding it to the shell rc file &rarr;
 
 ```bash
 export DOCKER_BUILDKIT=1
 ```
 
 Docker buildkit can be disabled by making the above 0.
+    
+The best way to continuously build images every X number of days is by using GitHub Actions. Check out the workflow files in this repo to get an idea of how to configure that to build and push to Docker Hub.
 
 ---
