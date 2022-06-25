@@ -82,7 +82,7 @@ docker build -t <your_tag> .
 
 </details>
 
-The `security_docker` directory also contains a dockerfile for Apple Silicon Macs, which can be specified using the `--file Dockerfile.AppleSilicon` flag for the `docker build` command.
+The `security_docker` directory also contains a Dockerfile for Apple Silicon Macs, which can be specified using the `--file Dockerfile.AppleSilicon` flag for the `docker build` command.
 
 The `init.toml` file must be inside the same directory as the Dockerfile, as the build process copies it and prevents the configuration wizard for `SpaceVim`, though the plugins still need to be installed during the first run.
 
@@ -125,7 +125,7 @@ start_work(){
     fi
     # copy the run.sh file to act as kind of a bootstrap script
     docker cp $HOME/docker_work/run.sh sec_docker:/root/run.sh
-    # create a new password for sshing into the docker image
+    # create a new password for ssh-ing into the docker image
     new_pass=$(cat /dev/random | head -c 20 | base64 | tr -d '=+/')
     # print the new password and store in a file in the current directory
     echo "Password: $new_pass"
@@ -150,7 +150,7 @@ stop_work(){
 
 </details>
 
-Now, the start function can be executed to start the docker container in a detached state which can be ssh-ed into using teh password that is printed on the screen after the container ID. 
+Now, the start function can be executed to start the docker container in a detached state which can be ssh-ed into using the password that is printed on the screen after the container ID. 
 
 Following the CLI-Productivity Suite, it's best to dp the following &rarr;
 
