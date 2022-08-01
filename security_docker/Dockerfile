@@ -118,9 +118,9 @@ RUN git clone --depth 1 https://github.com/junegunn/fzf.git /root/.fzf && \
 # pwndbg msf edb and select seclists
 RUN git clone --depth=1  https://github.com/pwndbg/pwndbg /opt/pwndbg && \
     cd /opt/pwndbg && \
-    ./setup.sh && \
-    cd / && \
-    curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb > msfinstall && \
+    ./setup.sh || true
+
+RUN curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb > msfinstall && \
     chmod 755 msfinstall && \
     ./msfinstall && \
     rm msfinstall && \
