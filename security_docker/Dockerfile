@@ -71,6 +71,9 @@ RUN DEBIAN_FRONTEND="noninteractive" \
 RUN DEBIAN_FRONTEND="noninteractive" \
     apt install -y --no-install-recommends \
     inetutils-ping inetutils-telnet inetutils-tools inetutils-traceroute inetutils-ftp zsh language-pack-en nodejs npm bsdmainutils ripgrep
+RUN DEBIAN_FRONTEND="noninteractive" \
+    apt install -y --no-install-recommends \
+    graphviz
 
 # ============================================================================================================
 # =============================================================================== CLI Productivity Suite =====
@@ -229,7 +232,7 @@ RUN python3 -m pip install --upgrade setuptools wheel pip && \
     python3 -m pip install checkov && \
     deactivate
 
-# install cloudsploit and pmapper
+# install cloudsploit and pmapper and diagrams
 RUN cd /opt && \
     git clone --depth=1 https://github.com/aquasecurity/cloudsploit && \
     cd /opt/cloudsploit && \
@@ -238,7 +241,7 @@ RUN cd /opt && \
     cd /opt && \
     python3 -m venv .pmapper_env && \
     . .pmapper_env/bin/activate && \
-    python3 -m pip install pydot graphviz && \
+    python3 -m pip install pydot graphviz diagrams && \
     git clone https://github.com/nccgroup/PMapper.git && \
     cd PMapper && \
     python3 -m pip install .

@@ -236,6 +236,7 @@ The following is a non-exhaustive list of tools installed on the security docker
 * TMUX with Nord theme, custom config file with mouse support plugins and custom shortcuts + tmux_sensible plugin
 * Custom aliases within `.zshrc`
 * JSON Tools &rarr; JQ and Gron
+* Diagrams Python library for creating cloud diagrams
 * Python Rich library and Rich-CLI tool
 * OpenSSL, OpenSSH, Tree, Git, WGET, Curl and some INET tools
 * Shell functions for file encryption/decryption - `fencrypt` and `fdecrypt` to encrypt using AES 256 ECB mode on a file
