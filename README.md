@@ -8,6 +8,8 @@
 * [Tools in the Security Image](#tools-in-the-security-image)
 * [Bonus Information](#bonus-information)
 
+---
+
 ## Introduction
 
 This repository contains Dockerfiles for ARM (Apple Silicon) and x86_64 variants of a security focussed docker image. The 2 main resources here are as follows &rarr;

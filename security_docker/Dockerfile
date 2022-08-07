@@ -189,10 +189,13 @@ COPY --from=terraform_builder /go/terraform/terraform /opt/executables/
 COPY --from=gron_builder /go/gron/gron /opt/executables/
 
 # ============================================================================================================
-# ====================================================================== Miscellaneous apt Installations =====
+# ===================================================================== Miscellaneous Tool Installations =====
 # ============================================================================================================
 
 # All other installations go here to benefit from layer caching of other installs
+
+# install httpx and requests
+RUN python3 -m pip install requests httpx
 
 # wpscan trivy testssl and sqlmap
 RUN git clone --depth=1 https://github.com/wpscanteam/wpscan.git /opt/wp-scan && \

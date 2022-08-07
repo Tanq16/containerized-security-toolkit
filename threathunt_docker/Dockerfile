@@ -92,14 +92,11 @@ RUN apt-add-repository ppa:mozillateam/ppa && \
     DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends firefox
 
 # ============================================================================================================
-# ====================================================================== Miscellaneous apt Installations =====
+# ===================================================================== Miscellaneous Tool Installations =====
 # ============================================================================================================
 
 # All other installations go here to benefit from layer caching of other installs
-RUN python3 -m pip install Scrapy
-RUN python3 -m pip install xlrd xlwt xlutils selenium
-RUN python3 -m pip install elasticsearch pyTelegramBotAPI beautifulsoup4
-RUN python3 -m pip install PySocks requests httpx
+RUN python3 -m pip install Scrapy xlrd xlwt xlutils selenium elasticsearch pyTelegramBotAPI beautifulsoup4 PySocks requests httpx
 
 # ============================================================================================================
 # ============================================================================================================
