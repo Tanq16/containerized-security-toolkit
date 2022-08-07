@@ -35,7 +35,7 @@ jobs:
       - name: Build and push threathunt docker
         uses: docker/build-push-action@v2
         with:
-          context: threathunnt_docker
+          context: threathunt_docker
           file: threathunt_docker/Dockerfile.AppleSilicon
           platforms: linux/arm64
           push: true
