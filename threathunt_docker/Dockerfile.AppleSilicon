@@ -1,0 +1,118 @@
+FROM ubuntu as geckobuilder
+RUN apt-get update -qqy \
+  && apt install gcc build-essential git vim cargo -y \
+  && curl https://sh.rustup.rs -sSf | bash -s -- -y \
+  && git clone https://github.com/mozilla/geckodriver.git && cd geckodriver \
+  && git checkout v0.31.0 && cargo build
+
+# ============================================================================================================
+# ======================================================================= FINAL IMAGE Post Builder Stage =====
+# ============================================================================================================
+
+FROM ubuntu
+
+# ============================================================================================================
+# ======================================================================== Environment and Installations =====
+# ============================================================================================================
+
+# Set environment variables
+ENV RUNNING_IN_DOCKER true
+ENV TZ America/Chicago
+ENV LANG enUS.utf-8
+ENV SHELL /bin/zsh
+ENV TERM xterm
+
+# Install packages using APT
+RUN DEBIAN_FRONTEND="noninteractive" apt update && \
+    DEBIAN_FRONTEND="noninteractive" apt upgrade -y && \
+    DEBIAN_FRONTEND="noninteractive" \
+    apt install -y --no-install-recommends \
+    less apt-transport-https openssl gpg-agent openssh-server openvpn git vim curl bat fd-find nodejs npm
+RUN DEBIAN_FRONTEND="noninteractive" \
+    apt install -y --no-install-recommends \
+    wget tmux tree php zip unzip p7zip-full ncdu htop tzdata gcc php nginx gnupg jq perl less file strace
+RUN DEBIAN_FRONTEND="noninteractive" \
+    apt install -y --no-install-recommends \
+    python3-setuptools python3-pip python3 ipython3 iproute2 python3-venv zsh inetutils-ping inetutils-telnet
+RUN DEBIAN_FRONTEND="noninteractive" \
+    apt install -y --no-install-recommends \
+    inetutils-tools inetutils-traceroute inetutils-ftp language-pack-en bsdmainutils ripgrep ltrace
+RUN DEBIAN_FRONTEND="noninteractive" \
+    apt install -y --no-install-recommends \
+    tor privoxy software-properties-common
+
+# ============================================================================================================
+# =============================================================================== CLI Productivity Suite =====
+# ============================================================================================================
+
+# Install oh my zsh and tmux
+RUN curl -L http://install.ohmyz.sh | sh && \
+    git clone https://github.com/spaceship-prompt/spaceship-prompt.git "/root/.oh-my-zsh/custom/themes/spaceship-prompt" --depth=1 && \
+    ln -s "/root/.oh-my-zsh/custom/themes/spaceship-prompt/spaceship.zsh-theme" "/root/.oh-my-zsh/custom/themes/spaceship.zsh-theme" && \
+    sed -i "s/robbyrussell/spaceship/" /root/.zshrc && \
+    git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions.git /root/.oh-my-zsh/custom/plugins/zsh-autosuggestions && \
+    git clone --depth=1  https://github.com/zsh-users/zsh-syntax-highlighting.git /root/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting && \
+    sed -i "s/plugins=/plugins=(git zsh-autosuggestions zsh-syntax-highlighting) #/" /root/.zshrc && \
+    git clone --depth=1  https://github.com/tmux-plugins/tpm /root/.tmux/plugins/tpm
+
+# Append conf files tmux conf and zsh rc
+RUN wget https://raw.githubusercontent.com/Tanq16/cli-productivity-suite/master/tmuxconf && \
+    mv tmuxconf /root/.tmux.conf && \
+    wget https://raw.githubusercontent.com/Tanq16/cli-productivity-suite/master/add_to_rc && \
+    cat add_to_rc >> /root/.zshrc && \
+    rm add_to_rc && \
+    cp /root/.zshrc temptemp && \
+    cat temptemp | grep -vE "^#" | grep -vE "^$" > /root/.zshrc && \
+    rm temptemp && \
+    echo "export PATH=$PATH:/usr/local/go/bin/" >> /root/.zshrc && \
+    chsh -s /usr/bin/zsh
+
+# Setup vim, fzf and colored ls (lsd)
+RUN git clone --depth 1 https://github.com/junegunn/fzf.git /root/.fzf && \
+    /root/.fzf/install --all 1>/dev/null && \
+    a=$(curl -L -s https://github.com/Peltoche/lsd/releases/latest | grep -oE "tag.+\"" | cut -d '/' -f2 | grep -vE "^[^0-9]" | cut -d "\"" -f1 | head -n 1) && \
+    wget "https://github.com/Peltoche/lsd/releases/download/$a/lsd_""$a""_arm64.deb" && \
+    apt install -y "./lsd_""$a""_arm64.deb" && \
+    rm "lsd_""$a""_arm64.deb" && \
+    cd /root && \
+    curl -sLf https://spacevim.org/install.sh | bash && \
+    mkdir /root/.SpaceVim.d/
+
+COPY --from=geckobuilder /geckodriver/target/debug/geckodriver /usr/bin/geckodriver
+
+# ============================================================================================================
+# ========================================================================== External Tools Installation =====
+# ============================================================================================================
+
+# Tool installations
+RUN apt-add-repository ppa:mozillateam/ppa && \
+    echo "Package: firefox*\nPin: release o=LP-PPA-mozillateam\nPin-Priority: 501" >> /etc/apt/preferences.d/mozillateamppa && \
+    DEBIAN_FRONTEND="noninteractive" apt update && \
+    DEBIAN_FRONTEND="noninteractive" apt upgrade -y && \
+    DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends firefox
+
+# ============================================================================================================
+# ====================================================================== Miscellaneous apt Installations =====
+# ============================================================================================================
+
+# All other installations go here to benefit from layer caching of other installs
+RUN python3 -m pip install Scrapy
+RUN python3 -m pip install xlrd xlwt xlutils selenium
+RUN python3 -m pip install elasticsearch pyTelegramBotAPI beautifulsoup4
+RUN python3 -m pip install PySocks requests httpx
+
+# ============================================================================================================
+# ============================================================================================================
+# ============================================================================================================
+
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+# Final steps for perfect run
+RUN python3 -m pip install --upgrade pip setuptools wheel && \
+    DEBIAN_FRONTEND="noninteractive" apt autoclean -y && \
+    DEBIAN_FRONTEND="noninteractive" apt autoremove -y && \
+    ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && \
+    echo $TZ > /etc/timezone && \
+    echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+COPY ./init.toml .
+RUN mv /init.toml /root/.SpaceVim.d/init.toml
