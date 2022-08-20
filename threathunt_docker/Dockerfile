@@ -39,7 +39,7 @@ RUN DEBIAN_FRONTEND="noninteractive" \
     inetutils-tools inetutils-traceroute inetutils-ftp language-pack-en bsdmainutils ripgrep ltrace
 RUN DEBIAN_FRONTEND="noninteractive" \
     apt install -y --no-install-recommends \
-    tor privoxy software-properties-common
+    tor privoxy software-properties-common whois ugrep
 
 # ============================================================================================================
 # =============================================================================== CLI Productivity Suite =====

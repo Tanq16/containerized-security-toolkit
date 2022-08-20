@@ -73,7 +73,7 @@ RUN DEBIAN_FRONTEND="noninteractive" \
     inetutils-ping inetutils-telnet inetutils-tools inetutils-traceroute inetutils-ftp zsh language-pack-en nodejs npm bsdmainutils ripgrep
 RUN DEBIAN_FRONTEND="noninteractive" \
     apt install -y --no-install-recommends \
-    graphviz
+    graphviz whois ugrep
 
 # ============================================================================================================
 # =============================================================================== CLI Productivity Suite =====
