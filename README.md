@@ -21,7 +21,7 @@ The security focussed image is also available to be directly pulled from docker 
 
 The image is called `sec_docker` and it has the [cli-productivity-suite](https://github.com/tanq16/cli-productivity-suite) preinstalled i.e., a funky shell along with customized `vim` and `tmux`. The base Dockerfiles also have the same experience to build off it.
 
-Make sure to read the conventions and example workflow. They are what work for me, but feel free to define your own.
+Read the conventions and example workflow. They work for me, but feel free to define your own.
 
 ---
 
