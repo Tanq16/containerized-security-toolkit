@@ -133,7 +133,7 @@ start_work(){
     echo "Password: $new_pass"
     echo $new_pass > current_docker_password
     # set the new password
-    docker exec -e newpp="$new_pass" work_docker zsh -c 'echo "root:$(printenv newpp)" | chpasswd'
+    docker exec -e newpp="$new_pass" sec_docker zsh -c 'echo "root:$(printenv newpp)" | chpasswd'
 }
 ```
 
