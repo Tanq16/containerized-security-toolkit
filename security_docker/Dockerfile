@@ -165,7 +165,9 @@ RUN a=$(curl -s https://go.dev/dl/ | grep -oE "(/dl/go[\.0-9]{2,7}\.linux-amd64\
     eval $(curl -sL "https://cloud.google.com/sdk/docs/install" | grep -oE "curl -O https://dl.google.com/dl/cloudsdk/channels/.+\.tar\.gz" | grep x86_64) && \
     tar -xzf $(ls | grep "google.*\.tar\.gz") && \
     rm $(ls | grep "google.*\.tar\.gz") && \
-    google-cloud-sdk/install.sh -q
+    google-cloud-sdk/install.sh -q && \
+    echo "[ -f /root/google-cloud-sdk/path.zsh.inc ] && source /root/google-cloud-sdk/path.zsh.inc" >> /root/.zshrc && \
+    echo "[ -f /root/google-cloud-sdk/completion.zsh.inc ] && source /root/google-cloud-sdk/completion.zsh.inc" >> /root/.zshrc
 
 RUN mkdir /opt/executables
 
