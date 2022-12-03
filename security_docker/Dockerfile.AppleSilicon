@@ -196,15 +196,8 @@ COPY --from=gron_builder /go/gron/gron /opt/executables/
 
 # All other installations go here to benefit from layer caching of other installs
 
-# install httpx and requests
-RUN python3 -m pip install requests httpx
-
-# wpscan trivy testssl and sqlmap
-RUN git clone --depth=1 https://github.com/wpscanteam/wpscan.git /opt/wp-scan && \
-    cd /opt/wp-scan && \
-    gem install wpscan && \
-    cd / && \
-    rm -rf /opt/wp-scan && \
+# install requests trivy testssl and sqlmap
+RUN python3 -m pip install requests && \
     a=$(curl -L -s https://github.com/aquasecurity/trivy/releases/latest | grep -oE "tag.+\"" | cut -d '/' -f2 | grep -vE "^[^v]" | cut -d "\"" -f1 | head -n 1) && \
     b=$(echo $a | tr -d "v") && \
     wget "https://github.com/aquasecurity/trivy/releases/download/$a/trivy_""$b""_Linux-ARM64.tar.gz" && \
@@ -219,37 +212,18 @@ RUN git clone --depth=1 https://github.com/wpscanteam/wpscan.git /opt/wp-scan &&
 # ======================================================================== Cloud Security Specific Tools =====
 # ============================================================================================================
 
-# install scoutsuite checkov and kubectl
+# install scoutsuite kubectl and cloudsploit
 RUN python3 -m pip install --upgrade setuptools wheel pip && \
     cd /opt && \
     git clone --depth=1 https://github.com/nccgroup/ScoutSuite scoutsuite && \
-    cd /opt/scoutsuite && \
-    python3 -m venv .scoutsuite_env && \
-    . .scoutsuite_env/bin/activate && \
-    python3 -m pip install -r requirements.txt && \
-    deactivate && \
     cd /opt/executables/ && \
     curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/arm64/kubectl" && \
     chmod +x kubectl && \
     cd /opt && \
-    python3 -m venv .checkov_env && \
-    . .checkov_env/bin/activate && \
-    python3 -m pip install checkov && \
-    deactivate
-
-# install cloudsploit and pmapper and diagrams
-RUN cd /opt && \
     git clone --depth=1 https://github.com/aquasecurity/cloudsploit && \
     cd /opt/cloudsploit && \
     npm install && \
-    chmod a+x ./index.js && \
-    cd /opt && \
-    python3 -m venv .pmapper_env && \
-    . .pmapper_env/bin/activate && \
-    python3 -m pip install pydot graphviz diagrams && \
-    git clone https://github.com/nccgroup/PMapper.git && \
-    cd PMapper && \
-    python3 -m pip install .
+    chmod a+x ./index.js
 
 # ============================================================================================================
 # ============================================================================================================

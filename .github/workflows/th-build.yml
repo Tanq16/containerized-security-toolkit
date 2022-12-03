@@ -3,9 +3,10 @@ name: ThreatHunt Image
 on:
   push:
     branches:
-      - 'main'
+      # - 'main'
+      - 'doesnotexist'
   schedule:
-    - cron: '0 0 1,11,22 * *'
+    # - cron: '0 0 1,11,22 * *'
   workflow_dispatch:
     inputs:
       tags:
