@@ -37,9 +37,13 @@ FROM golang AS terraform_builder
 RUN git clone https://github.com/hashicorp/terraform.git && \
     cd terraform && go get && go build
 
-FROM golang AS gron_builder
+FROM golang AS tomnomnom_builder
 RUN git clone https://github.com/tomnomnom/gron && \
     cd gron && go get && go build
+RUN git clone https://github.com/tomnomnom/assetfinder && \
+    cd assetfinder && go mod init assetfinder && go mod tidy && go get && go build
+RUN git clone https://github.com/tomnomnom/httprobe && \
+    cd httprobe && go get && go build
 
 # ============================================================================================================
 # ======================================================================= FINAL IMAGE Post Builder Stage =====
@@ -191,7 +195,9 @@ COPY --from=projectdiscovery_builder /go/cloudlist/cmd/cloudlist/cloudlist /opt/
 COPY --from=projectdiscovery_builder /go/uncover/cmd/uncover/uncover /opt/executables/
 
 COPY --from=terraform_builder /go/terraform/terraform /opt/executables/
-COPY --from=gron_builder /go/gron/gron /opt/executables/
+COPY --from=tomnomnom_builder /go/gron/gron /opt/executables/
+COPY --from=tomnomnom_builder /go/httprobe/httprobe /opt/executables/
+COPY --from=tomnomnom_builder /go/assetfinder/assetfinder /opt/executables/
 
 # ============================================================================================================
 # ===================================================================== Miscellaneous Tool Installations =====
