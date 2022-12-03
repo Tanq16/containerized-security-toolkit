@@ -9,6 +9,8 @@ RUN git clone https://github.com/hahwul/dalfox && \
     cd dalfox && go get && go build
 RUN git clone https://github.com/Shopify/kubeaudit && \
     cd kubeaudit/cmd && go get && go build && mv cmd kubeaudit
+RUN git clone https://github.com/praetorian-inc/fingerprintx && \
+    cd fingerprintx/cmd/fingerprintx && go get && go build
 
 FROM golang AS projectdiscovery_builder
 RUN apt update && apt install git libpcap-dev -y && \
@@ -73,7 +75,7 @@ RUN DEBIAN_FRONTEND="noninteractive" \
     inetutils-ping inetutils-telnet inetutils-tools inetutils-traceroute inetutils-ftp zsh language-pack-en nodejs npm bsdmainutils ripgrep
 RUN DEBIAN_FRONTEND="noninteractive" \
     apt install -y --no-install-recommends \
-    graphviz whois ugrep
+    graphviz whois ugrep jc
 
 # ============================================================================================================
 # =============================================================================== CLI Productivity Suite =====
@@ -176,6 +178,7 @@ COPY --from=go_builder /go/insider/cmd/insider/insider /opt/executables/
 COPY --from=go_builder /go/Smap/cmd/smap/smap /opt/executables/
 COPY --from=go_builder /go/dalfox/dalfox /opt/executables/
 COPY --from=go_builder /go/kubeaudit/cmd/kubeaudit /opt/executables/
+COPY --from=go_builder /go/fingerprintx/cmd/fingerprintx /opt/executables/
 
 COPY --from=projectdiscovery_builder /go/subfinder/v2/cmd/subfinder/subfinder /opt/executables/
 COPY --from=projectdiscovery_builder /go/naabu/v2/cmd/naabu/naabu /opt/executables/
