@@ -11,6 +11,12 @@ RUN git clone --depth=1 https://github.com/Shopify/kubeaudit && \
     cd kubeaudit/cmd && go get && go build && mv cmd kubeaudit
 RUN git clone --depth=1 https://github.com/praetorian-inc/fingerprintx && \
     cd fingerprintx/cmd/fingerprintx && go get && go build
+RUN git clone --depth=1 https://github.com/hashicorp/terraform.git && \
+    cd terraform && go get && go build
+RUN git clone --depth=1 https://github.com/OWASP/amass.git && \
+    cd amass/cmd/amass && go get && go build
+RUN git clone --depth=1 https://github.com/j3ssie/metabigor && \
+    cd metabigor && go get && go build
 
 FROM golang AS projectdiscovery_builder
 RUN apt update && apt install git libpcap-dev -y && \
@@ -32,18 +38,6 @@ RUN git clone --depth=1 https://github.com/projectdiscovery/cloudlist && \
     cd cloudlist/cmd/cloudlist && go get && go build
 RUN git clone --depth=1 https://github.com/projectdiscovery/uncover && \
     cd uncover/cmd/uncover && go get && go build
-
-FROM golang AS terraform_builder
-RUN git clone --depth=1 https://github.com/hashicorp/terraform.git && \
-    cd terraform && go get && go build
-
-FROM golang AS amass_builder
-RUN git clone --depth=1 https://github.com/OWASP/amass.git && \
-    cd amass/cmd/amass && go get && go build
-
-FROM golang AS metabigor_builder
-RUN git clone --depth=1 https://github.com/j3ssie/metabigor && \
-    cd metabigor && go get && go build
 
 FROM golang AS hakluke_builder
 RUN git clone --depth=1 https://github.com/hakluke/hakrawler && \
@@ -176,14 +170,14 @@ RUN a=$(curl -s https://go.dev/dl/ | grep -oE "(/dl/go[\.0-9]{2,7}\.linux-amd64\
     echo '[default]\naws_access_key_id = \naws_secret_access_key = ' >> /root/.aws/credentials && \
     echo '[default]\nregion = us-east-1' >> /root/.aws/config && \
     cd /root && \
-    curl -sL https://aka.ms/InstallAzureCLIDeb | bash && \
-    cd /root && \
     eval $(curl -sL "https://cloud.google.com/sdk/docs/install" | grep -oE "curl -O https://dl.google.com/dl/cloudsdk/channels/.+\.tar\.gz" | grep x86_64) && \
     tar -xzf $(ls | grep "google.*\.tar\.gz") && \
     rm $(ls | grep "google.*\.tar\.gz") && \
     google-cloud-sdk/install.sh -q && \
     echo "[ -f /root/google-cloud-sdk/path.zsh.inc ] && source /root/google-cloud-sdk/path.zsh.inc" >> /root/.zshrc && \
-    echo "[ -f /root/google-cloud-sdk/completion.zsh.inc ] && source /root/google-cloud-sdk/completion.zsh.inc" >> /root/.zshrc && \
+    echo "[ -f /root/google-cloud-sdk/completion.zsh.inc ] && source /root/google-cloud-sdk/completion.zsh.inc" >> /root/.zshrc
+
+RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash && \
     mkdir /opt/executables
 
 COPY --from=go_builder /go/gobuster/gobuster /opt/executables/
@@ -192,6 +186,9 @@ COPY --from=go_builder /go/Smap/cmd/smap/smap /opt/executables/
 COPY --from=go_builder /go/dalfox/dalfox /opt/executables/
 COPY --from=go_builder /go/kubeaudit/cmd/kubeaudit /opt/executables/
 COPY --from=go_builder /go/fingerprintx/cmd/fingerprintx/fingerprintx /opt/executables/
+COPY --from=go_builder /go/terraform/terraform /opt/executables/
+COPY --from=go_builder /go/metabigor/metabigor /opt/executables/
+COPY --from=go_builder /go/amass/cmd/amass/amass /opt/executables/
 
 COPY --from=projectdiscovery_builder /go/subfinder/v2/cmd/subfinder/subfinder /opt/executables/
 COPY --from=projectdiscovery_builder /go/naabu/v2/cmd/naabu/naabu /opt/executables/
@@ -207,9 +204,6 @@ COPY --from=hakluke_builder /go/hakrawler/hakrawler /opt/executables/
 COPY --from=hakluke_builder /go/hakrevdns/hakrevdns /opt/executables/
 COPY --from=hakluke_builder /go/haktldextract/haktldextract /opt/executables/
 
-COPY --from=terraform_builder /go/terraform/terraform /opt/executables/
-COPY --from=metabigor_builder /go/metabigor/metabigor /opt/executables/
-COPY --from=amass_builder /go/amass/cmd/amass/amass /opt/executables/
 COPY --from=tomnomnom_builder /go/gron/gron /opt/executables/
 COPY --from=tomnomnom_builder /go/httprobe/httprobe /opt/executables/
 COPY --from=tomnomnom_builder /go/assetfinder/assetfinder /opt/executables/
