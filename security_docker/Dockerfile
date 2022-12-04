@@ -1,64 +1,64 @@
 FROM golang AS go_builder
-RUN git clone https://github.com/OJ/gobuster.git && \
+RUN git clone --depth=1 https://github.com/OJ/gobuster.git && \
     cd gobuster && go get && go build
-RUN git clone https://github.com/insidersec/insider && \
+RUN git clone --depth=1 https://github.com/insidersec/insider && \
     cd insider/cmd/insider && go get && go build
-RUN git clone https://github.com/s0md3v/Smap && \
+RUN git clone --depth=1 https://github.com/s0md3v/Smap && \
     cd Smap/cmd/smap && go get && go build
-RUN git clone https://github.com/hahwul/dalfox && \
+RUN git clone --depth=1 https://github.com/hahwul/dalfox && \
     cd dalfox && go get && go build
-RUN git clone https://github.com/Shopify/kubeaudit && \
+RUN git clone --depth=1 https://github.com/Shopify/kubeaudit && \
     cd kubeaudit/cmd && go get && go build && mv cmd kubeaudit
-RUN git clone https://github.com/praetorian-inc/fingerprintx && \
+RUN git clone --depth=1 https://github.com/praetorian-inc/fingerprintx && \
     cd fingerprintx/cmd/fingerprintx && go get && go build
 
 FROM golang AS projectdiscovery_builder
 RUN apt update && apt install git libpcap-dev -y && \
-    git clone https://github.com/projectdiscovery/subfinder && \
+    git clone --depth=1 https://github.com/projectdiscovery/subfinder && \
     cd subfinder/v2/cmd/subfinder && go get && go build
-RUN git clone https://github.com/projectdiscovery/naabu && \
+RUN git clone --depth=1 https://github.com/projectdiscovery/naabu && \
     cd naabu/v2/cmd/naabu && go get && go build
-RUN git clone https://github.com/projectdiscovery/httpx && \
+RUN git clone --depth=1 https://github.com/projectdiscovery/httpx && \
     cd httpx/cmd/httpx && go get && go build
-RUN git clone https://github.com/projectdiscovery/dnsx && \
+RUN git clone --depth=1 https://github.com/projectdiscovery/dnsx && \
     cd dnsx/cmd/dnsx && go get && go build
-RUN git clone https://github.com/projectdiscovery/mapcidr && \
+RUN git clone --depth=1 https://github.com/projectdiscovery/mapcidr && \
     cd mapcidr/cmd/mapcidr && go get && go build
-RUN git clone https://github.com/projectdiscovery/proxify && \
+RUN git clone --depth=1 https://github.com/projectdiscovery/proxify && \
     cd proxify/cmd/proxify && go get && go build
-RUN git clone https://github.com/projectdiscovery/nuclei && \
+RUN git clone --depth=1 https://github.com/projectdiscovery/nuclei && \
     cd nuclei/v2/cmd/nuclei && go get && go build
-RUN git clone https://github.com/projectdiscovery/cloudlist && \
+RUN git clone --depth=1 https://github.com/projectdiscovery/cloudlist && \
     cd cloudlist/cmd/cloudlist && go get && go build
-RUN git clone https://github.com/projectdiscovery/uncover && \
+RUN git clone --depth=1 https://github.com/projectdiscovery/uncover && \
     cd uncover/cmd/uncover && go get && go build
 
 FROM golang AS terraform_builder
-RUN git clone https://github.com/hashicorp/terraform.git && \
+RUN git clone --depth=1 https://github.com/hashicorp/terraform.git && \
     cd terraform && go get && go build
 
 FROM golang AS amass_builder
-RUN git clone https://github.com/OWASP/amass.git && \
+RUN git clone --depth=1 https://github.com/OWASP/amass.git && \
     cd amass/cmd/amass && go get && go build
 
 FROM golang AS metabigor_builder
-RUN git clone https://github.com/j3ssie/metabigor && \
+RUN git clone --depth=1 https://github.com/j3ssie/metabigor && \
     cd metabigor && go get && go build
 
 FROM golang AS hakluke_builder
-RUN git clone https://github.com/hakluke/hakrawler && \
+RUN git clone --depth=1 https://github.com/hakluke/hakrawler && \
     cd hakrawler && go get && go build
-RUN git clone https://github.com/hakluke/hakrevdns && \
+RUN git clone --depth=1 https://github.com/hakluke/hakrevdns && \
     cd hakrevdns && go mod init hakrevdns && go mod tidy && go get && go build
-RUN git clone https://github.com/hakluke/haktldextract && \
+RUN git clone --depth=1 https://github.com/hakluke/haktldextract && \
     cd haktldextract && go get && go build
 
 FROM golang AS tomnomnom_builder
-RUN git clone https://github.com/tomnomnom/gron && \
+RUN git clone --depth=1 https://github.com/tomnomnom/gron && \
     cd gron && go get && go build
-RUN git clone https://github.com/tomnomnom/assetfinder && \
+RUN git clone --depth=1 https://github.com/tomnomnom/assetfinder && \
     cd assetfinder && go mod init assetfinder && go mod tidy && go get && go build
-RUN git clone https://github.com/tomnomnom/httprobe && \
+RUN git clone --depth=1 https://github.com/tomnomnom/httprobe && \
     cd httprobe && go get && go build
 
 # ============================================================================================================
@@ -81,27 +81,21 @@ ENV TERM xterm
 # Install packages using APT
 RUN DEBIAN_FRONTEND="noninteractive" apt update && \
     DEBIAN_FRONTEND="noninteractive" apt upgrade -y && \
-    DEBIAN_FRONTEND="noninteractive" \
-    apt install -y --no-install-recommends \
-    apt-transport-https openssl gpg-agent openssh-server openvpn git gdb tmux tree gnupg2 ruby-full vim curl bat fd-find p7zip-full make
-RUN DEBIAN_FRONTEND="noninteractive" \
-    apt install -y --no-install-recommends \
-    strace ltrace wget ntp locales hexedit john tshark gcc nasm unzip zip fcrackzip tzdata perl php yarnpkg less file htop ncdu gnupg jq
-RUN DEBIAN_FRONTEND="noninteractive" \
-    apt install -y --no-install-recommends \
-    python3-setuptools python3-pip python3 python3-dev ipython3 iproute2 python3-venv nginx nmap ncat nikto hydra dnsutils binwalk groff
-RUN DEBIAN_FRONTEND="noninteractive" \
-    apt install -y --no-install-recommends \
-    inetutils-ping inetutils-telnet inetutils-tools inetutils-traceroute inetutils-ftp zsh language-pack-en nodejs npm bsdmainutils ripgrep
-RUN DEBIAN_FRONTEND="noninteractive" \
-    apt install -y --no-install-recommends \
-    graphviz whois ugrep jc
+    DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \
+    strace ltrace wget apt-transport-https openssl gpg-agent openssh-server make jc jq \
+    openvpn git gdb tmux tree gnupg2 ruby-full vim curl less file zsh bat fd-find htop \
+    ntp gcc zip unzip perl php tzdata yarnpkg gnupg nginx nmap ncat nikto hydra ncdu jc \
+    dnsutils nodejs npm locales language-pack-en bsdmainutils whois ugrep ripgrep groff
+RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \
+    python3-setuptools python3-pip python3 python3-dev ipython3 iproute2 python3-venv \
+    inetutils-ping inetutils-telnet inetutils-tools inetutils-traceroute inetutils-ftp \
+    p7zip-full hexedit john tshark nasm fcrackzip binwalk
 
 # ============================================================================================================
 # =============================================================================== CLI Productivity Suite =====
 # ============================================================================================================
 
-# Install oh my zsh and tmux
+# Install oh my zsh and tmux; Append conf files tmux conf and zsh rc; Setup fzf and colored ls (lsd)
 RUN curl -L http://install.ohmyz.sh | sh && \
     git clone https://github.com/spaceship-prompt/spaceship-prompt.git "/root/.oh-my-zsh/custom/themes/spaceship-prompt" --depth=1 && \
     ln -s "/root/.oh-my-zsh/custom/themes/spaceship-prompt/spaceship.zsh-theme" "/root/.oh-my-zsh/custom/themes/spaceship.zsh-theme" && \
@@ -109,10 +103,8 @@ RUN curl -L http://install.ohmyz.sh | sh && \
     git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions.git /root/.oh-my-zsh/custom/plugins/zsh-autosuggestions && \
     git clone --depth=1  https://github.com/zsh-users/zsh-syntax-highlighting.git /root/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting && \
     sed -i "s/plugins=/plugins=(git zsh-autosuggestions zsh-syntax-highlighting) #/" /root/.zshrc && \
-    git clone --depth=1  https://github.com/tmux-plugins/tpm /root/.tmux/plugins/tpm
-
-# Append conf files tmux conf and zsh rc
-RUN wget https://raw.githubusercontent.com/Tanq16/cli-productivity-suite/master/tmuxconf && \
+    git clone --depth=1  https://github.com/tmux-plugins/tpm /root/.tmux/plugins/tpm && \
+    wget https://raw.githubusercontent.com/Tanq16/cli-productivity-suite/master/tmuxconf && \
     mv tmuxconf /root/.tmux.conf && \
     wget https://raw.githubusercontent.com/Tanq16/cli-productivity-suite/master/add_to_rc && \
     cat add_to_rc >> /root/.zshrc && \
@@ -121,10 +113,8 @@ RUN wget https://raw.githubusercontent.com/Tanq16/cli-productivity-suite/master/
     cat temptemp | grep -vE "^#" | grep -vE "^$" > /root/.zshrc && \
     rm temptemp && \
     echo "export PATH=$PATH:/usr/local/go/bin/:/opt/executables/" >> /root/.zshrc && \
-    chsh -s /usr/bin/zsh
-
-# Setup fzf and colored ls (lsd)
-RUN git clone --depth 1 https://github.com/junegunn/fzf.git /root/.fzf && \
+    chsh -s /usr/bin/zsh && \
+    git clone --depth 1 https://github.com/junegunn/fzf.git /root/.fzf && \
     /root/.fzf/install --all 1>/dev/null && \
     a=$(curl -L -s https://github.com/Peltoche/lsd/releases/latest | grep -oE "tag.+\"" | cut -d '/' -f2 | grep -vE "^[^0-9]" | cut -d "\"" -f1 | head -n 1) && \
     wget "https://github.com/Peltoche/lsd/releases/download/$a/lsd_""$a""_amd64.deb" && \
@@ -140,16 +130,16 @@ RUN git clone --depth 1 https://github.com/junegunn/fzf.git /root/.fzf && \
 
 # Tool installations
 
-# pwndbg msf edb and select seclists
-RUN git clone --depth=1  https://github.com/pwndbg/pwndbg /opt/pwndbg && \
+# pwndbg msf and select seclists
+RUN git clone --depth=1 https://github.com/pwndbg/pwndbg /opt/pwndbg && \
     cd /opt/pwndbg && \
-    ./setup.sh || true
-
-RUN curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb > msfinstall && \
+    ./setup.sh && \
+    cd / && \
+    curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb > msfinstall && \
     chmod 755 msfinstall && \
     ./msfinstall && \
     rm msfinstall && \
-    git clone --depth=1  https://github.com/offensive-security/exploitdb.git /opt/exploit-database && \
+    git clone --depth=1  https://gitlab.com/exploit-database/exploitdb.git /opt/exploit-database && \
     ln -sf /opt/exploit-database/searchsploit /usr/local/bin/searchsploit && \
     mkdir /opt/lists/ && cd /opt/lists/ && \
     wget https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/DNS/subdomains-top1million-110000.txt -O subdomains_top_110000.txt && \
@@ -166,7 +156,7 @@ RUN curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/conf
     tar -xzf rockyou.txt.tar.gz && \
     rm rockyou.txt.tar.gz
 
-# install golang semgrep rich aws cliv2 and gcloud
+# install golang semgrep rich aws cliv2 and gcloud; create executables
 RUN a=$(curl -s https://go.dev/dl/ | grep -oE "(/dl/go[\.0-9]{2,7}\.linux-amd64\.tar\.gz)" | head -n 1) && \
     wget "https://golang.org$a" && \
     b=$(echo $a | cut -d "/" -f3) && \
@@ -191,16 +181,15 @@ RUN a=$(curl -s https://go.dev/dl/ | grep -oE "(/dl/go[\.0-9]{2,7}\.linux-amd64\
     rm $(ls | grep "google.*\.tar\.gz") && \
     google-cloud-sdk/install.sh -q && \
     echo "[ -f /root/google-cloud-sdk/path.zsh.inc ] && source /root/google-cloud-sdk/path.zsh.inc" >> /root/.zshrc && \
-    echo "[ -f /root/google-cloud-sdk/completion.zsh.inc ] && source /root/google-cloud-sdk/completion.zsh.inc" >> /root/.zshrc
-
-RUN mkdir /opt/executables
+    echo "[ -f /root/google-cloud-sdk/completion.zsh.inc ] && source /root/google-cloud-sdk/completion.zsh.inc" >> /root/.zshrc && \
+    mkdir /opt/executables
 
 COPY --from=go_builder /go/gobuster/gobuster /opt/executables/
 COPY --from=go_builder /go/insider/cmd/insider/insider /opt/executables/
 COPY --from=go_builder /go/Smap/cmd/smap/smap /opt/executables/
 COPY --from=go_builder /go/dalfox/dalfox /opt/executables/
 COPY --from=go_builder /go/kubeaudit/cmd/kubeaudit /opt/executables/
-COPY --from=go_builder /go/fingerprintx/cmd/fingerprintx /opt/executables/
+COPY --from=go_builder /go/fingerprintx/cmd/fingerprintx/fingerprintx /opt/executables/
 
 COPY --from=projectdiscovery_builder /go/subfinder/v2/cmd/subfinder/subfinder /opt/executables/
 COPY --from=projectdiscovery_builder /go/naabu/v2/cmd/naabu/naabu /opt/executables/
@@ -245,7 +234,7 @@ RUN python3 -m pip install requests && \
 # ======================================================================== Cloud Security Specific Tools =====
 # ============================================================================================================
 
-# install scoutsuite and cloudenum
+# install scoutsuite cloudenum kubectl and cloudsploit
 RUN python3 -m pip install --upgrade setuptools wheel pip && \
     cd /opt && \
     git clone --depth=1 https://github.com/nccgroup/ScoutSuite scoutsuite && \
@@ -254,10 +243,8 @@ RUN python3 -m pip install --upgrade setuptools wheel pip && \
     . cloudenumvenv/bin/activate && \
     cd cloud_enum && \
     python3 -m pip install -r requirements.txt && \
-    deactivate
-
-# install kubectl and cloudsploit
-RUN cd /opt/executables/ && \
+    deactivate && \
+    cd /opt/executables/ && \
     curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" && \
     chmod +x kubectl && \
     cd /opt && \
