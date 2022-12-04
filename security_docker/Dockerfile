@@ -37,6 +37,22 @@ FROM golang AS terraform_builder
 RUN git clone https://github.com/hashicorp/terraform.git && \
     cd terraform && go get && go build
 
+FROM golang AS amass_builder
+RUN git clone https://github.com/OWASP/amass.git && \
+    cd amass/cmd/amass && go get && go build
+
+FROM golang AS metabigor_builder
+RUN git clone https://github.com/j3ssie/metabigor && \
+    cd metabigor && go get && go build
+
+FROM golang AS hakluke_builder
+RUN git clone https://github.com/hakluke/hakrawler && \
+    cd hakrawler && go get && go build
+RUN git clone https://github.com/hakluke/hakrevdns && \
+    cd hakrevdns && go mod init hakrevdns && go mod tidy && go get && go build
+RUN git clone https://github.com/hakluke/haktldextract && \
+    cd haktldextract && go get && go build
+
 FROM golang AS tomnomnom_builder
 RUN git clone https://github.com/tomnomnom/gron && \
     cd gron && go get && go build
@@ -168,6 +184,8 @@ RUN a=$(curl -s https://go.dev/dl/ | grep -oE "(/dl/go[\.0-9]{2,7}\.linux-amd64\
     echo '[default]\naws_access_key_id = \naws_secret_access_key = ' >> /root/.aws/credentials && \
     echo '[default]\nregion = us-east-1' >> /root/.aws/config && \
     cd /root && \
+    curl -sL https://aka.ms/InstallAzureCLIDeb | bash && \
+    cd /root && \
     eval $(curl -sL "https://cloud.google.com/sdk/docs/install" | grep -oE "curl -O https://dl.google.com/dl/cloudsdk/channels/.+\.tar\.gz" | grep x86_64) && \
     tar -xzf $(ls | grep "google.*\.tar\.gz") && \
     rm $(ls | grep "google.*\.tar\.gz") && \
@@ -194,7 +212,13 @@ COPY --from=projectdiscovery_builder /go/nuclei/v2/cmd/nuclei/nuclei /opt/execut
 COPY --from=projectdiscovery_builder /go/cloudlist/cmd/cloudlist/cloudlist /opt/executables/
 COPY --from=projectdiscovery_builder /go/uncover/cmd/uncover/uncover /opt/executables/
 
+COPY --from=hakluke_builder /go/hakrawler/hakrawler /opt/executables/
+COPY --from=hakluke_builder /go/hakrevdns/hakrevdns /opt/executables/
+COPY --from=hakluke_builder /go/haktldextract/haktldextract /opt/executables/
+
 COPY --from=terraform_builder /go/terraform/terraform /opt/executables/
+COPY --from=metabigor_builder /go/metabigor/metabigor /opt/executables/
+COPY --from=amass_builder /go/amass/cmd/amass/amass /opt/executables/
 COPY --from=tomnomnom_builder /go/gron/gron /opt/executables/
 COPY --from=tomnomnom_builder /go/httprobe/httprobe /opt/executables/
 COPY --from=tomnomnom_builder /go/assetfinder/assetfinder /opt/executables/
@@ -221,11 +245,17 @@ RUN python3 -m pip install requests && \
 # ======================================================================== Cloud Security Specific Tools =====
 # ============================================================================================================
 
-# install scoutsuite kubectl and cloudsploit
+# install scoutsuite and cloudenum
 RUN python3 -m pip install --upgrade setuptools wheel pip && \
     cd /opt && \
     git clone --depth=1 https://github.com/nccgroup/ScoutSuite scoutsuite && \
-    cd /opt/executables/ && \
+    git clone --depth=1 https://github.com/initstring/cloud_enum && \
+    python3 -m venv cloudenumvenv && \
+    . cloudenumvenv/bin/activate && \
+    python3 -m pip install -r requirements.txt
+
+# install kubectl and cloudsploit
+RUN cd /opt/executables/ && \
     curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" && \
     chmod +x kubectl && \
     cd /opt && \
