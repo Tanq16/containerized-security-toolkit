@@ -1,59 +1,87 @@
 FROM golang AS go_builder
+RUN mkdir /executables
 RUN git clone --depth=1 https://github.com/OJ/gobuster.git && \
-    cd gobuster && go get && go build
+    cd gobuster && go get && go build && mv gobuster /executables && \
+    cd /go && rm -rf gobuster
 RUN git clone --depth=1 https://github.com/insidersec/insider && \
-    cd insider/cmd/insider && go get && go build
+    cd insider/cmd/insider && go get && go build && mv insider /executables && \
+    cd /go && rm -rf insider
 RUN git clone --depth=1 https://github.com/s0md3v/Smap && \
-    cd Smap/cmd/smap && go get && go build
+    cd Smap/cmd/smap && go get && go build && mv smap /executables && \
+    cd /go && rm -rf Smap
 RUN git clone --depth=1 https://github.com/hahwul/dalfox && \
-    cd dalfox && go get && go build
+    cd dalfox && go get && go build && mv dalfox /executables && \
+    cd /go && rm -rf dalfox
 RUN git clone --depth=1 https://github.com/Shopify/kubeaudit && \
-    cd kubeaudit/cmd && go get && go build && mv cmd kubeaudit
+    cd kubeaudit/cmd && go get && go build && mv cmd /executables/kubeaudit && \
+    cd /go && rm -rf kubeaudit
 RUN git clone --depth=1 https://github.com/praetorian-inc/fingerprintx && \
-    cd fingerprintx/cmd/fingerprintx && go get && go build
+    cd fingerprintx/cmd/fingerprintx && go get && go build && mv fingerprintx /executables && \
+    cd /go && rm -rf fingerprintx
 RUN git clone --depth=1 https://github.com/hashicorp/terraform.git && \
-    cd terraform && go get && go build
+    cd terraform && go get && go build && mv terraform /executables && \
+    cd /go && rm -rf terraform
 RUN git clone --depth=1 https://github.com/OWASP/amass.git && \
-    cd amass/cmd/amass && go get && go build
+    cd amass/cmd/amass && go get && go build && mv amass /executables && \
+    cd /go && rm -rf amass
 RUN git clone --depth=1 https://github.com/j3ssie/metabigor && \
-    cd metabigor && go get && go build
+    cd metabigor && go get && go build && mv metabigor /executables && \
+    cd /go && rm -rf metabigor
 
 FROM golang AS projectdiscovery_builder
+RUN mkdir /executables
 RUN apt update && apt install git libpcap-dev -y && \
     git clone --depth=1 https://github.com/projectdiscovery/subfinder && \
-    cd subfinder/v2/cmd/subfinder && go get && go build
+    cd subfinder/v2/cmd/subfinder && go get && go build && mv subfinder /executables && \
+    cd /go && rm -rf subfinder
 RUN git clone --depth=1 https://github.com/projectdiscovery/naabu && \
-    cd naabu/v2/cmd/naabu && go get && go build
+    cd naabu/v2/cmd/naabu && go get && go build && mv naabu /executables && \
+    cd /go && rm -rf naabu
 RUN git clone --depth=1 https://github.com/projectdiscovery/httpx && \
-    cd httpx/cmd/httpx && go get && go build
+    cd httpx/cmd/httpx && go get && go build && mv httpx /executables && \
+    cd /go && rm -rf httpx
 RUN git clone --depth=1 https://github.com/projectdiscovery/dnsx && \
-    cd dnsx/cmd/dnsx && go get && go build
+    cd dnsx/cmd/dnsx && go get && go build && mv dnsx /executables && \
+    cd /go && rm -rf dnsx
 RUN git clone --depth=1 https://github.com/projectdiscovery/mapcidr && \
-    cd mapcidr/cmd/mapcidr && go get && go build
+    cd mapcidr/cmd/mapcidr && go get && go build && mv mapcidr /executables && \
+    cd /go && rm -rf mapcidr
 RUN git clone --depth=1 https://github.com/projectdiscovery/proxify && \
-    cd proxify/cmd/proxify && go get && go build
+    cd proxify/cmd/proxify && go get && go build && mv proxify /executables && \
+    cd /go && rm -rf proxify
 RUN git clone --depth=1 https://github.com/projectdiscovery/nuclei && \
-    cd nuclei/v2/cmd/nuclei && go get && go build
+    cd nuclei/v2/cmd/nuclei && go get && go build && mv nuclei /executables && \
+    cd /go && rm -rf nuclei
 RUN git clone --depth=1 https://github.com/projectdiscovery/cloudlist && \
-    cd cloudlist/cmd/cloudlist && go get && go build
+    cd cloudlist/cmd/cloudlist && go get && go build && mv cloudlist /executables && \
+    cd /go && rm -rf cloudlist
 RUN git clone --depth=1 https://github.com/projectdiscovery/uncover && \
-    cd uncover/cmd/uncover && go get && go build
+    cd uncover/cmd/uncover && go get && go build && mv uncover /executables && \
+    cd /go && rm -rf uncover
 
 FROM golang AS hakluke_builder
+RUN mkdir /executables
 RUN git clone --depth=1 https://github.com/hakluke/hakrawler && \
-    cd hakrawler && go get && go build
+    cd hakrawler && go get && go build && mv hakrawler /executables && \
+    cd /go && rm -rf hakrawler
 RUN git clone --depth=1 https://github.com/hakluke/hakrevdns && \
-    cd hakrevdns && go mod init hakrevdns && go mod tidy && go get && go build
+    cd hakrevdns && go mod init hakrevdns && go mod tidy && go get && go build && mv hakrevdns /executables && \
+    cd /go && rm -rf hakrevdns
 RUN git clone --depth=1 https://github.com/hakluke/haktldextract && \
-    cd haktldextract && go get && go build
+    cd haktldextract && go get && go build && mv haktldextract /executables && \
+    cd /go && rm -rf haktldextract
 
 FROM golang AS tomnomnom_builder
+RUN mkdir /executables
 RUN git clone --depth=1 https://github.com/tomnomnom/gron && \
-    cd gron && go get && go build
+    cd gron && go get && go build && mv gron /executables && \
+    cd /go && rm -rf gron
 RUN git clone --depth=1 https://github.com/tomnomnom/assetfinder && \
-    cd assetfinder && go mod init assetfinder && go mod tidy && go get && go build
+    cd assetfinder && go mod init assetfinder && go mod tidy && go get && go build && mv assetfinder /executables && \
+    cd /go && rm -rf assetfinder
 RUN git clone --depth=1 https://github.com/tomnomnom/httprobe && \
-    cd httprobe && go get && go build
+    cd httprobe && go get && go build && mv httprobe /executables && \
+    cd /go && rm -rf httprobe
 
 # ============================================================================================================
 # ======================================================================= FINAL IMAGE Post Builder Stage =====
@@ -85,7 +113,7 @@ RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \
     python3-setuptools python3-pip python3 python3-dev ipython3 iproute2 python3-venv \
     inetutils-ping inetutils-telnet inetutils-tools inetutils-traceroute inetutils-ftp
 RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \
-    p7zip-full hexedit john tshark nasm fcrackzip binwalk
+    p7zip-full hexedit john fcrackzip binwalk
 
 # ============================================================================================================
 # =============================================================================== CLI Productivity Suite =====
@@ -180,33 +208,33 @@ RUN a=$(curl -s https://go.dev/dl/ | grep -oE "(/dl/go[\.0-9]{2,7}\.linux-amd64\
 RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash && \
     mkdir /opt/executables
 
-COPY --from=go_builder /go/gobuster/gobuster /opt/executables/
-COPY --from=go_builder /go/insider/cmd/insider/insider /opt/executables/
-COPY --from=go_builder /go/Smap/cmd/smap/smap /opt/executables/
-COPY --from=go_builder /go/dalfox/dalfox /opt/executables/
-COPY --from=go_builder /go/kubeaudit/cmd/kubeaudit /opt/executables/
-COPY --from=go_builder /go/fingerprintx/cmd/fingerprintx/fingerprintx /opt/executables/
-COPY --from=go_builder /go/terraform/terraform /opt/executables/
-COPY --from=go_builder /go/metabigor/metabigor /opt/executables/
-COPY --from=go_builder /go/amass/cmd/amass/amass /opt/executables/
+COPY --from=go_builder /executables/gobuster /opt/executables/
+COPY --from=go_builder /executables/insider /opt/executables/
+COPY --from=go_builder /executables/smap /opt/executables/
+COPY --from=go_builder /executables/dalfox /opt/executables/
+COPY --from=go_builder /executables/kubeaudit /opt/executables/
+COPY --from=go_builder /executables/fingerprintx /opt/executables/
+COPY --from=go_builder /executables/terraform /opt/executables/
+COPY --from=go_builder /executables/metabigor /opt/executables/
+COPY --from=go_builder /executables/amass /opt/executables/
 
-COPY --from=projectdiscovery_builder /go/subfinder/v2/cmd/subfinder/subfinder /opt/executables/
-COPY --from=projectdiscovery_builder /go/naabu/v2/cmd/naabu/naabu /opt/executables/
-COPY --from=projectdiscovery_builder /go/httpx/cmd/httpx/httpx /opt/executables/
-COPY --from=projectdiscovery_builder /go/dnsx/cmd/dnsx/dnsx /opt/executables/
-COPY --from=projectdiscovery_builder /go/mapcidr/cmd/mapcidr/mapcidr /opt/executables/
-COPY --from=projectdiscovery_builder /go/proxify/cmd/proxify/proxify /opt/executables/
-COPY --from=projectdiscovery_builder /go/nuclei/v2/cmd/nuclei/nuclei /opt/executables/
-COPY --from=projectdiscovery_builder /go/cloudlist/cmd/cloudlist/cloudlist /opt/executables/
-COPY --from=projectdiscovery_builder /go/uncover/cmd/uncover/uncover /opt/executables/
+COPY --from=projectdiscovery_builder /executables/subfinder /opt/executables/
+COPY --from=projectdiscovery_builder /executables/naabu /opt/executables/
+COPY --from=projectdiscovery_builder /executables/httpx /opt/executables/
+COPY --from=projectdiscovery_builder /executables/dnsx /opt/executables/
+COPY --from=projectdiscovery_builder /executables/mapcidr /opt/executables/
+COPY --from=projectdiscovery_builder /executables/proxify /opt/executables/
+COPY --from=projectdiscovery_builder /executables/nuclei /opt/executables/
+COPY --from=projectdiscovery_builder /executables/cloudlist /opt/executables/
+COPY --from=projectdiscovery_builder /executables/uncover /opt/executables/
 
-COPY --from=hakluke_builder /go/hakrawler/hakrawler /opt/executables/
-COPY --from=hakluke_builder /go/hakrevdns/hakrevdns /opt/executables/
-COPY --from=hakluke_builder /go/haktldextract/haktldextract /opt/executables/
+COPY --from=hakluke_builder /executables/hakrawler /opt/executables/
+COPY --from=hakluke_builder /executables/hakrevdns /opt/executables/
+COPY --from=hakluke_builder /executables/haktldextract /opt/executables/
 
-COPY --from=tomnomnom_builder /go/gron/gron /opt/executables/
-COPY --from=tomnomnom_builder /go/httprobe/httprobe /opt/executables/
-COPY --from=tomnomnom_builder /go/assetfinder/assetfinder /opt/executables/
+COPY --from=tomnomnom_builder /executables/gron /opt/executables/
+COPY --from=tomnomnom_builder /executables/httprobe /opt/executables/
+COPY --from=tomnomnom_builder /executables/assetfinder /opt/executables/
 
 # ============================================================================================================
 # ===================================================================== Miscellaneous Tool Installations =====
