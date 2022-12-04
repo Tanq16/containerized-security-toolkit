@@ -83,12 +83,14 @@ RUN DEBIAN_FRONTEND="noninteractive" apt update && \
     DEBIAN_FRONTEND="noninteractive" apt upgrade -y && \
     DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \
     strace ltrace wget apt-transport-https openssl gpg-agent openssh-server make jc jq \
-    openvpn git gdb tmux tree gnupg2 ruby-full vim curl less file zsh bat fd-find htop \
+    openvpn git gdb tmux tree gnupg2 ruby-full vim curl less file zsh bat fd-find htop
+RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \    
     ntp gcc zip unzip perl php tzdata yarnpkg gnupg nginx nmap ncat nikto hydra ncdu jc \
     dnsutils nodejs npm locales language-pack-en bsdmainutils whois ugrep ripgrep groff
 RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \
     python3-setuptools python3-pip python3 python3-dev ipython3 iproute2 python3-venv \
-    inetutils-ping inetutils-telnet inetutils-tools inetutils-traceroute inetutils-ftp \
+    inetutils-ping inetutils-telnet inetutils-tools inetutils-traceroute inetutils-ftp
+RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \
     p7zip-full hexedit john tshark nasm fcrackzip binwalk
 
 # ============================================================================================================
@@ -130,7 +132,7 @@ RUN curl -L http://install.ohmyz.sh | sh && \
 
 # Tool installations
 
-# pwndbg msf and select seclists
+# pwndbg msf edb and select seclists
 RUN git clone --depth=1 https://github.com/pwndbg/pwndbg /opt/pwndbg && \
     cd /opt/pwndbg && \
     ./setup.sh && \
@@ -139,7 +141,7 @@ RUN git clone --depth=1 https://github.com/pwndbg/pwndbg /opt/pwndbg && \
     chmod 755 msfinstall && \
     ./msfinstall && \
     rm msfinstall && \
-    git clone --depth=1  https://gitlab.com/exploit-database/exploitdb.git /opt/exploit-database && \
+    git clone --depth=1 https://gitlab.com/exploit-database/exploitdb.git /opt/exploit-database && \
     ln -sf /opt/exploit-database/searchsploit /usr/local/bin/searchsploit && \
     mkdir /opt/lists/ && cd /opt/lists/ && \
     wget https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/DNS/subdomains-top1million-110000.txt -O subdomains_top_110000.txt && \
