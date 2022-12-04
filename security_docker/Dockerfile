@@ -252,7 +252,9 @@ RUN python3 -m pip install --upgrade setuptools wheel pip && \
     git clone --depth=1 https://github.com/initstring/cloud_enum && \
     python3 -m venv cloudenumvenv && \
     . cloudenumvenv/bin/activate && \
-    python3 -m pip install -r requirements.txt
+    cd cloud_enum && \
+    python3 -m pip install -r requirements.txt && \
+    deactivate
 
 # install kubectl and cloudsploit
 RUN cd /opt/executables/ && \
