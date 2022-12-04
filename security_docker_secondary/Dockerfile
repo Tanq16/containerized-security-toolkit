@@ -105,9 +105,9 @@ RUN DEBIAN_FRONTEND="noninteractive" apt update && \
     DEBIAN_FRONTEND="noninteractive" apt upgrade -y && \
     DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \
     strace ltrace wget apt-transport-https openssl gpg-agent openssh-server make jc jq \
-    openvpn git tmux tree gnupg2 vim curl less file zsh bat fd-find htop
+    openvpn git gdb tmux tree gnupg2 ruby-full vim curl less file zsh bat fd-find htop
 RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \    
-    ntp gcc zip unzip php tzdata yarnpkg gnupg nmap ncat nikto hydra ncdu jc \
+    ntp gcc zip unzip perl php tzdata yarnpkg gnupg nginx nmap ncat nikto hydra ncdu jc \
     dnsutils nodejs npm locales language-pack-en bsdmainutils whois ugrep ripgrep groff
 RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \
     python3-setuptools python3-pip python3 python3-dev ipython3 iproute2 python3-venv \
@@ -154,8 +154,18 @@ RUN curl -L http://install.ohmyz.sh | sh && \
 
 # Tool installations
 
-# pwndbg select seclists
-RUN mkdir /opt/lists/ && cd /opt/lists/ && \
+# pwndbg msf edb and select seclists
+RUN git clone --depth=1 https://github.com/pwndbg/pwndbg /opt/pwndbg && \
+    cd /opt/pwndbg && \
+    ./setup.sh && \
+    cd / && \
+    curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb > msfinstall && \
+    chmod 755 msfinstall && \
+    ./msfinstall && \
+    rm msfinstall && \
+    git clone --depth=1 https://gitlab.com/exploit-database/exploitdb.git /opt/exploit-database && \
+    ln -sf /opt/exploit-database/searchsploit /usr/local/bin/searchsploit && \
+    mkdir /opt/lists/ && cd /opt/lists/ && \
     wget https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/DNS/subdomains-top1million-110000.txt -O subdomains_top_110000.txt && \
     wget https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/Infrastructure/common-router-ips.txt -O common_router_ips.txt && \
     wget https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/Infrastructure/common-http-ports.txt -O common_http_ports.txt && \
@@ -195,35 +205,36 @@ RUN a=$(curl -s https://go.dev/dl/ | grep -oE "(/dl/go[\.0-9]{2,7}\.linux-amd64\
     echo "[ -f /root/google-cloud-sdk/path.zsh.inc ] && source /root/google-cloud-sdk/path.zsh.inc" >> /root/.zshrc && \
     echo "[ -f /root/google-cloud-sdk/completion.zsh.inc ] && source /root/google-cloud-sdk/completion.zsh.inc" >> /root/.zshrc
 
-RUN mkdir /opt/executables
+RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash && \
+    mkdir /opt/executables
 
-COPY --from=go_builder /executables/* /opt/executables/
-# COPY --from=go_builder /executables/insider /opt/executables/
-# COPY --from=go_builder /executables/smap /opt/executables/
-# COPY --from=go_builder /executables/dalfox /opt/executables/
-# COPY --from=go_builder /executables/kubeaudit /opt/executables/
-# COPY --from=go_builder /executables/fingerprintx /opt/executables/
-# COPY --from=go_builder /executables/terraform /opt/executables/
-# COPY --from=go_builder /executables/metabigor /opt/executables/
-# COPY --from=go_builder /executables/amass /opt/executables/
+COPY --from=go_builder /executables/gobuster /opt/executables/
+COPY --from=go_builder /executables/insider /opt/executables/
+COPY --from=go_builder /executables/smap /opt/executables/
+COPY --from=go_builder /executables/dalfox /opt/executables/
+COPY --from=go_builder /executables/kubeaudit /opt/executables/
+COPY --from=go_builder /executables/fingerprintx /opt/executables/
+COPY --from=go_builder /executables/terraform /opt/executables/
+COPY --from=go_builder /executables/metabigor /opt/executables/
+COPY --from=go_builder /executables/amass /opt/executables/
 
-COPY --from=projectdiscovery_builder /executables/* /opt/executables/
-# COPY --from=projectdiscovery_builder /executables/naabu /opt/executables/
-# COPY --from=projectdiscovery_builder /executables/httpx /opt/executables/
-# COPY --from=projectdiscovery_builder /executables/dnsx /opt/executables/
-# COPY --from=projectdiscovery_builder /executables/mapcidr /opt/executables/
-# COPY --from=projectdiscovery_builder /executables/proxify /opt/executables/
-# COPY --from=projectdiscovery_builder /executables/nuclei /opt/executables/
-# COPY --from=projectdiscovery_builder /executables/cloudlist /opt/executables/
-# COPY --from=projectdiscovery_builder /executables/uncover /opt/executables/
+COPY --from=projectdiscovery_builder /executables/subfinder /opt/executables/
+COPY --from=projectdiscovery_builder /executables/naabu /opt/executables/
+COPY --from=projectdiscovery_builder /executables/httpx /opt/executables/
+COPY --from=projectdiscovery_builder /executables/dnsx /opt/executables/
+COPY --from=projectdiscovery_builder /executables/mapcidr /opt/executables/
+COPY --from=projectdiscovery_builder /executables/proxify /opt/executables/
+COPY --from=projectdiscovery_builder /executables/nuclei /opt/executables/
+COPY --from=projectdiscovery_builder /executables/cloudlist /opt/executables/
+COPY --from=projectdiscovery_builder /executables/uncover /opt/executables/
 
-COPY --from=hakluke_builder /executables/* /opt/executables/
-# COPY --from=hakluke_builder /executables/hakrevdns /opt/executables/
-# COPY --from=hakluke_builder /executables/haktldextract /opt/executables/
+COPY --from=hakluke_builder /executables/hakrawler /opt/executables/
+COPY --from=hakluke_builder /executables/hakrevdns /opt/executables/
+COPY --from=hakluke_builder /executables/haktldextract /opt/executables/
 
-COPY --from=tomnomnom_builder /executables/* /opt/executables/
-# COPY --from=tomnomnom_builder /executables/httprobe /opt/executables/
-# COPY --from=tomnomnom_builder /executables/assetfinder /opt/executables/
+COPY --from=tomnomnom_builder /executables/gron /opt/executables/
+COPY --from=tomnomnom_builder /executables/httprobe /opt/executables/
+COPY --from=tomnomnom_builder /executables/assetfinder /opt/executables/
 
 # ============================================================================================================
 # ===================================================================== Miscellaneous Tool Installations =====
