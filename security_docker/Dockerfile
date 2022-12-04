@@ -65,7 +65,10 @@ RUN curl -L http://install.ohmyz.sh | sh && \
 # ============================================================================================================
 
 # select seclists; install golang semgrep rich aws cliv2 and gcloud; create executables
-RUN mkdir /opt/lists/ && cd /opt/lists/ && \
+RUN git clone --depth=1 https://github.com/pwndbg/pwndbg /opt/pwndbg && \
+    cd /opt/pwndbg && \
+    ./setup.sh && \
+    mkdir /opt/lists/ && cd /opt/lists/ && \
     wget https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/DNS/subdomains-top1million-110000.txt -O subdomains_top_110000.txt && \
     wget https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/Infrastructure/common-router-ips.txt -O common_router_ips.txt && \
     wget https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/Infrastructure/common-http-ports.txt -O common_http_ports.txt && \
@@ -105,15 +108,20 @@ RUN mkdir /opt/lists/ && cd /opt/lists/ && \
     echo "[ -f /root/google-cloud-sdk/completion.zsh.inc ] && source /root/google-cloud-sdk/completion.zsh.inc" >> /root/.zshrc
     
 RUN mkdir /opt/executables && \
-    curl -sL https://aka.ms/InstallAzureCLIDeb | bash
+    curl -sL https://aka.ms/InstallAzureCLIDeb | bash && \
+    cd / && \
+    curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb > msfinstall && \
+    chmod 755 msfinstall && \
+    ./msfinstall && \
+    rm msfinstall && \
+    git clone --depth=1 https://gitlab.com/exploit-database/exploitdb.git /opt/exploit-database && \
+    ln -sf /opt/exploit-database/searchsploit /usr/local/bin/searchsploit
 
 COPY --from=tool_builder /executables/* /opt/executables/
 
 # ============================================================================================================
 # ===================================================================== Miscellaneous Tool Installations =====
 # ============================================================================================================
-
-# All other installations go here to benefit from layer caching of other installs
 
 # install requests trivy testssl and sqlmap
 RUN python3 -m pip install requests && \
@@ -123,6 +131,7 @@ RUN python3 -m pip install requests && \
     tar -xzf "trivy_""$b""_Linux-64bit.tar.gz" && \
     mv trivy /opt/executables/ && \
     rm -rf "trivy_""$b""_Linux-64bit.tar.gz" LICENSE README.md contrib && \
+    git clone --depth=1 https://github.com/sqlmapproject/sqlmap /opt/sqlmap && \
     cd /opt && \
     git clone --depth 1 https://github.com/drwetter/testssl.sh.git
 
