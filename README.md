@@ -17,9 +17,9 @@ This repository contains Dockerfiles for ARM (Apple Silicon) and x86_64 variants
 * An image that contains many security focussed tools
 * Base Dockerfiles to be used for building other images from the same awesome experience of the container
 
-The security focussed image is also available to be directly pulled from docker hub. A GitHub CI Action builds and pushes the images to docker hub monthly and on every commit. The Apple Silicon images are built using [Buildx](https://docs.docker.com/buildx/working-with-buildx/).
+The security focussed image is available to be directly pulled from docker hub. A GitHub CI Action builds and pushes the images to docker hub 4 times every month and on every commit. The Apple Silicon images are built using [Buildx](https://docs.docker.com/buildx/working-with-buildx/).
 
-The image is called `sec_docker` and it has the [cli-productivity-suite](https://github.com/tanq16/cli-productivity-suite) preinstalled i.e., a funky shell along with customized `vim` and `tmux`. The base Dockerfiles also have the same experience to build off it.
+The image is called `sec_docker` and it has the [cli-productivity-suite](https://github.com/tanq16/cli-productivity-suite) preinstalled i.e., a funky shell along with customized `vim` and `tmux`. The base Dockerfiles also have the same experience to build off it. The golang executables are built and copied over from another docker container which is built once a month over at the [tool_builder](https://github.com/tanq16/dockers_tool_builder) repo.
 
 Read the conventions and example workflow. They work for me, but feel free to define your own.
 
@@ -29,10 +29,10 @@ Read the conventions and example workflow. They work for me, but feel free to de
 
 The images are built with the intention of ssh-ing into it and making use of `tmux` to work. Further, the conventions followed for building the images are &rarr;
 
-* ports mapping follows convention &rarr; `shared port` = `port + 50000`
+* port mapping follows convention &rarr; `shared port` = `port + 50000`
 * port for dynamic port forwarding when ssh-ing into the container = `65500`
 * volume mount to `/work` or `/persist` (helps with persistence across runs or sessions)
-* general installations made using Dockerfile should be placed under `/opt` while executables under `/opt/executables` so that can be added to path
+* general tool installations should be under `/opt` while executables under `/opt/executables` (added to path)
 * maintain a `run.sh` file for common stuff to run when the container starts (also helps with persistence)
 
 <details>
@@ -55,9 +55,9 @@ This will start the container which can be ssh-ed into. The `tail -f /dev/null` 
 
 ## Pre-Built
 
-To pull a prebuilt image, use `docker pull tanq16/sec_docker:main`. For the Apple Silicon version, use the tag `tanq16/sec_docker:main_apple`.
+To pull a pre-built image, use `docker pull tanq16/sec_docker:main`. For the Apple Silicon version, use the tag `tanq16/sec_docker:main_apple`.
 
-Then follow the workflow outlined in the Example Workflow section to use the image. The security image is actually huge ins size due to cloud tools installed within which require python virtual environments which can be 1 GB large. So the images are around 5-6 GB in size.
+The security image is actually huge in size due to some of the tools like msfconsole and az-cli. So the images are around 5-6 GB in size.
 
 To remove dangling images when refreshing with new builds, use the `docker rm` command or the following alias from the CLI-Productivity Suite &rarr;
 
@@ -69,7 +69,7 @@ alias dockernonerm='for i in $(docker images -f dangling=true -q); do docker ima
 
 ## Self-Built
 
-The containers can be built by cloning and using `docker build`. The `base_docker` directory contains starter Dockerfiles with basic tools and the CLI-Productivity Suite preinstalled. The ssh workflow is also installed, and there is space to add further RUN statements.
+The containers can be built by cloning and using `docker build`. The `base_docker` directory contains starter Dockerfiles with basic tools and the CLI-Productivity Suite preinstalled.
 
 <details>
 <summary>Example build command</summary>
@@ -82,17 +82,17 @@ cd dockers/security_docker
 docker build -t <your_tag> .
 ```
 
-</details>
-
 The `security_docker` directory also contains a Dockerfile for Apple Silicon Macs, which can be specified using the `--file Dockerfile.AppleSilicon` flag for the `docker build` command.
+
+</details>
 
 The `init.toml` file must be inside the same directory as the Dockerfile, as the build process copies it and prevents the configuration wizard for `SpaceVim`, though the plugins still need to be installed during the first run.
 
 ---
 
-## Example Workflow
+## Example Usage Workflow
 
-The images are mainly meant to be used as a linux system for work. The example here will follow an example workflow using the security image.
+The images are mainly meant to be used as a linux system for work. The example here is for the security image.
 
 The idea is to have a container with a mount of a persistent storage directory. The shell history or any required configuration file can be shared with the docker for persistence as well. To do this, create a directory in the host home directory `docker_work`. The structure of the directory can be as follows &rarr;
 
@@ -154,15 +154,15 @@ stop_work(){
 
 Now, the start function can be executed to start the docker container in a detached state which can be ssh-ed into using the password that is printed on the screen after the container ID. 
 
-Following the CLI-Productivity Suite, it's best to dp the following &rarr;
+Following the CLI-Productivity Suite, it's best to do the following after ssh-ing &rarr;
 
-1. Execute `run.sh` using &rarr; `sh run.sh` from the home directory within the directory
-2. Start `vim` to have the auto plugin install kick in, which takes 8-10 seconds, then exit to have `vim` configured fully the next time it's invoked
-3. Start a `tmux` session using the alias `tt` and press `Ctrl+b` followed by `Shift+i`, which will take 2 seconds to update the theme and add tmux plugins and custom configuration
+1. Execute `run.sh` using &rarr; `sh run.sh` right after ssh-ing
+2. Start `vim` to trigger auto plugin install, which takes ~10 seconds, then exit so that `vim` is fully configured for the next launch
+3. Start a `tmux` default session using the alias `tt` and press `Ctrl+b` followed by `Shift+i`, which takes ~3 seconds to trigger auto plugin and configuration install
 
-At this point the container is fully ready and usable. The `run.sh` script can be customized to contain any instructions needed to get a container ready for work. This can be directly run from the home directory as it's copied in the start image function. The script above contains commands to fix slow paste in `oh-my-zsh`.
+Thats it! At this point the container is fully ready and usable. The `run.sh` script can be customized to contain any instructions needed to get a container ready for work. This can be directly run from the home directory as it's copied in the start image function. This script also contains commands to fix slow paste in `oh-my-zsh`.
 
-Calling `stop_work` after exiting the container will stop the running container.
+Calling `stop_work` after exiting the container will stop the running container and store the history on the host to copy it back when the image is launched the next time.
 
 ---
 
@@ -177,8 +177,8 @@ The following is a non-exhaustive list of tools installed on the security docker
 * Nmap and Ncat
 * GoBuster & Nikto
 * Hydra and John The Ripper
-* Selective wordlists at `/opt/lists`
-* MetaSploit and SearchSploit
+* Selective SecLists wordlists at `/opt/lists`
+* MetaSploit and SearchSploit (ExploitDB)
 * SemGrep
 * ProjectDiscovery Tools &rarr; 
     * subfinder
@@ -190,10 +190,16 @@ The following is a non-exhaustive list of tools installed on the security docker
     * nuclei
     * cloudlist
     * uncover
+* Hakrawler (by HakLuke)
+* Hakrevdns (by HakLuke)
+* Haktldextract (by HakLuke)
+* Assetfinder (by Tomnomnom)
+* HTTProbe (by Tomnomnom)
 * DalFox
 * Insider
+* Amass
 * SMAP
-* WPScan
+* Metabigor
 * TestSSL
 * SQLMap
 
@@ -202,14 +208,12 @@ The following is a non-exhaustive list of tools installed on the security docker
 <details>
 <summary> Cloud Security Tools</summary>
 
-* AWS and GCloud CLI
+* AWS, Azure and GCloud CLI
 * Terraform
 * KubeAudit
 * Trivy
 * ScoutSuite
-* Checkov
 * KubeCTL
-* PMapper
 * CloudSploit
 
 </details>
@@ -223,7 +227,6 @@ The following is a non-exhaustive list of tools installed on the security docker
 * NodeJS, NPM and YarnPKG
 * Ruby
 * Perl
-* NASM
 * NginX
 * GCC
 * Make
@@ -233,12 +236,11 @@ The following is a non-exhaustive list of tools installed on the security docker
 <details>
 <summary>QoL Tools</summary>
 
-* ZSH shell with Oh-My-Zsh, auto-completion, FZF, LSD, RipGrep, Fd-Find SpaceShip Prompt
+* ZSH shell with Oh-My-Zsh, auto-completion, FZF, LSD, RipGrep, Ugrep, Fd-Find and the SpaceShip Prompt
 * VIM with SpaceVim and Nord theme
 * TMUX with Nord theme, custom config file with mouse support plugins and custom shortcuts + tmux_sensible plugin
 * Custom aliases within `.zshrc`
-* JSON Tools &rarr; JQ and Gron
-* Diagrams Python library for creating cloud diagrams
+* JSON Tools &rarr; JQ, JC and Gron
 * Python Rich library and Rich-CLI tool
 * OpenSSL, OpenSSH, Tree, Git, WGET, Curl and some INET tools
 * Shell functions for file encryption/decryption - `fencrypt` and `fdecrypt` to encrypt using AES 256 ECB mode on a file
@@ -248,6 +250,8 @@ The following is a non-exhaustive list of tools installed on the security docker
 ---
 
 ## Bonus Information
+
+To run any python based tools from the container, usually an appropriately named python venv directory will be already placed in the tool directory. Activate that and install requirements to use the tool. This is kind of a forced habit to always use venvs so that the base python library structure doesn't get messed up. Although, even if it does, the image can be restarted from fresh pretty quickly without any real loss of data.
 
 To ssh into the docker without adding it to the hosts file, use the following command &rarr;
 
@@ -263,7 +267,7 @@ alias sshide='ssh -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null
     
 This is automatically installed when setting up CLI-Productivity Suite on the host machine.
 
-It is also useful to have buildkit enabled when building the images. This can be done by using the following command or adding it to the shell rc file &rarr;
+It is also useful to have buildkit enabled when building the images locally. This can be done by using the following command or adding it to the shell rc file &rarr;
 
 ```bash
 export DOCKER_BUILDKIT=1

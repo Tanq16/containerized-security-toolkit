@@ -25,7 +25,7 @@ RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \
     python3-setuptools python3-pip python3 python3-dev ipython3 iproute2 python3-venv \
     inetutils-ping inetutils-telnet inetutils-tools inetutils-traceroute inetutils-ftp
 RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \
-    p7zip-full hexedit john fcrackzip binwalk
+    p7zip-full hexedit john fcrackzip binwalk perl ruby-full
 
 # ============================================================================================================
 # =============================================================================== CLI Productivity Suite =====
@@ -64,7 +64,7 @@ RUN curl -L http://install.ohmyz.sh | sh && \
 # ========================================================================== External Tools Installation =====
 # ============================================================================================================
 
-# select seclists; install golang semgrep rich aws cliv2 and gcloud; create executables
+# pwndbg select seclists; install golang semgrep rich aws cliv2 and gcloud
 RUN git clone --depth=1 https://github.com/pwndbg/pwndbg /opt/pwndbg && \
     cd /opt/pwndbg && \
     ./setup.sh && \
@@ -106,7 +106,8 @@ RUN git clone --depth=1 https://github.com/pwndbg/pwndbg /opt/pwndbg && \
     google-cloud-sdk/install.sh -q && \
     echo "[ -f /root/google-cloud-sdk/path.zsh.inc ] && source /root/google-cloud-sdk/path.zsh.inc" >> /root/.zshrc && \
     echo "[ -f /root/google-cloud-sdk/completion.zsh.inc ] && source /root/google-cloud-sdk/completion.zsh.inc" >> /root/.zshrc
-    
+
+# create executables; install az cli msf edb
 RUN mkdir /opt/executables && \
     curl -sL https://aka.ms/InstallAzureCLIDeb | bash && \
     cd / && \
