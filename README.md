@@ -267,6 +267,8 @@ alias sshide='ssh -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null
     
 This is automatically installed when setting up CLI-Productivity Suite on the host machine.
 
+Also, using a `-D 65500` with the ssh command is helpful such that a fixed browser (maybe a firefox one) is always configured with this dynamic proxy. So, even if this image is being run on a cloud VM, sshing into the container with the port forwarding proxy can allow serving stuff in the container on the cloud and view on local.
+
 It is also useful to have buildkit enabled when building the images locally. This can be done by using the following command or adding it to the shell rc file &rarr;
 
 ```bash
