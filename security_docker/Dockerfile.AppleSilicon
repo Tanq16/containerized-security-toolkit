@@ -1,4 +1,4 @@
-FROM tanq16/tool_docker:main AS tool_builder
+FROM tanq16/tool_docker:main_apple AS tool_builder
 FROM ubuntu
 
 # ============================================================================================================
