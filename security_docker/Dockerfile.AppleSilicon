@@ -25,7 +25,7 @@ RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \
     python3-setuptools python3-pip python3 python3-dev ipython3 iproute2 python3-venv \
     inetutils-ping inetutils-telnet inetutils-tools inetutils-traceroute inetutils-ftp
 RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \
-    p7zip-full hexedit john fcrackzip binwalk perl ruby-full
+    p7zip-full hexedit john fcrackzip binwalk perl ruby-full xfonts-utils
 
 # ============================================================================================================
 # =============================================================================== CLI Productivity Suite =====
