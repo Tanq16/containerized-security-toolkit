@@ -53,7 +53,7 @@ RUN curl -L http://install.ohmyz.sh | sh && \
     git clone --depth 1 https://github.com/junegunn/fzf.git /root/.fzf && \
     /root/.fzf/install --all 1>/dev/null && \
     a=$(curl -L -s https://github.com/Peltoche/lsd/releases/latest | grep -oE "tag.+\"" | cut -d '/' -f2 | grep -vE "^[^0-9]" | cut -d "\"" -f1 | head -n 1) && \
-    wget "https://github.com/Peltoche/lsd/releases/download/$a/lsd_""$a""_amd64.deb" && \
+    echo $a && wget "https://github.com/Peltoche/lsd/releases/download/$a/lsd_""$a""_amd64.deb" && \
     apt install -y "./lsd_""$a""_amd64.deb" && \
     rm "lsd_""$a""_amd64.deb" && \
     cd /root && \
@@ -84,9 +84,9 @@ RUN git clone --depth=1 https://github.com/pwndbg/pwndbg /opt/pwndbg && \
     rm rockyou.txt.tar.gz && \
     cd / && \
     a=$(curl -s https://go.dev/dl/ | grep -oE "(/dl/go[\.0-9]{2,7}\.linux-amd64\.tar\.gz)" | head -n 1) && \
-    wget "https://golang.org$a" && \
+    echo $a && wget "https://golang.org$a" && \
     b=$(echo $a | cut -d "/" -f3) && \
-    tar -C /usr/local -xzf "$b" && \
+    echo $b && tar -C /usr/local -xzf "$b" && \
     rm "$b" && \
     curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
     unzip awscliv2.zip && \
@@ -128,7 +128,7 @@ COPY --from=tool_builder /executables/* /opt/executables/
 RUN python3 -m pip install requests && \
     a=$(curl -L -s https://github.com/aquasecurity/trivy/releases/latest | grep -oE "tag.+\"" | cut -d '/' -f2 | grep -vE "^[^v]" | cut -d "\"" -f1 | head -n 1) && \
     b=$(echo $a | tr -d "v") && \
-    wget "https://github.com/aquasecurity/trivy/releases/download/$a/trivy_""$b""_Linux-64bit.tar.gz" && \
+    echo $a && echo $b && wget "https://github.com/aquasecurity/trivy/releases/download/$a/trivy_""$b""_Linux-64bit.tar.gz" && \
     tar -xzf "trivy_""$b""_Linux-64bit.tar.gz" && \
     mv trivy /opt/executables/ && \
     rm -rf "trivy_""$b""_Linux-64bit.tar.gz" LICENSE README.md contrib && \
