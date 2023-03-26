@@ -70,7 +70,9 @@ RUN git clone --depth 1 https://github.com/junegunn/fzf.git /root/.fzf && \
     rm "lsd_""$a""_amd64.deb" && \
     cd /root && \
     curl -sLf https://spacevim.org/install.sh | bash && \
-    mkdir /root/.SpaceVim.d/
+    mkdir /root/.SpaceVim.d/ && \
+    wget https://raw.githubusercontent.com/Tanq16/cli-productivity-suite/master/spacevim_config && \
+    mv spacevim_config /root/.SpaceVim.d/init.toml
 
 # ============================================================================================================
 # ========================================================================== External Tools Installation =====
@@ -97,5 +99,3 @@ RUN python3 -m pip install --upgrade pip setuptools wheel && \
     ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && \
     echo $TZ > /etc/timezone && \
     echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
-COPY ./init.toml .
-RUN mv /init.toml /root/.SpaceVim.d/init.toml
