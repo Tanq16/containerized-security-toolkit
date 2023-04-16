@@ -110,7 +110,7 @@ Use the following command to set this structure up in the home directory &rarr;
 sh -c "$(curl -s https://raw.githubusercontent.com/Tanq16/dockers/main/workflow_structure_create.sh)"
 ```
 
-With this in place, 2 functions can be added to the host profile or the respective rc file.
+With this in place, the following functions can be added to the host profile or the respective rc file &rarr;
 
 <details>
 <summary>Start Image Function</summary>
@@ -147,6 +147,34 @@ stop_work(){
     # copy (save) the command history
     docker cp sec_docker:/root/.zsh_history $HOME/docker_work/.zsh_history
     docker stop sec_docker -t 0
+}
+```
+
+</details>
+
+Similar functions without the SSH requirements (instead only using `docker exec`) can be done with the following functions &rarr;
+
+<details>
+<summary>Functions for Start, Stop and Shell into the Container</summary>
+
+```bash
+shell_work(){
+    docker exec -it sec_docker_direct zsh
+}
+begin_work(){
+    docker run --name="sec_docker_direct" --rm -v $HOME/docker_work/persist/:/persist -d -it tanq16/sec_docker:main
+    # copy back prior history if it exists
+    if [ -f $HOME/docker_work/.zsh_history ]
+        then docker cp $HOME/docker_work/.zsh_history sec_docker_direct:/root/.zsh_history
+    fi
+    # copy the run.sh file to act as kind of a bootstrap script
+    docker cp $HOME/docker_work/run.sh sec_docker_direct:/root/run.sh
+
+}
+end_work(){
+    # copy (save) the command history
+    docker cp sec_docker_direct:/root/.zsh_history $HOME/docker_work/.zsh_history
+    docker stop sec_docker_direct -t 0
 }
 ```
 
