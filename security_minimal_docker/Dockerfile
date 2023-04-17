@@ -19,7 +19,7 @@ RUN DEBIAN_FRONTEND="noninteractive" apt update && \
     strace ltrace wget apt-transport-https openssl gpg-agent openssh-server make \
     openvpn git tmux tree gnupg2 vim curl less file zsh bat fd-find htop jc jq
 RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \    
-    ntp zip unzip php tzdata yarnpkg gnupg nmap ncat ncdu groff p7zip-full whois \
+    ntp zip unzip php tzdata gnupg nmap ncat ncdu groff whois \
     dnsutils locales language-pack-en bsdmainutils ugrep ripgrep xfonts-utils
 RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \
     python3-setuptools python3-pip python3 python3-dev ipython3 iproute2 python3-venv \
@@ -75,7 +75,7 @@ RUN a=$(curl -s https://go.dev/dl/ | grep -oE "(/dl/go[\.0-9]{2,7}\.linux-amd64\
     aws/install && \
     rm awscliv2.zip && \
     rm -rf aws && \
-    python3 -m pip install boto3 requests rich rich-cli semgrep && \
+    python3 -m pip install boto3 requests && \
     mkdir /root/.aws && \
     touch /root/.aws/credentials && \
     touch /root/.aws/config && \
