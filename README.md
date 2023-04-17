@@ -16,6 +16,7 @@ This repository contains Dockerfiles for ARM (Apple Silicon) and x86_64 variants
 
 * An image that contains many security focussed tools
 * Base Dockerfiles to be used for building other images from the same awesome experience of the container
+* The minimal folder contains a security image with most tools and a lower image size
 
 The security focussed image is available to be directly pulled from docker hub. A GitHub CI Action builds and pushes the images to docker hub 4 times every month and on every commit. The Apple Silicon images are built using [Buildx](https://docs.docker.com/buildx/working-with-buildx/).
 
