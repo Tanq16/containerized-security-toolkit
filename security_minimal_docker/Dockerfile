@@ -64,7 +64,7 @@ RUN curl -L http://install.ohmyz.sh | sh && \
 # ========================================================================== External Tools Installation =====
 # ============================================================================================================
 
-# install golang semgrep rich aws cliv2 gcloud and az cli
+# install golang and aws cliv2 with python libraries
 RUN a=$(curl -s https://go.dev/dl/ | grep -oE "(/dl/go[\.0-9]{2,7}\.linux-amd64\.tar\.gz)" | head -n 1) && \
     echo $a && wget "https://golang.org$a" && \
     b=$(echo $a | cut -d "/" -f3) && \
@@ -81,15 +81,7 @@ RUN a=$(curl -s https://go.dev/dl/ | grep -oE "(/dl/go[\.0-9]{2,7}\.linux-amd64\
     touch /root/.aws/config && \
     echo '[default]\naws_access_key_id = \naws_secret_access_key = ' >> /root/.aws/credentials && \
     echo '[default]\nregion = us-east-1' >> /root/.aws/config && \
-    cd /root && \
-    eval $(curl -sL "https://cloud.google.com/sdk/docs/install" | grep -oE "curl -O https://dl.google.com/dl/cloudsdk/channels/.+\.tar\.gz" | grep x86_64) && \
-    tar -xzf $(ls | grep "google.*\.tar\.gz") && \
-    rm $(ls | grep "google.*\.tar\.gz") && \
-    google-cloud-sdk/install.sh -q && \
-    echo "[ -f /root/google-cloud-sdk/path.zsh.inc ] && source /root/google-cloud-sdk/path.zsh.inc" >> /root/.zshrc && \
-    echo "[ -f /root/google-cloud-sdk/completion.zsh.inc ] && source /root/google-cloud-sdk/completion.zsh.inc" >> /root/.zshrc && \
-    mkdir /opt/executables && \
-    curl -sL https://aka.ms/InstallAzureCLIDeb | bash
+    mkdir /opt/executables
 
 COPY --from=tool_builder /executables/* /opt/executables/
 
@@ -101,9 +93,9 @@ COPY --from=tool_builder /executables/* /opt/executables/
 RUN python3 -m pip install --upgrade setuptools wheel pip && \
     cd /opt && \
     git clone --depth=1 https://github.com/initstring/cloud_enum && \
+    cd cloud_enum && \
     python3 -m venv cloudenumvenv && \
     . cloudenumvenv/bin/activate && \
-    cd cloud_enum && \
     python3 -m pip install -r requirements.txt && \
     deactivate && \
     cd /opt/executables/ && \
