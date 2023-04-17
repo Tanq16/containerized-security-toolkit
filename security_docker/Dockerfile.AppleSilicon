@@ -66,7 +66,7 @@ RUN curl -L http://install.ohmyz.sh | sh && \
 # ========================================================================== External Tools Installation =====
 # ============================================================================================================
 
-# pwndbg select seclists; install golang semgrep rich aws cliv2 azcli and gcloud
+# pwndbg select seclists; install golang semgrep rich aws cliv2 and gcloud
 RUN git clone --depth=1 https://github.com/pwndbg/pwndbg /opt/pwndbg && \
     cd /opt/pwndbg && \
     ./setup.sh && \

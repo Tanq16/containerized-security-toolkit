@@ -62,7 +62,7 @@ RUN curl -L http://install.ohmyz.sh | sh && \
 # ========================================================================== External Tools Installation =====
 # ============================================================================================================
 
-# install golang and aws cliv2 with python libraries
+# install kubectl golang and aws cliv2 with python libraries
 RUN a=$(curl -s https://go.dev/dl/ | grep -oE "(/dl/go[\.0-9]{2,7}\.linux-arm64\.tar\.gz)" | head -n 1) && \
     echo $a && wget "https://golang.org$a" && \
     b=$(echo $a | cut -d "/" -f3) && \

@@ -1,12 +1,17 @@
-# Docker Container for Everyday Work
+<h1 align="center">
+    Docker Container for Everyday Work
+    <br>
+</h1>
 
-* [Introduction](#introduction)
-* [Conventions](#conventions)
-* [Pre-Built](#pre-built)
-* [Self-Built](#self-built)
-* [Example Workflow](#example-workflow)
-* [Tools in the Security Image](#tools-in-the-security-image)
-* [Bonus Information](#bonus-information)
+<p align="center">
+    <a href="#introduction">Introduction</a> &bull; 
+    <a href="#conventions">Conventions</a> &bull; 
+    <a href="#pre-built">Pre-Built</a> &bull; 
+    <a href="#self-built">Self-Built</a> &bull; 
+    <a href="#example-workflow">Workflow</a> &bull; 
+    <a href="#tools-in-the-security-image">Tools Used</a> &bull; 
+    <a href="#bonus-information">Bonus</a>
+</p>
 
 ---
 
@@ -58,7 +63,7 @@ This will start the container which can be ssh-ed into. The `tail -f /dev/null` 
 
 To pull a pre-built image, use `docker pull tanq16/sec_docker:main`. For the Apple Silicon version, use the tag `tanq16/sec_docker:main_apple`.
 
-The security image is actually huge in size due to some of the tools like msfconsole and az-cli. So the images are around 5-6 GB in size.
+The security image is actually huge in size due to some of the tools like msfconsole and az-cli. So the images are around 7 GB in size.
 
 To remove dangling images when refreshing with new builds, use the `docker rm` command or the following alias from the CLI-Productivity Suite &rarr;
 
@@ -91,7 +96,7 @@ The `init.toml` file must be inside the same directory as the Dockerfile, as the
 
 ---
 
-## Example Usage Workflow
+## Workflow (Example Usage Scenario)
 
 The images are mainly meant to be used as a linux system for work. The example here is for the security image.
 
@@ -195,7 +200,7 @@ Calling `stop_work` after exiting the container will stop the running container 
 
 ---
 
-## Tools in the Security Image
+## Tools Used
 
 The following is a non-exhaustive list of tools installed on the security docker image, grouped by their categories. Expand on each to get the list in that section.
 
@@ -277,9 +282,11 @@ The following is a non-exhaustive list of tools installed on the security docker
 
 </details>
 
+`Note` &rarr; The minimal image is available with the tags `minimal` and `minimal_apple`. It basically contains a minimal subset of tools from the full image (6.9 GB), and is therefore smaller in size (2.06 GB).
+
 ---
 
-## Bonus Information
+## Bonus
 
 To run any python based tools from the container, usually an appropriately named python venv directory will be already placed in the tool directory. Activate that and install requirements to use the tool. This is kind of a forced habit to always use venvs so that the base python library structure doesn't get messed up. Although, even if it does, the image can be restarted from fresh pretty quickly without any real loss of data.
 
