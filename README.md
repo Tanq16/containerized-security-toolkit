@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  <img src=".github/assets/disect.png" alt="DISecT" width="500"></a>
+  <img src=".github/assets/CTS-Logo.png" alt="DISecT" width="500"></a>
   <br>Containerized Security Toolkit (CST)<br>
 </h1>
 
