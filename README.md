@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  <img src=".github/assets/disect.png" alt="DISecT" width="200"></a>
+  <img src=".github/assets/disect.png" alt="DISecT" width="400"></a>
   <br>Docker Image as a Security Toolkit (DISecT)<br>
 </h1>
 
