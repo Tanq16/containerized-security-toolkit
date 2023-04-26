@@ -1,6 +1,7 @@
 <h1 align="center">
-    Docker Container for Everyday Work
-    <br>
+  <br>
+  <img src=".github/assets/disect.png" alt="DISecT" width="200"></a>
+  <br>Docker Image as a Security Toolkit (DISecT)<br>
 </h1>
 
 <p align="center">
