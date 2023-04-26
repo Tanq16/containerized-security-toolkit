@@ -5,12 +5,12 @@
 </h1>
 
 <p align="center">
-    <a href="#introduction"><b>Introduction</b></a> &bull; 
-    <a href="#conventions"><b>Conventions</b></a> &bull; 
-    <a href="#pre-built"><b>Pre-Built</b></a> &bull; 
-    <a href="#self-built"><b>Self-Built</b></a> &bull; 
-    <a href="#example-workflow"><b>Workflow</b></a> &bull; 
-    <a href="#tools-in-the-security-image"><b>Tools Used</b></a> &bull; 
+    <a href="#introduction"><b>Introduction</b></a>  &bull;  
+    <a href="#conventions"><b>Conventions</b></a>  &bull;  
+    <a href="#pre-built"><b>Pre-Built</b></a>  &bull;  
+    <a href="#self-built"><b>Self-Built</b></a>  &bull;  
+    <a href="#example-workflow"><b>Workflow</b></a>  &bull;  
+    <a href="#tools-in-the-security-image"><b>Tools Used</b></a>  &bull;  
     <a href="#bonus-information"><b>Bonus</b></a>
 </p>
 
