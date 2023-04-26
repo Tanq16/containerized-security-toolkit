@@ -14,6 +14,8 @@
     <a href="#bonus-information">Bonus</a>
 </p>
 
+<br>
+
 ---
 
 ## Introduction
@@ -30,7 +32,11 @@ The image is called `sec_docker` and it has the [cli-productivity-suite](https:/
 
 Read the conventions and example workflow. They work for me, but feel free to define your own.
 
+<br>
+
 ---
+
+<br>
 
 ## Conventions
 
@@ -58,7 +64,11 @@ This will start the container which can be ssh-ed into. The `tail -f /dev/null` 
 
 </details>
 
+<br>
+
 ---
+
+<br>
 
 ## Pre-Built
 
@@ -72,7 +82,11 @@ To remove dangling images when refreshing with new builds, use the `docker rm` c
 alias dockernonerm='for i in $(docker images -f dangling=true -q); do docker image rm $i; done'
 ```
 
+<br>
+
 ---
+
+<br>
 
 ## Self-Built
 
@@ -95,7 +109,11 @@ The `security_docker` directory also contains a Dockerfile for Apple Silicon Mac
 
 The `init.toml` file must be inside the same directory as the Dockerfile, as the build process copies it and prevents the configuration wizard for `SpaceVim`, though the plugins still need to be installed during the first run.
 
+<br>
+
 ---
+
+<br>
 
 ## Workflow (Example Usage Scenario)
 
@@ -199,7 +217,11 @@ Thats it! At this point the container is fully ready and usable. The `run.sh` sc
 
 Calling `stop_work` after exiting the container will stop the running container and store the history on the host to copy it back when the image is launched the next time.
 
+<br>
+
 ---
+
+<br>
 
 ## Tools Used
 
@@ -285,7 +307,11 @@ The following is a non-exhaustive list of tools installed on the security docker
 
 `Note` &rarr; The minimal image is available with the tags `minimal` and `minimal_apple`. It basically contains a minimal subset of tools from the full image (6.9 GB), and is therefore smaller in size (2.06 GB).
 
+<br>
+
 ---
+
+<br>
 
 ## Bonus
 
@@ -316,5 +342,7 @@ export DOCKER_BUILDKIT=1
 Docker buildkit can be disabled by making the above 0.
     
 The best way to continuously build images every X number of days is by using GitHub Actions. Check out the workflow files in this repo to get an idea of how to configure that to build and push to Docker Hub.
+
+<br>
 
 ---
