@@ -9,8 +9,8 @@
     <a href="#conventions"><b>Conventions</b></a>  &bull;  
     <a href="#pre-built"><b>Pre-Built</b></a>  &bull;  
     <a href="#self-built"><b>Self-Built</b></a>  &bull;  
-    <a href="#example-workflow"><b>Workflow</b></a>  &bull;  
-    <a href="#tools-in-the-security-image"><b>Tools Used</b></a>  &bull;  
+    <a href="#workflow-(example-usage-scenario)"><b>Workflow</b></a>  &bull;  
+    <a href="#tools-used"><b>Tools Used</b></a>  &bull;  
     <a href="#bonus-information"><b>Bonus</b></a>
 </p>
 
@@ -293,7 +293,7 @@ The following is a non-exhaustive list of tools installed on the security docker
 <br>
 <br>
 
-## Bonus
+## Bonus Information
 
 To run any python based tools from the container, usually an appropriately named python venv directory will be already placed in the tool directory. Activate that and install requirements to use the tool. This is kind of a forced habit to always use venvs so that the base python library structure doesn't get messed up. Although, even if it does, the image can be restarted from fresh pretty quickly without any real loss of data.
 
