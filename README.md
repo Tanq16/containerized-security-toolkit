@@ -9,7 +9,7 @@
     <a href="#conventions"><b>Conventions</b></a>  &bull;  
     <a href="#pre-built"><b>Pre-Built</b></a>  &bull;  
     <a href="#self-built"><b>Self-Built</b></a>  &bull;  
-    <a href="#workflow-(example-usage-scenario)"><b>Workflow</b></a>  &bull;  
+    <a href="#example-workflow"><b>Workflow</b></a>  &bull;  
     <a href="#tools-used"><b>Tools Used</b></a>  &bull;  
     <a href="#bonus-information"><b>Bonus</b></a>
 </p>
@@ -100,7 +100,7 @@ The `security_docker` directory also contains a Dockerfile for Apple Silicon Mac
 <br>
 <br>
 
-## Workflow (Example Usage Scenario)
+## Example Workflow
 
 The images are mainly meant to be used as a linux system for work. The example here is for the security image.
 
