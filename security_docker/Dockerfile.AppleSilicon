@@ -60,7 +60,12 @@ RUN curl -L http://install.ohmyz.sh | sh && \
     curl -sLf https://spacevim.org/install.sh | bash && \
     mkdir /root/.SpaceVim.d/ && \
     wget https://raw.githubusercontent.com/Tanq16/cli-productivity-suite/master/spacevim_config && \
-    mv spacevim_config /root/.SpaceVim.d/init.toml
+    mv spacevim_config /root/.SpaceVim.d/init.toml && \
+    sed -i "s/autoload -Uz bracketed-paste-magic/#autoload -Uz bracketed-paste-magic/" /root/.oh-my-zsh/lib/misc.zsh && \
+    sed -i "s/zle -N bracketed-paste bracketed-paste-magic/#zle -N bracketed-paste bracketed-paste-magic/" /root/.oh-my-zsh/lib/misc.zsh && \
+    sed -i "s/autoload -Uz url-quote-magic/#autoload -Uz url-quote-magic/" /root/.oh-my-zsh/lib/misc.zsh && \
+    sed -i "s/zle -N self-insert url-quote-magic/#zle -N self-insert url-quote-magic/" /root/.oh-my-zsh/lib/misc.zsh && \
+    /root/.tmux/plugins/tpm/bin/install_plugins
 
 # ============================================================================================================
 # ========================================================================== External Tools Installation =====
