@@ -1,4 +1,4 @@
-name: Security Image Apple Silicon
+name: ARM Main
 
 on:
   push:

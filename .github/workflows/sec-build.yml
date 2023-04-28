@@ -1,4 +1,4 @@
-name: Security Image
+name: x86-64 Main
 
 on:
   push:

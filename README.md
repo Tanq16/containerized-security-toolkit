@@ -17,10 +17,11 @@
 
 <div align="center">
 
-    ![main](https://github.com/tanq16/containerized-security-toolkit/actions/workflows/sec-build.yml/badge.svg)
-    ![mainarm](https://github.com/tanq16/containerized-security-toolkit/actions/workflows/sec-apple-silicon.yml/badge.svg)
-    ![min](https://github.com/tanq16/containerized-security-toolkit/actions/workflows/sec-build-minimal.yml/badge.svg)
-    ![minarm](https://github.com/tanq16/containerized-security-toolkit/actions/workflows/sec-apple-silicon-minimal.yml/badge.svg)
+
+![main](https://github.com/tanq16/containerized-security-toolkit/actions/workflows/sec-build.yml/badge.svg)
+![mainarm](https://github.com/tanq16/containerized-security-toolkit/actions/workflows/sec-apple-silicon.yml/badge.svg)
+![min](https://github.com/tanq16/containerized-security-toolkit/actions/workflows/sec-build-minimal.yml/badge.svg)
+![minarm](https://github.com/tanq16/containerized-security-toolkit/actions/workflows/sec-apple-silicon-minimal.yml/badge.svg)
     
 </div>
 
