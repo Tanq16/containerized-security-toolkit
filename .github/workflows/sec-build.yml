@@ -1,4 +1,4 @@
-name: x86-64 Main
+name: Main
 
 on:
   push:

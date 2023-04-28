@@ -1,4 +1,4 @@
-name: ARM Main
+name: Main (ARM)
 
 on:
   push:

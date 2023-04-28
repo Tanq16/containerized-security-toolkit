@@ -1,4 +1,4 @@
-name: ARM Minimal
+name: Minimal (ARM)
 
 on:
   push:
