@@ -10,14 +10,17 @@ ENV RUNNING_IN_DOCKER true
 ENV TZ America/Chicago
 ENV LANG enUS.utf-8
 ENV SHELL /bin/zsh
-ENV TERM xterm
+ENV TERM xterm-256color
 
 # Install packages using APT
 RUN DEBIAN_FRONTEND="noninteractive" apt update && \
     DEBIAN_FRONTEND="noninteractive" apt upgrade -y && \
-    DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \
-    strace ltrace wget apt-transport-https openssl gpg-agent openssh-server make \
-    openvpn git tmux tree gnupg2 vim curl less file zsh bat fd-find htop jc jq
+    apt install -y locales && \
+    sed -i 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
+    locale-gen
+RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \
+    strace ltrace wget apt-transport-https openssl gpg-agent openssh-server apt-utils \
+    openvpn git tmux tree gnupg2 vim curl less file zsh bat fd-find htop jc jq make
 RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \    
     ntp gcc zip unzip php tzdata yarnpkg gnupg nmap ncat nikto hydra ncdu jc groff \
     dnsutils nodejs npm locales language-pack-en bsdmainutils whois ugrep ripgrep

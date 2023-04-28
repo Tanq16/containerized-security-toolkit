@@ -5,122 +5,82 @@
 </h1>
 
 <p align="center">
-    <a href="#introduction"><b>Introduction</b></a>  &bull;  
-    <a href="#conventions"><b>Conventions</b></a>  &bull;  
-    <a href="#pre-built"><b>Pre-Built</b></a>  &bull;  
-    <a href="#self-built"><b>Self-Built</b></a>  &bull;  
+    <a href="#quickstart"><b>Quickstart</b></a>  &bull;  
     <a href="#example-workflow"><b>Workflow</b></a>  &bull;  
-    <a href="#tools-used"><b>Tools Used</b></a>  &bull;  
-    <a href="#bonus-information"><b>Bonus</b></a>
+    <a href="#conventions"><b>Conventions</b></a>  &bull;  
+    <a href="#image-builds"><b>Image Builds</b></a>  &bull;    
+    <a href="#tools-list"><b>Tools List</b></a>  &bull;  
+    <a href="#bonus"><b>Bonus</b></a>
 </p>
 
 <br>
-<br>
 
-## Introduction
+<div align="center">
+
+    ![main](https://github.com/tanq16/containerized-security-toolkit/actions/workflows/sec-build.yml/badge.svg)
+    ![mainarm](https://github.com/tanq16/containerized-security-toolkit/actions/workflows/sec-apple-silicon.yml/badge.svg)
+    ![min](https://github.com/tanq16/containerized-security-toolkit/actions/workflows/sec-build-minimal.yml/badge.svg)
+    ![minarm](https://github.com/tanq16/containerized-security-toolkit/actions/workflows/sec-apple-silicon-minimal.yml/badge.svg)
+    
+</div>
+
+<br>
 
 This repository contains Dockerfiles for ARM (Apple Silicon) and x86_64 variants of a security focussed docker image. The main resources here are as follows &rarr;
 
 * An image that contains many security focussed tools
-* Base Dockerfiles to be used for building other images from the same awesome user experience of the container
 * The minimal folder contains a security image with most tools and a lower image size
 
-The security focussed image is available to be directly pulled from docker hub. A GitHub CI Action builds and pushes the images to docker hub multple times a month and on every commit. The Apple Silicon images are built using [Buildx](https://docs.docker.com/buildx/working-with-buildx/).
+The images are built via GitHub Actions and pushed to Docker Hub for both x86-64 and ARM ((built using [Buildx](https://docs.docker.com/buildx/working-with-buildx/))) architectures.
 
-The image is called `sec_docker` and it has the [cli-productivity-suite](https://github.com/tanq16/cli-productivity-suite) preinstalled within the image i.e., a funky shell along with customized `vim` and `tmux`. The base Dockerfiles also have the same experience to build off it. The *golang* executables are built and copied over from another docker container which is built once a month over at the [tool_builder](https://github.com/tanq16/dockers_tool_builder) repo.
-
-Read the conventions and example workflow below. They work for me, but feel free to define your own.
+The image is called `sec_docker` and it has the [cli-productivity-suite](https://github.com/tanq16/cli-productivity-suite) preinstalled within the image. Executables are built and copied over from another image which is built once a month at the [tool_builder](https://github.com/tanq16/dockers_tool_builder).
 
 <br>
 <br>
 
-## Conventions
+## Quickstart
 
-The images are built with the intention of SSH-ing into it and making use of `tmux` to work. Further, the conventions followed for building the images are &rarr;
-
-* port mapping follows convention &rarr; `shared port` = `port + 50000`
-* port for dynamic port forwarding when SSH-ing into the container = `65500`
-* volume mount to `/work` or `/persist` (helps with persistence across runs or sessions)
-* general tool installations should be under `/opt` while executables under `/opt/executables` (added to path)
-* maintain a `run.sh` file for common stuff to run when the container starts (also helps with persistence)
-
-<details>
-<summary>Example docker run command (expand this)</summary>
+For a better setup, check out the [Example Workflow](#example-workflow) section. For a quick and dirty run, copy and paste the following commands in order to get into a working image &rarr;
 
 ```bash
-docker run --name="amazing_docker" \
--v /path/to/host/go_programs/:/root/go/src \
--v /path/to/host/work:/work \
--p 50022:22 \
---rm -it image_tag \
+mkdir -p $HOME/docker_work/persist
+```
+
+```bash
+docker run --name="security_docker" \
+-v $HOME/docker_work/persist/:/persist \
+-p 50022:22 --rm -d -it tanq16/sec_docker:main \
 zsh -c "service ssh start; tail -f /dev/null"
 ```
 
-This will start the container which can be ssh-ed into. The `tail -f /dev/null` keeps the the container running. `docker stop amazing_docker -t 0` can be used to stop the container. The run command can also be made into a function with a `$@` within the command somewhere to allow for more arguments to be passed (see Example Workflow section).
-
-</details>
-
-<br>
-<br>
-
-## Pre-Built
-
-To pull a pre-built image, use `docker pull tanq16/sec_docker:main`. For the Apple Silicon version, use the tag `main_apple`. The minimal images have the tags `minimal` and `minimal_apple`.
-
-The images with thw *"main"* tags are pretty large in size due to some of the tools like msfconsole and az-cli. So the images are around 7 GB in size.
-
-To remove dangling images when refreshing with new builds, use the `docker rm` command or the following alias from the CLI-Productivity Suite &rarr;
-
 ```bash
-alias dockernonerm='for i in $(docker images -f dangling=true -q); do docker image rm $i; done'
+docker exec -e newpp="docker" security_docker zsh -c 'echo "root:$(printenv newpp)" | chpasswd'
 ```
 
-<br>
-<br>
-
-## Self-Built
-
-The containers can be built by cloning and using `docker build`. The `base_docker` directory contains starter Dockerfiles with basic tools and the CLI-Productivity Suite preinstalled.
-
-<details>
-<summary>Example build command (expand this)</summary>
-
-To build, use the following &rarr;
-
 ```bash
-git clone https://github.com/tanq16/dockers
-cd dockers/security_docker
-docker build -t <your_tag> .
+ssh root@localhost -p 50022
 ```
 
-The `security_docker` directory also contains a Dockerfile for Apple Silicon Macs, which can be specified using the `--file Dockerfile.AppleSilicon` flag for the `docker build` command.
+Finally, stop the container with the following &rarr;
 
-</details>
+```bash
+docker stop security_docker -t 0
+```
+
+*Note:* Use `tanq16/sec_docker:main_apple` for the ARM variant. Change the password if needed, otherwise there is a better method for it in the [Example Workflow](#example-workflow) section. We'll also revisit SSH vs. exec-ing into the container in the same section.
 
 <br>
 <br>
 
 ## Example Workflow
 
-The images are mainly meant to be used as a linux system for work. The example here is for the security image.
-
-The idea is to have a container with a mount of a persistent storage directory. The shell history or any required configuration file can be shared with the docker for persistence as well. To do this, create a directory in the host home directory `docker_work`. The structure of the directory can be as follows &rarr;
-
-```
-$ tree docker_work -a -L 1
-docker_work
-├── persist
-├── run.sh
-└── .zsh_history
-```
-
-Use the following command to set this structure up in the home directory &rarr;
+Use the following command to make the necessary directory structure &rarr;
 
 ```bash
-sh -c "$(curl -s https://raw.githubusercontent.com/Tanq16/dockers/main/workflow_structure_create.sh)"
+mkdir -p $HOME/docker_work/persist
 ```
 
-With this in place, the following functions can be added to the host profile or the respective rc file &rarr;
+With this in place, the following functions should be added to the host profile or the respective shell rc file &rarr;
 
 <details>
 <summary>Start Image Function (expand this)</summary>
@@ -190,23 +150,98 @@ end_work(){
 
 </details>
 
-Now, the start function can be executed to start the docker container in a detached state which can be ssh-ed into using the password that is printed on the screen after the container ID. 
+The workflow can be used as follows:
 
-Following the CLI-Productivity Suite, it's best to do the following after SSH-ing &rarr;
+```bash
+start_work # prints the password to SSH into the container
 
-1. SSH into the running container and optionally use dynamic port forwarding on port 65500 to connect to ports via the SSH tunnel
-2. Execute `run.sh` using &rarr; `sh run.sh` right after SSH-ing
-3. Start `vim` to trigger auto plugin install, which takes ~5-10 seconds, then exit so that `vim` is fully configured for the next launch in the same session
-4. Start a `tmux` default session using the alias `tt` and press `Ctrl+b` followed by `Shift+i`, which takes ~3 seconds to trigger auto plugin and configuration install
+ssh root@localhost -p 50022 -D 65500 # ssh into the container with dynamic port forwarding
 
-Thats it! At this point the container is fully ready and usable. The `run.sh` script can be customized to contain any instructions needed to get a container ready for work. This can be directly run from the home directory as it's copied in the start image function. This script also contains commands to fix slow paste in `oh-my-zsh`.
+stop_work # stop the container
+```
+
+Now, the start function can be executed with the `start_work` command to start the container in a detached state which can be SSH-ed into using the password that is printed on the screen after the container ID. 
+
+*Note:* Start `vim` to trigger auto plugin install, which takes ~5-10 seconds, then exit so that `vim` is fully configured for the entirety the same session.
 
 Calling `stop_work` after exiting the container will stop the running container and store the history on the host to copy it back when the image is launched the next time.
 
 <br>
 <br>
 
-## Tools Used
+## Conventions
+
+The images are mainly meant to be used as a linux system for work. The idea is to have a container with a mount of a persistent storage directory that stays intact even across container spin down and spin up cycles. The shell history or any required configuration file can be shared with the docker for persistence as well. The structure of the `docker_work` directory is something like the follows &rarr;
+
+```
+$ tree docker_work -a -L 1
+docker_work
+├── persist
+├── run.sh
+└── .zsh_history
+```
+
+The optional `run.sh` script can be customized to contain any custom script instructions needed to get a container ready for work. This can be directly run from the home directory as it's copied automatically in the start image function described in the previous section. The `.zsh_history` files are also automatically copied in and out within the start and stop functions.
+
+The images are built with the intention of SSH-ing into it and making use of `tmux` to work. While they can be exec-ed into as well, using SSH has the following advantages &rarr;
+
+* the container can be deployed on separate machines (like cloud VMs) and then SSH-ed into via non-standard ports
+* using SSH allows dynamic port forwarding allowing easy access to web-based services within the container through browsers with the appropriate proxy setup
+* it fixes certain visual discrepancies that appear when exec-ing into the image
+
+The password is randomly generated and stored in the `current_docker_password` file in the current directory as well as printed out when the container is built and run.
+
+The `start_work` function also includes a `$@`, mainly to add other port publish arguments or volume mounts arguments if necessary. Example &rarr; if a Golang based directory structure is to be shared, then use the argument of `-v /path/to/host/go_programs/:/root/go/src` with the `start_work` command.
+
+The general conventions followed for building/running the images are &rarr;
+
+* port mapping follows convention &rarr; `shared port` = `port + 50000`
+* port for dynamic port forwarding when SSH-ing into the container = `65500`
+* volume mount to `/persist` (helps with persistence across runs or sessions)
+* general tool installations should be under `/opt` while executables under `/opt/executables` (has already been added to path within the dockerfiles)
+* optionally maintain a `run.sh` file for common stuff to run when the container starts (also helps with persistence of custom script instructions)
+
+<br>
+<br>
+
+## Image Builds
+
+To pull a pre-built image, use the following &rarr;
+
+```bash
+docker pull tanq16/sec_docker:<tag>
+```
+
+Here, the `<tag>` can be one of the following &rarr;
+
+* `main` &rarr; x86-64 image security image
+* `main_apple` &rarr; ARM image security image
+* `minimal` &rarr; x86-64 image minimal security image
+* `minimal_apple` &rarr; ARM image minimal security image
+
+The security image builds are pretty large in size due to some of the tools like `msfconsole` and `az-cli`. So the images are around 7 GB in size. The minimal security image builds are relatively much smaller around 2GB in size.
+
+The containers can be built by cloning and using `docker build` command.
+
+<details>
+<summary>Example build command (expand this)</summary>
+
+To build, use the following &rarr;
+
+```bash
+git clone https://github.com/tanq16/dockers
+cd dockers/security_docker
+docker build -t <your_tag> .
+```
+
+The directory also contains a Dockerfile for ARM images, which can be specified using the `--file Dockerfile.AppleSilicon` flag for the `docker build` command.
+
+</details>
+
+<br>
+<br>
+
+## Tools List
 
 The following is a non-exhaustive list of tools installed on the security docker image, grouped by their categories. Expand on each to get the list in that section.
 
@@ -293,7 +328,7 @@ The following is a non-exhaustive list of tools installed on the security docker
 <br>
 <br>
 
-## Bonus Information
+## Bonus
 
 To run any python based tools from the container, usually an appropriately named python venv directory will be already placed in the tool directory. Activate that and install requirements to use the tool. This is kind of a forced habit to always use venvs so that the base python library structure doesn't get messed up. Although, even if it does, the image can be restarted from fresh pretty quickly without any real loss of data.
 
@@ -311,7 +346,11 @@ alias sshide='ssh -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null
     
 This is automatically installed when setting up CLI-Productivity Suite on the host machine.
 
-Also, using a `-D 65500` with the ssh command is helpful such that a fixed browser (maybe a firefox one) is always configured with this dynamic proxy. So, even if this image is being run on a cloud VM, sshing into the container with the port forwarding proxy can allow serving stuff in the container on the cloud and view on local.
+To remove dangling images when refreshing with new builds, use the `docker rm` command or the following alias from the CLI-Productivity Suite &rarr;
+
+```bash
+alias dockernonerm='for i in $(docker images -f dangling=true -q); do docker image rm $i; done'
+```
 
 It is also useful to have buildkit enabled when building the images locally. This can be done by using the following command or adding it to the shell rc file &rarr;
 
@@ -320,7 +359,3 @@ export DOCKER_BUILDKIT=1
 ```
 
 Docker buildkit can be disabled by making the above 0.
-    
-The best way to continuously build images every X number of days is by using GitHub Actions. Check out the workflow files in this repo to get an idea of how to configure that to build and push to Docker Hub.
-
-<br>
