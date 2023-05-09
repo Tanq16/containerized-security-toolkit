@@ -155,11 +155,6 @@ RUN python3 -m pip install --upgrade setuptools wheel pip && \
     cd /opt && \
     git clone --depth=1 https://github.com/nccgroup/ScoutSuite scoutsuite && \
     git clone --depth=1 https://github.com/initstring/cloud_enum && \
-    python3 -m venv cloudenumvenv && \
-    . cloudenumvenv/bin/activate && \
-    cd cloud_enum && \
-    python3 -m pip install -r requirements.txt && \
-    deactivate && \
     cd /opt/executables/ && \
     curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/arm64/kubectl" && \
     chmod +x kubectl && \
