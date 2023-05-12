@@ -1,4 +1,4 @@
-name: ThreatHunt Image Apple Silicon
+name: ThreatHunt (ARM)
 
 on:
   push:

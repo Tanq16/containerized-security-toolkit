@@ -20,6 +20,7 @@
 ![mainarm](https://github.com/tanq16/containerized-security-toolkit/actions/workflows/sec-apple-silicon.yml/badge.svg)
 ![min](https://github.com/tanq16/containerized-security-toolkit/actions/workflows/sec-build-minimal.yml/badge.svg)
 ![minarm](https://github.com/tanq16/containerized-security-toolkit/actions/workflows/sec-apple-silicon-minimal.yml/badge.svg)
+<br>
 ![th](https://github.com/tanq16/containerized-security-toolkit/actions/workflows/th-build.yml/badge.svg)
 ![tharm](https://github.com/tanq16/containerized-security-toolkit/actions/workflows/th-apple-silicon.yml/badge.svg)
     
