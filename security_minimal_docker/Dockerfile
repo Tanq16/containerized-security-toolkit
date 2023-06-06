@@ -63,9 +63,11 @@ RUN curl -L http://install.ohmyz.sh | sh && \
     # wget https://raw.githubusercontent.com/Tanq16/cli-productivity-suite/master/spacevim_config && \
     # mv spacevim_config /root/.SpaceVim.d/init.toml && \
     git clone https://github.com/NvChad/NvChad /root/.config/nvim --depth=1 && \
-    # sed -i "s/dofile(vim.g/vim.cmd([[ set guicursor=n:ver25 ]])\nvim.cmd([[ set guicursor= ]])\ndofile(vim.g/" /root/.config/nvim/init.lua && \
-    # mkdir /root/.config/nvim/lua/custom && \
-    # echo "---@type ChadrcConfig\n local M = {}\n M.ui = {theme = 'nord'}\n return M" > /root/.config/nvim/lua/custom/chadrc.lua && \
+    sed -i "s/local input =/local input = N --/" /root/.config/nvim/lua/core/bootstrap.lua && \
+    sed -i "s/dofile(vim.g/vim.cmd([[ set guicursor= ]])\ndofile(vim.g/" /root/.config/nvim/init.lua && \
+    nvim --headless -c 'quitall' && \
+    mkdir /root/.config/nvim/lua/custom && \
+    echo "---@type ChadrcConfig\n local M = {}\n M.ui = {theme = 'nord'}\n return M" > /root/.config/nvim/lua/custom/chadrc.lua && \
     sed -i "s/autoload -Uz bracketed-paste-magic/#autoload -Uz bracketed-paste-magic/" /root/.oh-my-zsh/lib/misc.zsh && \
     sed -i "s/zle -N bracketed-paste bracketed-paste-magic/#zle -N bracketed-paste bracketed-paste-magic/" /root/.oh-my-zsh/lib/misc.zsh && \
     sed -i "s/autoload -Uz url-quote-magic/#autoload -Uz url-quote-magic/" /root/.oh-my-zsh/lib/misc.zsh && \
