@@ -57,11 +57,6 @@ RUN curl -L http://install.ohmyz.sh | sh && \
     echo $a && wget "https://github.com/Peltoche/lsd/releases/download/$a/lsd_""$a""_amd64.deb" && \
     apt install -y "./lsd_""$a""_amd64.deb" && \
     rm "lsd_""$a""_amd64.deb" && \
-    # cd /root && \
-    # curl -sLf https://spacevim.org/install.sh | bash && \
-    # mkdir /root/.SpaceVim.d/ && \
-    # wget https://raw.githubusercontent.com/Tanq16/cli-productivity-suite/master/spacevim_config && \
-    # mv spacevim_config /root/.SpaceVim.d/init.toml && \
     git clone https://github.com/NvChad/NvChad /root/.config/nvim --depth=1 && \
     sed -i "s/local input =/local input = N --/" /root/.config/nvim/lua/core/bootstrap.lua && \
     sed -i "s/dofile(vim.g/vim.cmd([[ set guicursor= ]])\ndofile(vim.g/" /root/.config/nvim/init.lua && \

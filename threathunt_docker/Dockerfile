@@ -30,11 +30,13 @@ RUN DEBIAN_FRONTEND="noninteractive" apt update && \
     locale-gen
 RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \
     strace ltrace wget apt-transport-https apt-utils openssl gpg-agent openssh-server make ntp zip unzip tzdata \
-    openvpn git tmux tree gnupg2 vim curl less file zsh bat fd-find htop jc jq nmap ncat ncdu whois gnupg
+    openvpn git tmux tree gnupg2 curl less file zsh bat fd-find htop jc jq nmap ncat ncdu whois gnupg
 RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \    
     dnsutils locales language-pack-en bsdmainutils ugrep ripgrep xfonts-utils python3-setuptools python3-pip \
     python3 python3-dev ipython3 iproute2 python3-venv inetutils-ping inetutils-telnet inetutils-tools \
     inetutils-traceroute inetutils-ftp
+COPY --from=tool_builder /debs/* /
+RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends ./nvim-linux64.deb
 
 # ============================================================================================================
 # =============================================================================== CLI Productivity Suite =====
@@ -65,11 +67,11 @@ RUN curl -L http://install.ohmyz.sh | sh && \
     echo $a && wget "https://github.com/Peltoche/lsd/releases/download/$a/lsd_""$a""_amd64.deb" && \
     apt install -y "./lsd_""$a""_amd64.deb" && \
     rm "lsd_""$a""_amd64.deb" && \
-    cd /root && \
-    curl -sLf https://spacevim.org/install.sh | bash && \
-    mkdir /root/.SpaceVim.d/ && \
-    wget https://raw.githubusercontent.com/Tanq16/cli-productivity-suite/master/spacevim_config && \
-    mv spacevim_config /root/.SpaceVim.d/init.toml && \
+    git clone https://github.com/NvChad/NvChad /root/.config/nvim --depth=1 && \
+    sed -i "s/local input =/local input = N --/" /root/.config/nvim/lua/core/bootstrap.lua && \
+    sed -i "s/dofile(vim.g/vim.cmd([[ set guicursor= ]])\ndofile(vim.g/" /root/.config/nvim/init.lua && \
+    nvim --headless -c 'quitall' && \
+    echo "---@type ChadrcConfig\n local M = {}\n M.ui = {theme = 'nord'}\n return M" > /root/.config/nvim/lua/custom/chadrc.lua && \
     sed -i "s/autoload -Uz bracketed-paste-magic/#autoload -Uz bracketed-paste-magic/" /root/.oh-my-zsh/lib/misc.zsh && \
     sed -i "s/zle -N bracketed-paste bracketed-paste-magic/#zle -N bracketed-paste bracketed-paste-magic/" /root/.oh-my-zsh/lib/misc.zsh && \
     sed -i "s/autoload -Uz url-quote-magic/#autoload -Uz url-quote-magic/" /root/.oh-my-zsh/lib/misc.zsh && \
