@@ -27,7 +27,7 @@ RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \
     python3 python3-dev ipython3 iproute2 python3-venv inetutils-ping inetutils-telnet inetutils-tools \
     inetutils-traceroute inetutils-ftp
 COPY --from=nvim_builder /nvim-linux64.deb /neovim-linux64.deb
-RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends /nvim-linux64.deb && rm /neovim-linux64.deb
+RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends /neovim-linux64.deb && rm /neovim-linux64.deb
 
 # ============================================================================================================
 # =============================================================================== CLI Productivity Suite =====

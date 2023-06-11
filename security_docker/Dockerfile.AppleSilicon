@@ -31,7 +31,7 @@ RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \
 RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \
     p7zip-full hexedit john fcrackzip binwalk perl ruby-full xfonts-utils
 COPY --from=nvim_builder /nvim-linux64.deb /neovim-linux64.deb
-RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends /nvim-linux64.deb && rm /neovim-linux64.deb
+RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends /neovim-linux64.deb && rm /neovim-linux64.deb
 
 # ============================================================================================================
 # =============================================================================== CLI Productivity Suite =====
