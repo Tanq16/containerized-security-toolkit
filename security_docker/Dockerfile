@@ -1,4 +1,5 @@
 FROM tanq16/tool_docker:main AS tool_builder
+FROM tanq16/tool_docker:nvim AS nvim_builder
 FROM ubuntu
 
 # ============================================================================================================
@@ -29,8 +30,8 @@ RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \
     inetutils-ping inetutils-telnet inetutils-tools inetutils-traceroute inetutils-ftp
 RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \
     p7zip-full hexedit john fcrackzip binwalk perl ruby-full xfonts-utils
-COPY --from=tool_builder /debs/* /
-RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends ./nvim-linux64.deb
+COPY --from=nvim_builder /neovim-linux64.deb /neovim-linux64.deb
+RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends /nvim-linux64.deb && rm /neovim-linux64.deb
 
 # ============================================================================================================
 # =============================================================================== CLI Productivity Suite =====
