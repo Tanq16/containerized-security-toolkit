@@ -26,12 +26,9 @@ The image is called `sec_docker` and multiple versions of it are uploaded as dif
 | | x86\_64 Image | ARM Image |
 | --- | --- | --- |
 | Security | `main` | `main_apple` |
-| Security Minimal | `minimal` | `minimal_apple` |
 | Threat Hunt | `thmain` | `thmain_apple` |
 
-It has the [cli-productivity-suite](https://github.com/tanq16/cli-productivity-suite) preinstalled within the image. Executables, primarily Go-lang executables, are built and copied over from another image which is built once a month at the [tool_builder](https://github.com/tanq16/dockers_tool_builder).
-
-The [wiki](https://github.com/Tanq16/containerized-security-toolkit/wiki) goes over using the pre-built images, building it with modifications, conventions considered when creating the Dockerfiles, and different ways it can be used.
+It has the [cli-productivity-suite](https://github.com/tanq16/cli-productivity-suite) preinstalled within the image. The [wiki](https://github.com/Tanq16/containerized-security-toolkit/wiki) goes over using the pre-built images, building it with modifications, conventions considered when creating the Dockerfiles, and different ways it can be used.
 
 ---
 
