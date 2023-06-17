@@ -1,19 +1,15 @@
-FROM tanq16/tool_docker:main AS tool_builder
-FROM tanq16/tool_docker:nvim AS nvim_builder
 FROM ubuntu
 
 # ============================================================================================================
-# ======================================================================== Environment and Installations =====
+# ==================================================================== Environment and APT Installations =====
 # ============================================================================================================
 
-# Set environment variables
 ENV RUNNING_IN_DOCKER true
 ENV TZ America/Chicago
 ENV LANG enUS.utf-8
 ENV SHELL /bin/zsh
 ENV TERM xterm-256color
 
-# Install packages using APT
 RUN DEBIAN_FRONTEND="noninteractive" apt update && \
     DEBIAN_FRONTEND="noninteractive" apt upgrade -y && \
     apt install -y locales && \
@@ -29,15 +25,16 @@ RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \
     python3-setuptools python3-pip python3 python3-dev ipython3 iproute2 python3-venv \
     inetutils-ping inetutils-telnet inetutils-tools inetutils-traceroute inetutils-ftp
 RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \
-    p7zip-full hexedit john fcrackzip binwalk perl ruby-full xfonts-utils
-COPY --from=nvim_builder /nvim-linux64.deb /neovim-linux64.deb
+    p7zip-full hexedit john fcrackzip binwalk perl ruby-full xfonts-utils && \
+    mkdir /opt/executables
+COPY ./neovim-linux64.deb /neovim-linux64.deb
+COPY ./executables/* /opt/executables/
 RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends /neovim-linux64.deb && rm /neovim-linux64.deb
 
 # ============================================================================================================
 # =============================================================================== CLI Productivity Suite =====
 # ============================================================================================================
 
-# Install oh my zsh and tmux; Append conf files tmux conf and zsh rc; Setup fzf and colored ls (lsd)
 RUN curl -L http://install.ohmyz.sh | sh && \
     git clone https://github.com/spaceship-prompt/spaceship-prompt.git "/root/.oh-my-zsh/custom/themes/spaceship-prompt" --depth=1 && \
     ln -s "/root/.oh-my-zsh/custom/themes/spaceship-prompt/spaceship.zsh-theme" "/root/.oh-my-zsh/custom/themes/spaceship.zsh-theme" && \
@@ -74,10 +71,9 @@ RUN curl -L http://install.ohmyz.sh | sh && \
     TMUX_PLUGIN_MANAGER_PATH=/root/.tmux/plugins /root/.tmux/plugins/tpm/bin/install_plugins
 
 # ============================================================================================================
-# ========================================================================== External Tools Installation =====
+# ========================================================================== Tool Installations Part One =====
 # ============================================================================================================
 
-# pwndbg select seclists; install golang semgrep rich aws cliv2 and gcloud
 RUN git clone --depth=1 https://github.com/pwndbg/pwndbg /opt/pwndbg && \
     cd /opt/pwndbg && \
     ./setup.sh && \
@@ -120,9 +116,7 @@ RUN git clone --depth=1 https://github.com/pwndbg/pwndbg /opt/pwndbg && \
     echo "[ -f /root/google-cloud-sdk/path.zsh.inc ] && source /root/google-cloud-sdk/path.zsh.inc" >> /root/.zshrc && \
     echo "[ -f /root/google-cloud-sdk/completion.zsh.inc ] && source /root/google-cloud-sdk/completion.zsh.inc" >> /root/.zshrc
 
-# create executables; install az cli msf edb
-RUN mkdir /opt/executables && \
-    curl -sL https://aka.ms/InstallAzureCLIDeb | bash && \
+RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash && \
     cd / && \
     curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb > msfinstall && \
     chmod 755 msfinstall && \
@@ -131,13 +125,10 @@ RUN mkdir /opt/executables && \
     git clone --depth=1 https://gitlab.com/exploit-database/exploitdb.git /opt/exploit-database && \
     ln -sf /opt/exploit-database/searchsploit /usr/local/bin/searchsploit
 
-COPY --from=tool_builder /executables/* /opt/executables/
-
 # ============================================================================================================
-# ===================================================================== Miscellaneous Tool Installations =====
+# ========================================================================== Tool Installations Part Two =====
 # ============================================================================================================
 
-# install requests trivy testssl and sqlmap
 RUN python3 -m pip install requests && \
     a=$(curl -L -s https://github.com/aquasecurity/trivy/releases/latest | grep -oE "tag.+\"" | cut -d '/' -f2 | grep -vE "^[^v]" | cut -d "\"" -f1 | head -n 1) && \
     b=$(echo $a | tr -d "v") && \
@@ -150,10 +141,9 @@ RUN python3 -m pip install requests && \
     git clone --depth 1 https://github.com/drwetter/testssl.sh.git
 
 # ============================================================================================================
-# ======================================================================== Cloud Security Specific Tools =====
+# ======================================================================== Tool Installations Part Three =====
 # ============================================================================================================
 
-# install scoutsuite cloudenum kubectl and cloudsploit
 RUN python3 -m pip install --upgrade setuptools wheel pip && \
     cd /opt && \
     git clone --depth=1 https://github.com/nccgroup/ScoutSuite scoutsuite && \
@@ -171,9 +161,6 @@ RUN python3 -m pip install --upgrade setuptools wheel pip && \
 # ============================================================================================================
 # ============================================================================================================
 
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-# Final steps for perfect run
 RUN python3 -m pip install --upgrade pip setuptools wheel && \
     DEBIAN_FRONTEND="noninteractive" apt autoclean -y && \
     DEBIAN_FRONTEND="noninteractive" apt autoremove -y && \

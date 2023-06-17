@@ -14,27 +14,12 @@
 
 <br>
 
-<div align="center">
-
-![main](https://github.com/tanq16/containerized-security-toolkit/actions/workflows/sec-build.yml/badge.svg)
-![mainarm](https://github.com/tanq16/containerized-security-toolkit/actions/workflows/sec-apple-silicon.yml/badge.svg)
-![min](https://github.com/tanq16/containerized-security-toolkit/actions/workflows/sec-build-minimal.yml/badge.svg)
-![minarm](https://github.com/tanq16/containerized-security-toolkit/actions/workflows/sec-apple-silicon-minimal.yml/badge.svg)
-<br>
-![th](https://github.com/tanq16/containerized-security-toolkit/actions/workflows/th-build.yml/badge.svg)
-![tharm](https://github.com/tanq16/containerized-security-toolkit/actions/workflows/th-apple-silicon.yml/badge.svg)
-    
-</div>
-
-<br>
-
 This project contains several Dockerfiles for ARM (Apple Silicon) and x86_64 variants of security focussed docker images. The main resources here are as follows &rarr;
 
 - **Security Image** &rarr; An image that contains many security focussed tools
-- **Minimal Security Image** &rarr; The minimal folder contains a security image with most tools and a lower image size
 - **Threat Hunt Image** &rarr; An image that contains tools and for threat hunting
 
-The images are built via GitHub Actions and pushed to Docker Hub for both x86-64 and ARM (built using [Buildx](https://docs.docker.com/buildx/working-with-buildx/)) architectures.
+The security image is built manually by me on AWS EC2 (not via GitHub Actions due to free runner limits and long ARM build times) and pushed to Docker Hub for both x86-64 and ARM architectures.
 
 The image is called `sec_docker` and multiple versions of it are uploaded as different tags, such as &rarr;
 
