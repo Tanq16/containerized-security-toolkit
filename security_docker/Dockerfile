@@ -63,7 +63,6 @@ RUN curl -L http://install.ohmyz.sh | sh && \
     sed -i "s/local input =/local input = N --/" /root/.config/nvim/lua/core/bootstrap.lua && \
     sed -i "s/dofile(vim.g/vim.cmd([[ set guicursor= ]])\ndofile(vim.g/" /root/.config/nvim/init.lua && \
     nvim --headless -c 'quitall' && \
-    echo "---@type ChadrcConfig\n local M = {}\n M.ui = {theme = 'nord'}\n return M" > /root/.config/nvim/lua/custom/chadrc.lua && \
     sed -i "s/autoload -Uz bracketed-paste-magic/#autoload -Uz bracketed-paste-magic/" /root/.oh-my-zsh/lib/misc.zsh && \
     sed -i "s/zle -N bracketed-paste bracketed-paste-magic/#zle -N bracketed-paste bracketed-paste-magic/" /root/.oh-my-zsh/lib/misc.zsh && \
     sed -i "s/autoload -Uz url-quote-magic/#autoload -Uz url-quote-magic/" /root/.oh-my-zsh/lib/misc.zsh && \
