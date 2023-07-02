@@ -8,8 +8,7 @@
     <a href="https://github.com/Tanq16/containerized-security-toolkit/wiki"><b>Wiki</b></a>  &bull;  
     <a href="https://github.com/Tanq16/containerized-security-toolkit/wiki/2.-Example-Workflow"><b>Example Workflow</b></a>  &bull;  
     <a href="https://hub.docker.com/r/tanq16/sec_docker"><b>Docker Hub</b></a>  &bull;  
-    <a href="https://github.com/Tanq16/containerized-security-toolkit/wiki/5.-Tools-List"><b>Tools List</b></a>  &bull;  
-    <a href="https://github.com/tanq16/dockers_tool_builder"><b>Executable Builder</b></a>
+    <a href="https://github.com/Tanq16/containerized-security-toolkit/wiki/5.-Tools-List"><b>Tools List</b></a>
 </p>
 
 <br>
