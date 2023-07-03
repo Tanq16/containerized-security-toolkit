@@ -2,7 +2,7 @@
 
 # init
 apt update -y 2>/dev/null 1>/dev/null && apt install docker.io -y 2>/dev/null 1>/dev/null
-git clone https://github.com/tanq16/containerized-security-toolkit --depth 1
+git clone https://github.com/tanq16/containerized-security-toolkit --depth 1 2>/dev/null 1>/dev/null
 cd containerized-security-toolkit/security_docker
 docker login --username $1 --password $2
 
