@@ -101,7 +101,7 @@ RUN git clone --depth=1 https://github.com/pwndbg/pwndbg /opt/pwndbg && \
     aws/install && \
     rm awscliv2.zip && \
     rm -rf aws && \
-    python3 -m pip install boto3 rich rich-cli semgrep && \
+    python3 -m pip install boto3 semgrep && \
     mkdir /root/.aws && \
     touch /root/.aws/credentials && \
     touch /root/.aws/config && \
