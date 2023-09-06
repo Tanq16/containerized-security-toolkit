@@ -4,10 +4,6 @@ RUN git clone --depth=1 https://github.com/OJ/gobuster.git && \
     cd gobuster && go get && go build && mv gobuster /executables
 RUN git clone --depth=1 https://github.com/insidersec/insider && \
     cd insider/cmd/insider && go get && go build && mv insider /executables
-RUN git clone --depth=1 https://github.com/s0md3v/Smap && \
-    cd Smap/cmd/smap && go get && go build && mv smap /executables
-RUN git clone --depth=1 https://github.com/hahwul/dalfox && \
-    cd dalfox && go get && go build && mv dalfox /executables
 RUN git clone --depth=1 https://github.com/Shopify/kubeaudit && \
     cd kubeaudit/cmd && go get && go build && mv cmd /executables/kubeaudit
 RUN git clone --depth=1 https://github.com/praetorian-inc/fingerprintx && \
@@ -16,8 +12,6 @@ RUN git clone --depth=1 https://github.com/hashicorp/terraform.git && \
     cd terraform && go get && go build && mv terraform /executables
 RUN git clone --depth=1 https://github.com/OWASP/amass.git && \
     cd amass/cmd/amass && go get && go build && mv amass /executables
-RUN git clone --depth=1 https://github.com/j3ssie/metabigor && \
-    cd metabigor && go get && go build && mv metabigor /executables
 RUN git clone --depth=1 https://github.com/lc/gau && \
     cd gau/cmd/gau && go get && go build -o getallurls && mv getallurls /executables
 RUN git clone --depth=1 https://github.com/iknowjason/edge.git && \
