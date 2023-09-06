@@ -20,6 +20,10 @@ RUN git clone --depth=1 https://github.com/j3ssie/metabigor && \
     cd metabigor && go get && go build && mv metabigor /executables
 RUN git clone --depth=1 https://github.com/lc/gau && \
     cd gau/cmd/gau && go get && go build -o getallurls && mv getallurls /executables
+RUN git clone --depth=1 https://github.com/iknowjason/edge.git && \
+    cd edge && go get && go build edge.go && mv edge /executables
+RUN git clone --depth=1 https://github.com/ffuf/ffuf.git && \
+    cd ffuf && go get && go build && mv ffuf /executables
 
 FROM golang AS projectdiscovery_builder
 RUN mkdir /executables
@@ -42,6 +46,10 @@ RUN git clone --depth=1 https://github.com/projectdiscovery/cloudlist && \
     cd cloudlist/cmd/cloudlist && go get && go build && mv cloudlist /executables
 RUN git clone --depth=1 https://github.com/projectdiscovery/uncover && \
     cd uncover/cmd/uncover && go get && go build && mv uncover /executables
+RUN git clone --depth=1 https://github.com/projectdiscovery/katana.git && \
+    cd katana/cmd/katana && go get && go build && mv katana /executables
+RUN git clone --depth=1 https://github.com/projectdiscovery/aix && \
+    cd aix/cmd/aix && go get && go build && mv aix /executables
 
 FROM golang AS other_builder
 RUN mkdir /executables
@@ -59,6 +67,8 @@ RUN git clone --depth=1 https://github.com/tomnomnom/httprobe && \
     cd httprobe && go get && go build && mv httprobe /executables
 RUN git clone --depth=1 https://github.com/BishopFox/cloudfox && \
     cd cloudfox && go get && go build && mv cloudfox /executables
+RUN git clone --depth=1 https://github.com/sensepost/gowitness && \
+    cd gowitness && go get && go build && mv gowitness /executables
 
 FROM alpine
 RUN mkdir /executables/
