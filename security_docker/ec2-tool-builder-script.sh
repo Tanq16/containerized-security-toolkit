@@ -8,7 +8,7 @@ chmod a+r /etc/apt/keyrings/docker.gpg && echo \
   "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
   "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
   tee /etc/apt/sources.list.d/docker.list > /dev/null
-apt update -y && apt install install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
+apt update -y && apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
 
 git clone https://github.com/tanq16/containerized-security-toolkit --depth 1 2>/dev/null 1>/dev/null
 cd containerized-security-toolkit/security_docker
