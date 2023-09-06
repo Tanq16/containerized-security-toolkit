@@ -55,8 +55,8 @@ RUN curl -L http://install.ohmyz.sh | sh && \
     chsh -s /usr/bin/zsh && \
     git clone --depth 1 https://github.com/junegunn/fzf.git /root/.fzf && \
     /root/.fzf/install --all 1>/dev/null && \
-    a=$(curl -L -s https://github.com/Peltoche/lsd/releases/latest | grep -oE "tag.+\"" | cut -d '/' -f2 | grep -vE "^[^0-9]" | cut -d "\"" -f1 | head -n 1) && \
-    echo $a && wget "https://github.com/Peltoche/lsd/releases/download/$a/lsd_""$a""_amd64.deb" && \
+    a=$(curl -L -s https://github.com/lsd-rs/lsd/releases/tag/v1.0.0 | grep -oE "tag.+\"" | cut -d '/' -f2 | grep -vE "^[^v]" | cut -d "\"" -f1 | head -n 1 | cut -d "v" -f2) && \
+    echo $a && wget "https://github.com/lsd-rs/lsd/releases/download/$a/lsd_""$a""_amd64.deb" && \
     apt install -y "./lsd_""$a""_amd64.deb" && \
     rm "lsd_""$a""_amd64.deb" && \
     git clone https://github.com/NvChad/NvChad /root/.config/nvim --depth=1 && \
