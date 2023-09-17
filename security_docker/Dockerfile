@@ -19,13 +19,13 @@ RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \
     strace ltrace wget apt-transport-https openssl gpg-agent openssh-server apt-utils \
     openvpn git tmux tree gnupg2 curl less file zsh bat fd-find htop jc jq make ugrep
 RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \    
-    ntp gcc zip unzip php tzdata yarnpkg gnupg nmap ncat nikto hydra ncdu ripgrep groff \
-    dnsutils nodejs npm locales language-pack-en bsdmainutils whois
+    ntp gcc zip unzip php tzdata yarnpkg nmap ncat nikto hydra ncdu ripgrep groff \
+    dnsutils nodejs npm locales language-pack-en bsdmainutils software-properties-common
 RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \
     python3-setuptools python3-pip python3 python3-dev ipython3 iproute2 python3-venv \
     inetutils-ping inetutils-telnet inetutils-tools inetutils-traceroute inetutils-ftp
 RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \
-    p7zip-full hexedit john fcrackzip binwalk perl ruby-full xfonts-utils && \
+    p7zip-full hexedit john fcrackzip binwalk perl ruby-full xfonts-utils whois && \
     mkdir /opt/executables
 COPY ./neovim-linux64.deb /neovim-linux64.deb
 COPY ./executables/* /opt/executables/
@@ -126,7 +126,8 @@ RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash && \
 # ========================================================================== Tool Installations Part Two =====
 # ============================================================================================================
 
-RUN python3 -m pip install requests && \
+RUN python3 -m pip install requests checkov prowler principalmapper && \
+    sed -i 's/from collections import Mapping, MutableMapping, OrderedDict/from collections.abc import Mapping, MutableMapping\nfrom collections import OrderedDict/g' /usr/local/lib/python3.10/dist-packages/principalmapper/util/case_insensitive_dict.py && \
     a=$(curl -L -s https://github.com/aquasecurity/trivy/releases/latest | grep -oE "tag.+\"" | cut -d '/' -f2 | grep -vE "^[^v]" | cut -d "\"" -f1 | head -n 1) && \
     b=$(echo $a | tr -d "v") && \
     echo $a && echo $b && wget "https://github.com/aquasecurity/trivy/releases/download/$a/trivy_""$b""_Linux-64bit.tar.gz" && \
@@ -136,15 +137,14 @@ RUN python3 -m pip install requests && \
     cd /opt && \
     git clone --depth 1 https://github.com/drwetter/testssl.sh.git
 
-# ============================================================================================================
-# ======================================================================== Tool Installations Part Three =====
-# ============================================================================================================
-
 RUN python3 -m pip install --upgrade setuptools wheel pip && \
     cd /opt && \
     cd /opt/executables/ && \
     curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" && \
-    chmod +x kubectl
+    chmod +x kubectl && \
+    wget -q "https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb" && \
+    dpkg -i packages-microsoft-prod.deb && rm packages-microsoft-prod.deb && \
+    apt update -y && apt install powershell -y
 
 # ============================================================================================================
 # ============================================================================================================
