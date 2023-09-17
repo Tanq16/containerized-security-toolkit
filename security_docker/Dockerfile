@@ -17,10 +17,10 @@ RUN DEBIAN_FRONTEND="noninteractive" apt update && \
     locale-gen
 RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \
     strace ltrace wget apt-transport-https openssl gpg-agent openssh-server apt-utils \
-    openvpn git tmux tree gnupg2 curl less file zsh bat fd-find htop jc jq make
+    openvpn git tmux tree gnupg2 curl less file zsh bat fd-find htop jc jq make ugrep
 RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \    
-    ntp gcc zip unzip php tzdata yarnpkg gnupg nmap ncat nikto hydra ncdu jc groff \
-    dnsutils nodejs npm locales language-pack-en bsdmainutils whois ugrep ripgrep
+    ntp gcc zip unzip php tzdata yarnpkg gnupg nmap ncat nikto hydra ncdu ripgrep groff \
+    dnsutils nodejs npm locales language-pack-en bsdmainutils whois
 RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \
     python3-setuptools python3-pip python3 python3-dev ipython3 iproute2 python3-venv \
     inetutils-ping inetutils-telnet inetutils-tools inetutils-traceroute inetutils-ftp
