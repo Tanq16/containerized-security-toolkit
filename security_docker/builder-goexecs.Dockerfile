@@ -63,8 +63,6 @@ RUN git clone --depth=1 https://github.com/tomnomnom/httprobe && \
     cd httprobe && go get && go build && mv httprobe /executables
 RUN git clone --depth=1 https://github.com/BishopFox/cloudfox && \
     cd cloudfox && go get && go build && mv cloudfox /executables
-RUN git clone --depth=1 https://github.com/sensepost/gowitness && \
-    cd gowitness && go get && go build && mv gowitness /executables
 
 FROM alpine
 RUN mkdir /executables/
