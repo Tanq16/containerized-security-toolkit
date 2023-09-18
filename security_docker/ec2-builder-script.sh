@@ -10,9 +10,6 @@ chmod a+r /etc/apt/keyrings/docker.gpg && echo \
   tee /etc/apt/sources.list.d/docker.list > /dev/null
 apt update -y && apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
 
-git clone https://github.com/tanq16/containerized-security-toolkit --depth 1 2>/dev/null 1>/dev/null
-cd containerized-security-toolkit/security_docker
-
 # tool build
 DOCKER_BUILDKIT=1 docker build -f builder-goexecs.Dockerfile -t gobuilder .
 docker builder prune -f
@@ -33,6 +30,3 @@ else
   DOCKER_BUILDKIT=1 docker build -f Dockerfile -t tanq16/sec_docker:main .
   docker push tanq16/sec_docker:main
 fi
-
-# cleanup
-cd ../.. && rm -rf ./containerized-security-toolkit
