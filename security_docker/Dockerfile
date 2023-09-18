@@ -16,17 +16,18 @@ RUN DEBIAN_FRONTEND="noninteractive" apt update && \
     sed -i 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
     locale-gen
 RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \
-    strace ltrace wget apt-transport-https openssl gpg-agent openssh-server apt-utils \
-    openvpn git tmux tree gnupg2 curl less file zsh bat fd-find htop jc jq make ugrep
+    apt-transport-https software-properties-common apt-utils openssl gpg-agent \
+    openssh-server openvpn wget git tmux tree gnupg gnupg2 curl less file zsh
+RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \
+    bat fd-find htop jc jq make ugrep ripgrep groff hydra nmap ncat ntp php \
+    gcc zip unzip tzdata yarnpkg nodejs npm locales language-pack-en perl
 RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \    
-    ntp gcc zip unzip php tzdata yarnpkg nmap ncat nikto hydra ncdu ripgrep groff \
-    dnsutils nodejs npm locales language-pack-en bsdmainutils software-properties-common
+    bsdmainutils dnsutils ruby-full xfonts-utils whois p7zip-full python3 \
+    python3-dev python3-pip python3-setuptools ipython3 iproute2 python3-venv
 RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \
-    python3-setuptools python3-pip python3 python3-dev ipython3 iproute2 python3-venv \
-    inetutils-ping inetutils-telnet inetutils-tools inetutils-traceroute inetutils-ftp
-RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \
-    p7zip-full hexedit john fcrackzip binwalk perl ruby-full xfonts-utils whois && \
+    inetutils-ping inetutils-telnet inetutils-tools inetutils-traceroute inetutils-ftp && \
     mkdir /opt/executables
+
 COPY ./neovim-linux64.deb /neovim-linux64.deb
 COPY ./executables/* /opt/executables/
 RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends /neovim-linux64.deb && rm /neovim-linux64.deb

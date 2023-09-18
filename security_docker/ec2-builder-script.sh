@@ -30,3 +30,5 @@ else
   DOCKER_BUILDKIT=1 docker build -f Dockerfile -t tanq16/sec_docker:main .
   docker push tanq16/sec_docker:main
 fi
+
+rm -rf ./executables && rm neovim-linux64.deb
