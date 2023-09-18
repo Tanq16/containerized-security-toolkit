@@ -145,8 +145,8 @@ RUN python3 -m pip install --upgrade setuptools wheel pip && \
     chmod +x kubectl && \
     a=$(curl -s https://github.com/PowerShell/PowerShell/releases/ | grep -oE "v.\..\.. " | head -n1 | tr -d " v") && \
     mkdir /opt/powershell && cd /opt/powershell && \
-    wget "https://github.com/PowerShell/PowerShell/releases/download/v""$a""/powershell-""$a""-linux-amd64.tar.gz" && \
-    tar -xzf "powershell-""$a""-linux-amd64.tar.gz" && \
+    wget "https://github.com/PowerShell/PowerShell/releases/download/v""$a""/powershell-""$a""-linux-x64.tar.gz" && \
+    tar -xzf "powershell-""$a""-linux-x64.tar.gz" && \
     ln -s /opt/powershell/pwsh /usr/bin/pwsh
 
 # ============================================================================================================
