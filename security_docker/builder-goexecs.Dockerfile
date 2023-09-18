@@ -46,6 +46,8 @@ RUN git clone --depth=1 https://github.com/projectdiscovery/katana.git && \
     cd katana/cmd/katana && go get && go build && mv katana /executables
 RUN git clone --depth=1 https://github.com/projectdiscovery/aix && \
     cd aix/cmd/aix && go get && go build && mv aix /executables
+RUN git clone --depth=1 https://github.com/projectdiscovery/simplehttpserver && \
+    cd simplehttpserver/cmd/simplehttpserver && go get && go build && mv simplehttpserver /executables
 
 FROM golang AS other_builder
 RUN mkdir /executables
