@@ -127,7 +127,7 @@ RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash && \
 # ========================================================================== Tool Installations Part Two =====
 # ============================================================================================================
 
-RUN python3 -m pip install requests checkov prowler principalmapper && \
+RUN python3 -m pip install requests checkov prowler principalmapper kube-hunter && \
     sed -i 's/from collections import Mapping, MutableMapping, OrderedDict/from collections.abc import Mapping, MutableMapping\nfrom collections import OrderedDict/g' /usr/local/lib/python3.10/dist-packages/principalmapper/util/case_insensitive_dict.py && \
     a=$(curl -L -s https://github.com/aquasecurity/trivy/releases/latest | grep -oE "tag.+\"" | cut -d '/' -f2 | grep -vE "^[^v]" | cut -d "\"" -f1 | head -n 1) && \
     b=$(echo $a | tr -d "v") && \
