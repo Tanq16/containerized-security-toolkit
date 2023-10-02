@@ -20,6 +20,8 @@ RUN git clone --depth=1 https://github.com/ffuf/ffuf.git && \
     cd ffuf && go get && go build && mv ffuf /executables
 RUN git clone --depth=1 https://github.com/mikefarah/yq && \
     cd yq && go get && go build && mv yq /executables
+RUN git clone --depth=1 https://github.com/fullstorydev/grpcurl && \
+    cd grpcurl/cmd/grpcurl && go get && go build && mv grpcurl /executables
 
 FROM golang AS projectdiscovery_builder
 RUN mkdir /executables
