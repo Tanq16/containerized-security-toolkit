@@ -158,4 +158,5 @@ RUN python3 -m pip install --upgrade pip setuptools wheel && \
     DEBIAN_FRONTEND="noninteractive" apt autoremove -y && \
     ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && \
     echo $TZ > /etc/timezone && \
+    echo '! [ -z "$TMUX" ] && ! [ "$(ps -ocommand= -p $PPID | cut -d" " -f1)" = "script" ] & script -f $HOME/session-$(date +"%d-%b-%y_%H-%M-%S").log' >> /root/.zshrc && \
     echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
