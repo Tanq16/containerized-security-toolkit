@@ -19,8 +19,8 @@ docker builder prune -f
 docker login --username $1 --password $2
 
 # build
-docker run -v $PWD:/shared --rm -it gobuilder sh -c 'mv executables/ /shared/'
-docker run -v $PWD:/shared --rm -it otherbuilder sh -c 'mv executables/noseyparker /shared/executables/ && mv neovim-linux64.deb /shared/'
+# docker run -v $PWD:/shared --rm -it gobuilder sh -c 'mv executables/ /shared/'
+# docker run -v $PWD:/shared --rm -it otherbuilder sh -c 'mv executables/noseyparker /shared/executables/ && mv neovim-linux64.deb /shared/'
 
 if [ $(uname -p) != "x86_64" ]
 then

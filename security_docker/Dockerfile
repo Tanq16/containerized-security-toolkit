@@ -1,4 +1,6 @@
 FROM ubuntu
+FROM gobuilder
+FROM otherbuilder
 
 # ============================================================================================================
 # ==================================================================== Environment and APT Installations =====
@@ -28,8 +30,9 @@ RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \
     inetutils-ping inetutils-telnet inetutils-tools inetutils-traceroute inetutils-ftp && \
     mkdir /opt/executables
 
-COPY ./neovim-linux64.deb /neovim-linux64.deb
-COPY ./executables/* /opt/executables/
+COPY --from=gobuilder /executables /opt/executables
+COPY --from=otherbuilder /executables/noseyparker /opt/executables/noseyparker
+COPY --from=otherbuilder /neovim-linux64.deb /neovim-linux64.deb
 RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends /neovim-linux64.deb && rm /neovim-linux64.deb
 
 # ============================================================================================================
