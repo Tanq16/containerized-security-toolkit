@@ -39,7 +39,7 @@ RUN git clone --depth=1 https://github.com/projectdiscovery/mapcidr && \
 RUN git clone --depth=1 https://github.com/projectdiscovery/proxify && \
     cd proxify/cmd/proxify && go get && go build && mv proxify /executables
 RUN git clone --depth=1 https://github.com/projectdiscovery/nuclei && \
-    cd nuclei/v2/cmd/nuclei && go get && go build && mv nuclei /executables
+    cd nuclei/cmd/nuclei && go get && go build && mv nuclei /executables
 RUN git clone --depth=1 https://github.com/projectdiscovery/cloudlist && \
     cd cloudlist/cmd/cloudlist && go get && go build && mv cloudlist /executables
 RUN git clone --depth=1 https://github.com/projectdiscovery/uncover && \
