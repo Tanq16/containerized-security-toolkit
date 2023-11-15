@@ -1,3 +1,5 @@
+FROM gobuilder as gobuilder
+FROM otherbuilder as otherbuilder
 FROM ubuntu
 
 # ============================================================================================================
@@ -28,8 +30,9 @@ RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \
     inetutils-ping inetutils-telnet inetutils-tools inetutils-traceroute inetutils-ftp && \
     mkdir /opt/executables
 
-COPY ./neovim-linux64.deb /neovim-linux64.deb
-COPY ./executables/* /opt/executables/
+COPY --from=gobuilder /executables /opt/executables
+COPY --from=otherbuilder /executables/noseyparker /opt/executables/noseyparker
+COPY --from=otherbuilder /neovim-linux64.deb /neovim-linux64.deb
 RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends /neovim-linux64.deb && rm /neovim-linux64.deb
 
 # ============================================================================================================
@@ -107,7 +110,7 @@ RUN mkdir /opt/lists/ && cd /opt/lists/ && \
     echo '[default]\naws_access_key_id = \naws_secret_access_key = ' >> /root/.aws/credentials && \
     echo '[default]\nregion = us-east-1' >> /root/.aws/config && \
     cd /root && \
-    eval $(curl -sL "https://cloud.google.com/sdk/docs/install" | grep -oE "curl -O https://dl.google.com/dl/cloudsdk/channels/.+\.tar\.gz" | grep arm) && \
+    wget $(curl -sL "https://cloud.google.com/sdk/docs/install" | grep -oE "https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-.+?-linux-arm.tar.gz") && \
     tar -xzf $(ls | grep "google.*\.tar\.gz") && \
     rm $(ls | grep "google.*\.tar\.gz") && \
     google-cloud-sdk/install.sh -q && \
@@ -127,7 +130,7 @@ RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash && \
 # ========================================================================== Tool Installations Part Two =====
 # ============================================================================================================
 
-RUN python3 -m pip install requests checkov prowler principalmapper kube-hunter && \
+RUN python3 -m pip install requests checkov prowler scoutsuite principalmapper kube-hunter && \
     sed -i 's/from collections import Mapping, MutableMapping, OrderedDict/from collections.abc import Mapping, MutableMapping\nfrom collections import OrderedDict/g' /usr/local/lib/python3.10/dist-packages/principalmapper/util/case_insensitive_dict.py && \
     a=$(curl -L -s https://github.com/aquasecurity/trivy/releases/latest | grep -oE "tag.+\"" | cut -d '/' -f2 | grep -vE "^[^v]" | cut -d "\"" -f1 | head -n 1) && \
     b=$(echo $a | tr -d "v") && \

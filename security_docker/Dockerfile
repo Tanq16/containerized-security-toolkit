@@ -1,6 +1,6 @@
+FROM gobuilder as gobuilder
+FROM otherbuilder as otherbuilder
 FROM ubuntu
-FROM gobuilder
-FROM otherbuilder
 
 # ============================================================================================================
 # ==================================================================== Environment and APT Installations =====
