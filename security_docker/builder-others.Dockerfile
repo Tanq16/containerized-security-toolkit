@@ -2,7 +2,7 @@ FROM rust AS noseyparker_builder
 RUN mkdir /executables && \
     apt update -y && apt install -y cmake ninja-build git
 RUN git clone --depth=1 https://github.com/praetorian-inc/noseyparker && \
-    cd noseyparker && cargo build --release && mv target/release/noseyparker /executables
+    cd noseyparker && cargo build --release && mv target/release/noseyparker-cli /executables/noseyparker
 
 FROM ubuntu AS nvim_builder
 RUN apt update -y && \
