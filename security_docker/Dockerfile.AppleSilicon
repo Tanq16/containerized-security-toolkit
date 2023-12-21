@@ -66,7 +66,7 @@ RUN curl -L http://install.ohmyz.sh | sh && \
     rm -rf "lsd-""$a""-aarch64-unknown-linux-gnu.tar.gz" "lsd-""$a""-aarch64-unknown-linux-gnu" && \
     git clone https://github.com/NvChad/NvChad /root/.config/nvim --depth=1 && \
     sed -i "s/local input =/local input = \"N\" --/" /root/.config/nvim/lua/core/bootstrap.lua && \
-    sed -i "s/dofile(vim.g/vim.cmd([[ set guicursor= ]])\ndofile(vim.g/" /root/.config/nvim/init.lua && \
+    sed -i "s/dofile(vim.g/vim.cmd([[ set guicursor=n-v-c-i:ver25 ]])\ndofile(vim.g/" /root/.config/nvim/init.lua && \
     nvim --headless -c 'quitall' && \
     sed -i "s/autoload -Uz bracketed-paste-magic/#autoload -Uz bracketed-paste-magic/" /root/.oh-my-zsh/lib/misc.zsh && \
     sed -i "s/zle -N bracketed-paste bracketed-paste-magic/#zle -N bracketed-paste bracketed-paste-magic/" /root/.oh-my-zsh/lib/misc.zsh && \
