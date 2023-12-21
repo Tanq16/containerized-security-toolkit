@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# init
 # apt update -y 2>/dev/null 1>/dev/null && apt install docker.io -y 2>/dev/null 1>/dev/null
 apt install ca-certificates curl gnupg -y 2>/dev/null && install -m 0755 -d /etc/apt/keyrings
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
@@ -18,7 +17,6 @@ docker builder prune -f
 
 docker login --username $1 --password $2
 
-# build
 # docker run -v $PWD:/shared --rm -it gobuilder sh -c 'mv executables/ /shared/'
 # docker run -v $PWD:/shared --rm -it otherbuilder sh -c 'mv executables/noseyparker /shared/executables/ && mv neovim-linux64.deb /shared/'
 
@@ -31,4 +29,4 @@ else
   docker push tanq16/sec_docker:main
 fi
 
-rm -rf ./executables && rm neovim-linux64.deb
+# rm -rf ./executables && rm neovim-linux64.deb
