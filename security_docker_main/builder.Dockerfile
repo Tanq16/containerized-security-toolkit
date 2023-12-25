@@ -5,7 +5,7 @@ RUN mkdir /executables && mkdir /testingground && apt update -y && \
     tar -xvf stable.tar.gz && cd neovim-stable && \
     make CMAKE_BUILD_TYPE=RelWithDebInfo && \
     cd build && cpack -G DEB && \
-    mv neovim-stable/build/nvim-linux64.deb /
+    mv nvim-linux64.deb /
 RUN cd /testingground && \
     a=$(curl -s https://api.github.com/repos/OJ/gobuster/releases/latest | grep "browser_download_url" | grep -i "linux" | grep -i "x86_64" | cut -d '"' -f4) && \
     wget "$a" -O test.tar.gz && tar -xzf test.tar.gz && \
