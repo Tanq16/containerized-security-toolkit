@@ -44,8 +44,7 @@ RUN mkdir /testingground && cd /testingground && \
     mv ffuf /executables && cd .. && rm -rf testingground
 RUN mkdir /testingground && cd /testingground && \
     a=$(curl -s https://api.github.com/repos/mikefarah/yq/releases/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "amd64" | grep -v "tar.gz" | cut -d '"' -f4) && \
-    wget "$a" && chmod +x && \
-    mv yq_linux_amd64 /executables/yq && cd .. && rm -rf testingground
+    wget "$a" && mv yq_linux_amd64 /executables/yq && cd .. && rm -rf testingground
 RUN mkdir /testingground && cd /testingground && \
     a=$(curl -s https://api.github.com/repos/fullstorydev/grpcurl/releases/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "x86_64" | cut -d '"' -f4) && \
     wget "$a" -O test.tar.gz && tar -xzf test.tar.gz && \
