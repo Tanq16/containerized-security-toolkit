@@ -24,39 +24,18 @@ The image is called `sec_docker` and multiple versions of it are uploaded as dif
 | | x86\_64 | ARM |
 | --- | --- | --- |
 | tag | `main` | `main_apple` |
-| ID | `tanq16/sec_docker:main` | `tanq16/sec_docker:main_apple` |
+| image ref | `tanq16/sec_docker:main` | `tanq16/sec_docker:main_apple` |
 
 It has the [cli-productivity-suite](https://github.com/tanq16/cli-productivity-suite) preinstalled within the image. The [wiki](https://github.com/Tanq16/containerized-security-toolkit/wiki) goes over using the pre-built images, building it with modifications, conventions considered when creating the Dockerfiles, and different ways it can be used.
 
 ---
 
-A rundown of the [Quickstart](https://github.com/Tanq16/containerized-security-toolkit/wiki/1.-Quickstart) is as follows &rarr; 
-
-There are several other nuances related to running the container, specifically around setting up single command functions to start and stop containers. Read the [wiki](https://github.com/Tanq16/containerized-security-toolkit/wiki), especially the [Example Workflow](https://github.com/Tanq16/containerized-security-toolkit/wiki/2.-Example-Workflow) for a better setup.
-
-For a quick and dirty run, copy and paste the following commands in order &rarr;
+A quick look into the container and its capabilities, built from this image, is as follows &rarr; 
 
 ```bash
-mkdir -p $HOME/docker_work/
+docker run --name="sec_docker_quickstart" --rm -it tanq16/sec_docker:main /bin/zsh
 ```
 
-```bash
-docker run --name="security_docker" \
--v $HOME/docker_work/:/persist \
--p 50022:22 --rm -d -it tanq16/sec_docker:main \
-zsh -c "tail -f /dev/null"
-```
+If you exit the shell, the container will be destroyed along with the information in the ephemeral filesystem.
 
-```bash
-docker exec -it tanq16/sec_docker:main /bin/zsh
-```
-
-Finally, stop the container with the following &rarr;
-
-```bash
-docker stop security_docker -t 0
-```
-
----
-
-Containerized workloads for the win!
+There are several other nuances related to running the container, such as setting up a persistence diretcory across container restarts, using one-word shell functions to start and stop containers with customized settings. Read the [wiki](https://github.com/Tanq16/containerized-security-toolkit/wiki), especially the [Example Workflow](https://github.com/Tanq16/containerized-security-toolkit/wiki/2.-Example-Workflow) for a comprehensive and convenient setup process.
