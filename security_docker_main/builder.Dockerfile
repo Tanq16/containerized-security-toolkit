@@ -106,7 +106,7 @@ RUN mkdir /testingground && cd /testingground && \
     wget "$a" -O test.zip && unzip test.zip && \
     mv cloudfox/cloudfox /executables && cd .. && rm -rf testingground
 RUN mkdir /testingground && cd /testingground && \
-    a=$(curl -s https://api.github.com/repos/BloodHoundAD/AzureHound/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "amd64" | cut -d '"' -f4 | grep -v ".sha256") && \
+    a=$(curl -s https://api.github.com/repos/BloodHoundAD/AzureHound/releases/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "amd64" | cut -d '"' -f4 | grep -v ".sha256") && \
     wget "$a" -O test.zip && unzip test.zip && \
     mv azurehound /executables && cd .. && rm -rf testingground
 RUN mkdir /testingground && cd /testingground && \
