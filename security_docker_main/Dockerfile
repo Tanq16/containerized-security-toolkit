@@ -32,6 +32,7 @@ RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \
 COPY --from=intermediate_builder /executables /opt/executables
 COPY --from=intermediate_builder /neovim-linux64.deb /neovim-linux64.deb
 RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends /neovim-linux64.deb && rm /neovim-linux64.deb
+RUN chown -R root:root /opt/executables && chmod 755 /opt/executables/*
 
 # ============================================================================================================
 # =============================================================================== CLI Productivity Suite =====
