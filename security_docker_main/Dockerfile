@@ -58,7 +58,7 @@ RUN curl -L http://install.ohmyz.sh | sh && \
     git clone --depth 1 https://github.com/junegunn/fzf.git /root/.fzf && \
     /root/.fzf/install --all 1>/dev/null && \
     a=$(curl -s https://api.github.com/repos/lsd-rs/lsd/releases/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "x86_64" | grep -i "gnu" | cut -d '"' -f4) && \
-    wget "$a" && -O test.tar.gz && tar -xzf test.tar.gz && \
+    wget "$a" -O test.tar.gz && tar -xzf test.tar.gz && \
     mv lsd-*/lsd /usr/bin/lsd && \
     rm -rf lsd-* test.tar.gz && \
     git clone https://github.com/NvChad/NvChad /root/.config/nvim --depth=1 && \
