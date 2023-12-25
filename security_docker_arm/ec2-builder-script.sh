@@ -20,13 +20,7 @@ docker login --username $1 --password $2
 # docker run -v $PWD:/shared --rm -it gobuilder sh -c 'mv executables/ /shared/'
 # docker run -v $PWD:/shared --rm -it otherbuilder sh -c 'mv executables/noseyparker /shared/executables/ && mv neovim-linux64.deb /shared/'
 
-if [ $(uname -p) != "x86_64" ]
-then
-  DOCKER_BUILDKIT=1 docker build -f Dockerfile.AppleSilicon -t tanq16/sec_docker:main_apple .
-  docker push tanq16/sec_docker:main_apple
-else
-  DOCKER_BUILDKIT=1 docker build -f Dockerfile -t tanq16/sec_docker:main .
-  docker push tanq16/sec_docker:main
-fi
+DOCKER_BUILDKIT=1 docker build -f Dockerfile.AppleSilicon -t tanq16/sec_docker:main_apple .
+docker push tanq16/sec_docker:main_apple
 
 # rm -rf ./executables && rm neovim-linux64.deb
