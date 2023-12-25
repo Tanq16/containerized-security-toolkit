@@ -1,5 +1,4 @@
-FROM gobuilder as gobuilder
-FROM otherbuilder as otherbuilder
+FROM intermediate_builder as intermediate_builder
 FROM ubuntu
 
 # ============================================================================================================
@@ -30,9 +29,8 @@ RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \
     inetutils-ping inetutils-telnet inetutils-tools inetutils-traceroute inetutils-ftp && \
     mkdir /opt/executables
 
-COPY --from=gobuilder /executables /opt/executables
-COPY --from=otherbuilder /executables/noseyparker /opt/executables/noseyparker
-COPY --from=otherbuilder /neovim-linux64.deb /neovim-linux64.deb
+COPY --from=intermediate_builder /executables /opt/executables
+COPY --from=intermediate_builder /neovim-linux64.deb /neovim-linux64.deb
 RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends /neovim-linux64.deb && rm /neovim-linux64.deb
 
 # ============================================================================================================
@@ -59,11 +57,10 @@ RUN curl -L http://install.ohmyz.sh | sh && \
     chsh -s /usr/bin/zsh && \
     git clone --depth 1 https://github.com/junegunn/fzf.git /root/.fzf && \
     /root/.fzf/install --all 1>/dev/null && \
-    a=$(curl -L -s https://github.com/lsd-rs/lsd/releases/ | grep -oE "tag.+\"" | cut -d '/' -f2 | grep -vE "^[^v]" | cut -d "\"" -f1 | head -n 1) && \
-    wget "https://github.com/lsd-rs/lsd/releases/download/$a/lsd-""$a""-x86_64-unknown-linux-gnu.tar.gz" && \
-    tar -xvf "lsd-""$a""-x86_64-unknown-linux-gnu.tar.gz" && \
-    mv "lsd-""$a""-x86_64-unknown-linux-gnu/lsd" /usr/bin/lsd && \
-    rm -rf "lsd-""$a""-x86_64-unknown-linux-gnu.tar.gz" "lsd-""$a""-x86_64-unknown-linux-gnu" && \
+    a=$(curl -s https://api.github.com/repos/lsd-rs/lsd/releases/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "x86_64" | grep -i "gnu" | cut -d '"' -f4) && \
+    wget "$a" && -O test.tar.gz && tar -xzf test.tar.gz && \
+    mv lsd-*/lsd /usr/bin/lsd && \
+    rm -rf lsd-* test.tar.gz && \
     git clone https://github.com/NvChad/NvChad /root/.config/nvim --depth=1 && \
     sed -i "s/local input =/local input = \"N\" --/" /root/.config/nvim/lua/core/bootstrap.lua && \
     sed -i "s/dofile(vim.g/vim.cmd([[ set guicursor=n-v-c-i:ver25 ]])\ndofile(vim.g/" /root/.config/nvim/init.lua && \
@@ -132,24 +129,15 @@ RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash && \
 
 RUN python3 -m pip install requests checkov prowler scoutsuite principalmapper kube-hunter && \
     sed -i 's/from collections import Mapping, MutableMapping, OrderedDict/from collections.abc import Mapping, MutableMapping\nfrom collections import OrderedDict/g' /usr/local/lib/python3.10/dist-packages/principalmapper/util/case_insensitive_dict.py && \
-    a=$(curl -L -s https://github.com/aquasecurity/trivy/releases/latest | grep -oE "tag.+\"" | cut -d '/' -f2 | grep -vE "^[^v]" | cut -d "\"" -f1 | head -n 1) && \
-    b=$(echo $a | tr -d "v") && \
-    echo $a && echo $b && wget "https://github.com/aquasecurity/trivy/releases/download/$a/trivy_""$b""_Linux-64bit.tar.gz" && \
-    tar -xzf "trivy_""$b""_Linux-64bit.tar.gz" && \
-    mv trivy /opt/executables/ && \
-    rm -rf "trivy_""$b""_Linux-64bit.tar.gz" LICENSE README.md contrib && \
-    cd /opt && \
-    git clone --depth 1 https://github.com/drwetter/testssl.sh.git
+    cd /opt && git clone --depth 1 https://github.com/drwetter/testssl.sh.git
 
 RUN python3 -m pip install --upgrade setuptools wheel pip && \
-    cd /opt && \
     cd /opt/executables/ && \
     curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" && \
     chmod +x kubectl && \
-    a=$(curl -s https://github.com/PowerShell/PowerShell/releases/ | grep -oE "v.\..\.. " | head -n1 | tr -d " v") && \
+    a=$(curl -s https://api.github.com/repos/powershell/powershell/releases/latest | grep -E "browser_download_url.*" | grep -i "linux-x64.tar.gz" | cut -d '"' -f4) && \
     mkdir /opt/powershell && cd /opt/powershell && \
-    wget "https://github.com/PowerShell/PowerShell/releases/download/v""$a""/powershell-""$a""-linux-x64.tar.gz" && \
-    tar -xzf "powershell-""$a""-linux-x64.tar.gz" && \
+    wget "$a" -O test.tar.gz && tar -xzf test.tar.gz && \
     ln -s /opt/powershell/pwsh /usr/bin/pwsh
 
 # ============================================================================================================

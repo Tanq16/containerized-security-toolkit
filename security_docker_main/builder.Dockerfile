@@ -109,6 +109,10 @@ RUN cd /testingground && \
     a=$(curl -s https://api.github.com/repos/BloodHoundAD/AzureHound/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "amd64" | cut -d '"' -f4 | grep -v ".sha256") && \
     wget "$a" -O test.zip && unzip test.zip && \
     mv azurehound /executables && rm -rf ./* ./.*
+RUN cd /testingground && \
+    a=$(curl -s https://api.github.com/repos/aquasecurity/trivy/releases/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "64bit" | grep -i "tar.gz" | grep -vE "sig|pem" | cut -d '"' -f4) && \
+    wget "$a" -O test.tar.gz && tar -xzf test.tar.gz && \
+    mv trivy /executables && rm -rf ./* ./.*
 
 FROM golang AS go_builder
 RUN mkdir /executables

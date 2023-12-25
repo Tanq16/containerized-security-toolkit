@@ -10,7 +10,7 @@ chmod a+r /etc/apt/keyrings/docker.gpg && echo \
 apt update -y && apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
 
 # tool build
-DOCKER_BUILDKIT=1 docker build -f builder.Dockerfile -t gobuilder .
+DOCKER_BUILDKIT=1 docker build -f builder.Dockerfile -t intermediate_builder .
 docker builder prune -f
 
 docker login --username $1 --password $2
