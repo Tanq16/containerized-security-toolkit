@@ -5,12 +5,6 @@ FROM ubuntu
 # ==================================================================== Environment and APT Installations =====
 # ============================================================================================================
 
-ENV RUNNING_IN_DOCKER true
-ENV TZ America/Chicago
-ENV LANG enUS.utf-8
-ENV SHELL /bin/zsh
-ENV TERM xterm-256color
-
 RUN DEBIAN_FRONTEND="noninteractive" apt update && \
     DEBIAN_FRONTEND="noninteractive" apt upgrade -y && \
     apt install -y locales && \
@@ -149,5 +143,5 @@ RUN python3 -m pip install --upgrade pip setuptools wheel && \
     DEBIAN_FRONTEND="noninteractive" apt autoclean -y && \
     DEBIAN_FRONTEND="noninteractive" apt autoremove -y && \
     ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && \
-    echo $TZ > /etc/timezone && \
+    echo "America/Chicago" > /etc/timezone && \
     echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
