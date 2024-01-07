@@ -142,6 +142,7 @@ RUN python3 -m pip install --upgrade setuptools wheel pip && \
 RUN python3 -m pip install --upgrade pip setuptools wheel && \
     DEBIAN_FRONTEND="noninteractive" apt autoclean -y && \
     DEBIAN_FRONTEND="noninteractive" apt autoremove -y && \
+    TZ=$(curl https://ipapi.co/timezone)
     ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && \
-    echo "America/Chicago" > /etc/timezone && \
+    echo $TZ > /etc/timezone && \
     echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
