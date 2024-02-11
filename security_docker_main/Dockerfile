@@ -144,7 +144,7 @@ RUN python3 -m pip install requests && \
     sed -i 's/from collections import Mapping, MutableMapping, OrderedDict/from collections.abc import Mapping, MutableMapping\nfrom collections import OrderedDict/g' principalmapper/util/case_insensitive_dict.py && \
     pip install --no-cache-dir checkov && \
     pip install --no-cache-dir prowler && \
-    git clone --depth=1 https://github.com/aquasecurity/kube-hunter && cs kube-hunter && \
+    git clone --depth=1 https://github.com/aquasecurity/kube-hunter && cd kube-hunter && \
     pip install --no-cache-dir -r requirements.txt
 
 # ============================================================================================================
