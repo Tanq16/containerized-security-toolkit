@@ -122,10 +122,6 @@ RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash && \
 # ========================================================================== Tool Installations Part Two =====
 # ============================================================================================================
 
-RUN python3 -m pip install requests checkov prowler scoutsuite principalmapper kube-hunter && \
-    sed -i 's/from collections import Mapping, MutableMapping, OrderedDict/from collections.abc import Mapping, MutableMapping\nfrom collections import OrderedDict/g' /usr/local/lib/python3.10/dist-packages/principalmapper/util/case_insensitive_dict.py && \
-    cd /opt && git clone --depth 1 https://github.com/drwetter/testssl.sh.git
-
 RUN python3 -m pip install --upgrade setuptools wheel pip && \
     cd /opt/executables/ && \
     curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" && \
@@ -133,7 +129,23 @@ RUN python3 -m pip install --upgrade setuptools wheel pip && \
     a=$(curl -s https://api.github.com/repos/powershell/powershell/releases/latest | grep -E "browser_download_url.*" | grep -i "linux-x64.tar.gz" | cut -d '"' -f4) && \
     mkdir /opt/powershell && cd /opt/powershell && \
     wget "$a" -O test.tar.gz && tar -xzf test.tar.gz && \
-    ln -s /opt/powershell/pwsh /usr/bin/pwsh
+    ln -s /opt/powershell/pwsh /usr/bin/pwsh && \
+    cd /opt && git clone --depth 1 https://github.com/drwetter/testssl.sh.git
+
+RUN python3 -m pip install requests && \
+    python3 -m venv /opt/pycloudenv && \
+    mkdir /opt/pycloudtools && \
+    . /opt/pycloudenv/bin/activate && \
+    cd /opt/pycloudtools && \
+    git clone --depth=1 https://github.com/nccgroup/ScoutSuite && cd ScoutSuite && \
+    pip install --no-cache-dir -r requirements.txt && \
+    git clone --depth=1 https://github.com/nccgroup/PMapper && cd PMapper && \
+    pip install --no-cache-dir -r requirements.txt && \
+    sed -i 's/from collections import Mapping, MutableMapping, OrderedDict/from collections.abc import Mapping, MutableMapping\nfrom collections import OrderedDict/g' principalmapper/util/case_insensitive_dict.py && \
+    pip install --no-cache-dir checkov && \
+    pip install --no-cache-dir prowler && \
+    git clone --depth=1 https://github.com/aquasecurity/kube-hunter && cs kube-hunter && \
+    pip install --no-cache-dir -r requirements.txt
 
 # ============================================================================================================
 # ============================================================================================================
