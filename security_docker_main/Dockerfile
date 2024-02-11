@@ -42,13 +42,13 @@ RUN curl -L http://install.ohmyz.sh | sh && \
     git clone --depth=1  https://github.com/tmux-plugins/tpm /root/.tmux/plugins/tpm && \
     wget https://raw.githubusercontent.com/Tanq16/cli-productivity-suite/master/tmuxconf && \
     mv tmuxconf /root/.tmux.conf && \
-    wget https://raw.githubusercontent.com/Tanq16/cli-productivity-suite/master/add_to_rc && \
-    cat add_to_rc >> /root/.zshrc && \
-    rm add_to_rc && \
+    wget https://raw.githubusercontent.com/Tanq16/cli-productivity-suite/master/linux.rcfile && \
+    cat linux.rcfile >> /root/.zshrc && \
+    rm linux.rcfile && \
     cp /root/.zshrc temptemp && \
     cat temptemp | grep -vE "^#" | grep -vE "^$" > /root/.zshrc && \
     rm temptemp && \
-    echo "export PATH=$PATH:/usr/local/go/bin/:/opt/executables/" >> /root/.zshrc && \
+    echo "export PATH=$PATH:/usr/local/go/bin/" >> /root/.zshrc && \
     chsh -s /usr/bin/zsh && \
     git clone --depth 1 https://github.com/junegunn/fzf.git /root/.fzf && \
     /root/.fzf/install --all 1>/dev/null && \
