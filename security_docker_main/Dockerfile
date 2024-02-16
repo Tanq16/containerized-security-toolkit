@@ -133,9 +133,9 @@ RUN python3 -m pip install --upgrade setuptools wheel pip && \
     cd /opt && git clone --depth 1 https://github.com/drwetter/testssl.sh.git
 
 RUN python3 -m pip install requests && \
-    python3 -m venv /opt/pycloudenv && \
     mkdir /opt/pycloudtools && \
-    . /opt/pycloudenv/bin/activate && \
+    python3 -m venv /opt/pycloudtools/pycloudenv && \
+    . /opt/pycloudtools/pycloudenv/bin/activate && \
     cd /opt/pycloudtools && \
     git clone --depth=1 https://github.com/nccgroup/ScoutSuite && cd ScoutSuite && \
     pip install --no-cache-dir -r requirements.txt && \
