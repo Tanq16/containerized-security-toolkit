@@ -36,6 +36,12 @@ A quick look into the container and its capabilities, built from this image, is 
 docker run --name="sec_docker_quickstart" --rm -it tanq16/sec_docker:main /bin/zsh
 ```
 
+It is also recommended to run the following command after getting into the container &rarr;
+
+```bash
+export TERM=xterm-256color && rm -rf /etc/localtime && ln -s "/usr/share/zoneinfo/$(curl -s https://ipapi.co/timezone)" /etc/localtime && echo $(curl -s https://ipapi.co/timezone) > /etc/timezone
+```
+
 If you exit the shell, the container will be destroyed along with the information in the ephemeral filesystem.
 
 There are several other nuances related to running the container, such as setting up a persistence diretcory across container restarts, using one-word shell functions to start and stop containers with customized settings. Read the [wiki](https://github.com/Tanq16/containerized-security-toolkit/wiki), especially the [Example Workflow](https://github.com/Tanq16/containerized-security-toolkit/wiki/2.-Example-Workflow) for a comprehensive and convenient setup process.
