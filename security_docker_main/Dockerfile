@@ -138,10 +138,10 @@ RUN python3 -m pip install requests && \
     . /opt/pycloudtools/pycloudenv/bin/activate && \
     cd /opt/pycloudtools && \
     git clone --depth=1 https://github.com/nccgroup/ScoutSuite && cd ScoutSuite && \
-    pip install --no-cache-dir -r requirements.txt && \
+    pip install --no-cache-dir -r requirements.txt && cd .. && \
     git clone --depth=1 https://github.com/nccgroup/PMapper && cd PMapper && \
     pip install --no-cache-dir -r requirements.txt && \
-    sed -i 's/from collections import Mapping, MutableMapping, OrderedDict/from collections.abc import Mapping, MutableMapping\nfrom collections import OrderedDict/g' principalmapper/util/case_insensitive_dict.py && \
+    sed -i 's/from collections import Mapping, MutableMapping, OrderedDict/from collections.abc import Mapping, MutableMapping\nfrom collections import OrderedDict/g' principalmapper/util/case_insensitive_dict.py && cd .. && \
     pip install --no-cache-dir checkov && \
     pip install --no-cache-dir prowler && \
     git clone --depth=1 https://github.com/aquasecurity/kube-hunter && cd kube-hunter && \
