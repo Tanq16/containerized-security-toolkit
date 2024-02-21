@@ -48,7 +48,6 @@ RUN curl -L http://install.ohmyz.sh | sh && \
     cp /root/.zshrc temptemp && \
     cat temptemp | grep -vE "^#" | grep -vE "^$" > /root/.zshrc && \
     rm temptemp && \
-    echo "export PATH=$PATH:/usr/local/go/bin/" >> /root/.zshrc && \
     chsh -s /usr/bin/zsh && \
     git clone --depth 1 https://github.com/junegunn/fzf.git /root/.fzf && \
     /root/.fzf/install --all 1>/dev/null && \
