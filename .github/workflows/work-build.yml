@@ -1,11 +1,11 @@
-name: Main
+name: Work Main
 
 on:
   push:
     branches:
       - 'main'
   schedule:
-    - cron: '0 0 10 * *'
+    - cron: '0 0 15 * *'
   workflow_dispatch:
 
 jobs:
@@ -21,5 +21,5 @@ jobs:
           username: tanq16
           password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
         
-      - run: chmod +x ./security_docker_main/local-builder-script.sh
-      - run: cd ./security_docker_main && bash local-builder-script.sh
+      - run: chmod +x ./worker_docker_main/local-builder-script.sh
+      - run: cd ./worker_docker_main && bash local-builder-script.sh
