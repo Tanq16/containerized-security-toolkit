@@ -14,10 +14,10 @@ RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \
     apt-transport-https software-properties-common apt-utils openssl gpg-agent \
     openssh-server openvpn wget git tmux tree gnupg gnupg2 curl less file zsh
 RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \
-    bat fd-find htop jc jq ugrep ripgrep groff ncat ntp gcc zip unzip tzdata \
-    locales language-pack-en perl bsdmainutils dnsutils xfonts-utils whois
+    bat fd-find htop jc jq make ugrep ripgrep groff ncat gcc zip unzip tzdata \
+    locales language-pack-en bsdmainutils dnsutils ntp xfonts-utils whois
 RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \    
-    p7zip-full python3 python3-pip python3-setuptools iproute2 python3-venv \
+    p7zip-full python3 python3-pip python3-setuptools iproute2 python3-venv python3-dev \
     inetutils-ping inetutils-telnet inetutils-tools inetutils-traceroute inetutils-ftp && \
     mkdir /opt/executables
 
