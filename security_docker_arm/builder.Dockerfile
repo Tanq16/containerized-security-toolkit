@@ -55,10 +55,11 @@ RUN mkdir /testingground && cd /testingground && \
     a=$(curl -s https://api.github.com/repos/projectdiscovery/subfinder/releases/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "arm64" | cut -d '"' -f4) && \
     wget "$a" -O test.zip && unzip test.zip && \
     mv subfinder /executables && cd .. && rm -rf testingground
-RUN mkdir /testingground && cd /testingground && \
-    a=$(curl -s https://api.github.com/repos/projectdiscovery/naabu/releases/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "arm64" | cut -d '"' -f4) && \
-    wget "$a" -O test.zip && unzip test.zip && \
-    mv naabu /executables && cd .. && rm -rf testingground
+# Project Discovery - Naabu - No ARM support for Linux
+# RUN mkdir /testingground && cd /testingground && \
+#     a=$(curl -s https://api.github.com/repos/projectdiscovery/naabu/releases/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "arm64" | cut -d '"' -f4) && \
+#     wget "$a" -O test.zip && unzip test.zip && \
+#     mv naabu /executables && cd .. && rm -rf testingground
 RUN mkdir /testingground && cd /testingground && \
     a=$(curl -s https://api.github.com/repos/projectdiscovery/httpx/releases/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "arm64" | cut -d '"' -f4) && \
     wget "$a" -O test.zip && unzip test.zip && \
@@ -138,6 +139,8 @@ RUN git clone --depth=1 https://github.com/tomnomnom/assetfinder && \
 RUN git clone --depth=1 https://github.com/insidersec/insider && \
     cd insider/cmd/insider && go get && go build && mv insider /executables
 # TO-DO -> NOSEYPARKER
+RUN git clone --depth=1 https://github.com/projectdiscovery/naabu && \
+    cd naabu/v2/cmd/naabu && go get && go build && mv naabu /executables
 RUN git clone --depth=1 https://github.com/tomnomnom/httprobe && \
     cd httprobe && go get && go build && mv httprobe /executables
 RUN git clone --depth=1 https://github.com/BishopFox/cloudfox && \
