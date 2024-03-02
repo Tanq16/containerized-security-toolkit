@@ -140,6 +140,7 @@ RUN git clone --depth=1 https://github.com/insidersec/insider && \
     cd insider/cmd/insider && go get && go build && mv insider /executables
 # TO-DO -> NOSEYPARKER
 RUN git clone --depth=1 https://github.com/projectdiscovery/naabu && \
+    apt update -y && apt install -y libpcap-dev && \
     cd naabu/v2/cmd/naabu && go get && go build && mv naabu /executables
 RUN git clone --depth=1 https://github.com/tomnomnom/httprobe && \
     cd httprobe && go get && go build && mv httprobe /executables
