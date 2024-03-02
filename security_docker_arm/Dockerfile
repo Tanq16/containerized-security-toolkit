@@ -1,16 +1,9 @@
-FROM gobuilder as gobuilder
-FROM otherbuilder as otherbuilder
+FROM intermediate_builder as intermediate_builder
 FROM ubuntu
 
 # ============================================================================================================
 # ==================================================================== Environment and APT Installations =====
 # ============================================================================================================
-
-ENV RUNNING_IN_DOCKER true
-ENV TZ America/Chicago
-ENV LANG enUS.utf-8
-ENV SHELL /bin/zsh
-ENV TERM xterm-256color
 
 RUN DEBIAN_FRONTEND="noninteractive" apt update && \
     DEBIAN_FRONTEND="noninteractive" apt upgrade -y && \
@@ -30,10 +23,10 @@ RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \
     inetutils-ping inetutils-telnet inetutils-tools inetutils-traceroute inetutils-ftp && \
     mkdir /opt/executables
 
-COPY --from=gobuilder /executables /opt/executables
-COPY --from=otherbuilder /executables/noseyparker /opt/executables/noseyparker
-COPY --from=otherbuilder /neovim-linux64.deb /neovim-linux64.deb
+COPY --from=intermediate_builder /executables /opt/executables
+COPY --from=intermediate_builder /neovim-linux64.deb /neovim-linux64.deb
 RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends /neovim-linux64.deb && rm /neovim-linux64.deb
+RUN chown -R root:root /opt/executables && chmod 755 /opt/executables/*
 
 # ============================================================================================================
 # =============================================================================== CLI Productivity Suite =====
@@ -49,21 +42,19 @@ RUN curl -L http://install.ohmyz.sh | sh && \
     git clone --depth=1  https://github.com/tmux-plugins/tpm /root/.tmux/plugins/tpm && \
     wget https://raw.githubusercontent.com/Tanq16/cli-productivity-suite/master/tmuxconf && \
     mv tmuxconf /root/.tmux.conf && \
-    wget https://raw.githubusercontent.com/Tanq16/cli-productivity-suite/master/add_to_rc && \
-    cat add_to_rc >> /root/.zshrc && \
-    rm add_to_rc && \
+    wget https://raw.githubusercontent.com/Tanq16/cli-productivity-suite/master/linux.rcfile && \
+    cat linux.rcfile >> /root/.zshrc && \
+    rm linux.rcfile && \
     cp /root/.zshrc temptemp && \
     cat temptemp | grep -vE "^#" | grep -vE "^$" > /root/.zshrc && \
     rm temptemp && \
-    echo "export PATH=$PATH:/usr/local/go/bin/:/opt/executables/" >> /root/.zshrc && \
     chsh -s /usr/bin/zsh && \
     git clone --depth 1 https://github.com/junegunn/fzf.git /root/.fzf && \
     /root/.fzf/install --all 1>/dev/null && \
-    a=$(curl -L -s https://github.com/lsd-rs/lsd/releases/ | grep -oE "tag.+\"" | cut -d '/' -f2 | grep -vE "^[^v]" | cut -d "\"" -f1 | head -n 1) && \
-    wget "https://github.com/lsd-rs/lsd/releases/download/$a/lsd-""$a""-aarch64-unknown-linux-gnu.tar.gz" && \
-    tar -xvf "lsd-""$a""-aarch64-unknown-linux-gnu.tar.gz" && \
-    mv "lsd-""$a""-aarch64-unknown-linux-gnu/lsd" /usr/bin/lsd && \
-    rm -rf "lsd-""$a""-aarch64-unknown-linux-gnu.tar.gz" "lsd-""$a""-aarch64-unknown-linux-gnu" && \
+    a=$(curl -s https://api.github.com/repos/lsd-rs/lsd/releases/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "aarch64" | grep -i "gnu" | cut -d '"' -f4) && \
+    wget "$a" -O test.tar.gz && tar -xzf test.tar.gz && \
+    mv lsd-*/lsd /usr/bin/lsd && \
+    rm -rf lsd-* test.tar.gz && \
     git clone https://github.com/NvChad/NvChad /root/.config/nvim --depth=1 && \
     sed -i "s/local input =/local input = \"N\" --/" /root/.config/nvim/lua/core/bootstrap.lua && \
     sed -i "s/dofile(vim.g/vim.cmd([[ set guicursor=n-v-c-i:ver25 ]])\ndofile(vim.g/" /root/.config/nvim/init.lua && \
@@ -130,27 +121,30 @@ RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash && \
 # ========================================================================== Tool Installations Part Two =====
 # ============================================================================================================
 
-RUN python3 -m pip install requests checkov prowler scoutsuite principalmapper kube-hunter && \
-    sed -i 's/from collections import Mapping, MutableMapping, OrderedDict/from collections.abc import Mapping, MutableMapping\nfrom collections import OrderedDict/g' /usr/local/lib/python3.10/dist-packages/principalmapper/util/case_insensitive_dict.py && \
-    a=$(curl -L -s https://github.com/aquasecurity/trivy/releases/latest | grep -oE "tag.+\"" | cut -d '/' -f2 | grep -vE "^[^v]" | cut -d "\"" -f1 | head -n 1) && \
-    b=$(echo $a | tr -d "v") && \
-    echo $a && echo $b && wget "https://github.com/aquasecurity/trivy/releases/download/$a/trivy_""$b""_Linux-ARM64.tar.gz" && \
-    tar -xzf "trivy_""$b""_Linux-ARM64.tar.gz" && \
-    mv trivy /opt/executables/ && \
-    rm -rf "trivy_""$b""_Linux-64bit.tar.gz" LICENSE README.md contrib && \
-    cd /opt && \
-    git clone --depth 1 https://github.com/drwetter/testssl.sh.git
-
 RUN python3 -m pip install --upgrade setuptools wheel pip && \
-    cd /opt && \
     cd /opt/executables/ && \
     curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/arm64/kubectl" && \
     chmod +x kubectl && \
-    a=$(curl -s https://github.com/PowerShell/PowerShell/releases/ | grep -oE "v.\..\.. " | head -n1 | tr -d " v") && \
+    a=$(curl -s https://api.github.com/repos/powershell/powershell/releases/latest | grep -E "browser_download_url.*" | grep -i "linux-arm64.tar.gz" | cut -d '"' -f4) && \
     mkdir /opt/powershell && cd /opt/powershell && \
-    wget "https://github.com/PowerShell/PowerShell/releases/download/v""$a""/powershell-""$a""-linux-arm64.tar.gz" && \
-    tar -xzf "powershell-""$a""-linux-arm64.tar.gz" && \
-    ln -s /opt/powershell/pwsh /usr/bin/pwsh
+    wget "$a" -O test.tar.gz && tar -xzf test.tar.gz && \
+    ln -s /opt/powershell/pwsh /usr/bin/pwsh && \
+    cd /opt && git clone --depth 1 https://github.com/drwetter/testssl.sh.git
+
+RUN python3 -m pip install requests && \
+    mkdir /opt/pycloudtools && \
+    python3 -m venv /opt/pycloudtools/pycloudenv && \
+    . /opt/pycloudtools/pycloudenv/bin/activate && \
+    cd /opt/pycloudtools && \
+    git clone --depth=1 https://github.com/nccgroup/ScoutSuite && cd ScoutSuite && \
+    pip install --no-cache-dir -r requirements.txt && cd .. && \
+    git clone --depth=1 https://github.com/nccgroup/PMapper && cd PMapper && \
+    pip install --no-cache-dir -r requirements.txt && \
+    sed -i 's/from collections import Mapping, MutableMapping, OrderedDict/from collections.abc import Mapping, MutableMapping\nfrom collections import OrderedDict/g' principalmapper/util/case_insensitive_dict.py && cd .. && \
+    pip install --no-cache-dir checkov && \
+    pip install --no-cache-dir prowler && \
+    git clone --depth=1 https://github.com/aquasecurity/kube-hunter && cd kube-hunter && \
+    pip install --no-cache-dir -r requirements.txt
 
 # ============================================================================================================
 # ============================================================================================================
@@ -159,6 +153,4 @@ RUN python3 -m pip install --upgrade setuptools wheel pip && \
 RUN python3 -m pip install --upgrade pip setuptools wheel && \
     DEBIAN_FRONTEND="noninteractive" apt autoclean -y && \
     DEBIAN_FRONTEND="noninteractive" apt autoremove -y && \
-    ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && \
-    echo $TZ > /etc/timezone && \
     echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
