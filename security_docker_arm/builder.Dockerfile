@@ -147,8 +147,16 @@ RUN git clone --depth=1 https://github.com/tomnomnom/httprobe && \
 RUN git clone --depth=1 https://github.com/BishopFox/cloudfox && \
     cd cloudfox && go get && go build && mv cloudfox /executables
 
+FROM rust AS noseyparker_builder
+RUN mkdir /executables && \
+    apt update -y && apt install -y cmake ninja-build git
+RUN git clone --depth=1 https://github.com/praetorian-inc/noseyparker && \
+    cd noseyparker && cargo build --release && mv target/release/noseyparker-cli /executables/noseyparker
+
 FROM alpine
 RUN mkdir /executables/
 COPY --from=go_builder /executables/* /executables/
 COPY --from=executable_builder /executables/* /executables/
 COPY --from=executable_builder /nvim-linux64.deb /neovim-linux64.deb
+# Needed until noseyparker arm64 is available
+COPY --from=noseyparker_builder /executables/* /executables/
