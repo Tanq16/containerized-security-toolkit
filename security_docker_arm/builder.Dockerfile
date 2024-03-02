@@ -39,7 +39,7 @@ RUN mkdir /testingground && cd /testingground && \
 RUN mkdir /testingground && cd /testingground && \
     a=$(curl -s https://api.github.com/repos/iknowjason/edge/releases/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "arm64" | cut -d '"' -f4) && \
     wget "$a" -O test.tar.gz && tar -xzf test.tar.gz && \
-    mv edge-amd64 /executables/edge && cd .. && rm -rf testingground
+    mv edge-arm64 /executables/edge && cd .. && rm -rf testingground
 RUN mkdir /testingground && cd /testingground && \
     a=$(curl -s https://api.github.com/repos/ffuf/ffuf/releases/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "arm64" | cut -d '"' -f4) && \
     wget "$a" -O test.tar.gz && tar -xzf test.tar.gz && \
