@@ -16,7 +16,7 @@ RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \
 RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \
     bat fd-find htop jc jq make ugrep ripgrep groff ncat gcc zip unzip tzdata \
     locales language-pack-en bsdmainutils dnsutils ntp xfonts-utils whois
-RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \    
+RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \
     p7zip-full python3 python3-pip python3-setuptools iproute2 python3-venv python3-dev \
     inetutils-ping inetutils-telnet inetutils-tools inetutils-traceroute inetutils-ftp && \
     mkdir /opt/executables
@@ -53,9 +53,7 @@ RUN curl -L http://install.ohmyz.sh | sh && \
     wget "$a" -O test.tar.gz && tar -xzf test.tar.gz && \
     mv lsd-*/lsd /usr/bin/lsd && \
     rm -rf lsd-* test.tar.gz && \
-    git clone https://github.com/NvChad/NvChad /root/.config/nvim --depth=1 && \
-    sed -i "s/local input =/local input = \"N\" --/" /root/.config/nvim/lua/core/bootstrap.lua && \
-    sed -i "s/dofile(vim.g/vim.cmd([[ set guicursor=n-v-c-i:ver25 ]])\ndofile(vim.g/" /root/.config/nvim/init.lua && \
+    git clone https://github.com/NvChad/starter /root/.config/nvim && \
     nvim --headless -c 'quitall' && \
     sed -i "s/autoload -Uz bracketed-paste-magic/#autoload -Uz bracketed-paste-magic/" /root/.oh-my-zsh/lib/misc.zsh && \
     sed -i "s/zle -N bracketed-paste bracketed-paste-magic/#zle -N bracketed-paste bracketed-paste-magic/" /root/.oh-my-zsh/lib/misc.zsh && \
