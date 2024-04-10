@@ -86,8 +86,9 @@ RUN mkdir /opt/lists/ && cd /opt/lists/ && \
     echo $a && wget "https://golang.org$a" && \
     b=$(echo $a | cut -d "/" -f3) && \
     echo $b && tar -C /usr/local -xzf "$b" && \
-    rm "$b" && \
-    curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
+    rm "$b"
+
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
     unzip awscliv2.zip && \
     aws/install && \
     rm awscliv2.zip && \
@@ -104,16 +105,8 @@ RUN mkdir /opt/lists/ && cd /opt/lists/ && \
     rm $(ls | grep "google.*\.tar\.gz") && \
     google-cloud-sdk/install.sh -q && \
     echo "[ -f /root/google-cloud-sdk/path.zsh.inc ] && source /root/google-cloud-sdk/path.zsh.inc" >> /root/.zshrc && \
-    echo "[ -f /root/google-cloud-sdk/completion.zsh.inc ] && source /root/google-cloud-sdk/completion.zsh.inc" >> /root/.zshrc
-
-RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash && \
-    cd / && \
-    curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb > msfinstall && \
-    chmod 755 msfinstall && \
-    ./msfinstall && \
-    rm msfinstall && \
-    git clone --depth=1 https://gitlab.com/exploit-database/exploitdb.git /opt/exploit-database && \
-    ln -sf /opt/exploit-database/searchsploit /usr/local/bin/searchsploit
+    echo "[ -f /root/google-cloud-sdk/completion.zsh.inc ] && source /root/google-cloud-sdk/completion.zsh.inc" >> /root/.zshrc && \
+    curl -sL https://aka.ms/InstallAzureCLIDeb | bash
 
 # ============================================================================================================
 # ========================================================================== Tool Installations Part Two =====
