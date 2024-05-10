@@ -19,7 +19,7 @@ RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \
 RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \
     p7zip-full python3 python3-pip python3-setuptools iproute2 python3-venv python3-dev \
     inetutils-ping inetutils-telnet inetutils-tools inetutils-traceroute inetutils-ftp && \
-    mkdir /opt/executables
+    mkdir /opt/executables && python3 -m pip install --upgrade setuptools wheel pip
 
 COPY --from=intermediate_builder /executables /opt/executables
 COPY --from=intermediate_builder /neovim-linux64.deb /neovim-linux64.deb
@@ -76,8 +76,6 @@ RUN cd / && \
     aws/install && \
     rm awscliv2.zip && \
     rm -rf aws && \
-    python3 -m pip install boto3 requests && \
-    python3 -m pip install --upgrade setuptools wheel pip && \
     mkdir /root/.aws && \
     touch /root/.aws/credentials && \
     touch /root/.aws/config && \
@@ -88,13 +86,14 @@ RUN cd / && \
 # ========================================================================== Tool Installations Part Two =====
 # ============================================================================================================
 
-# Empty for now
+RUN python3 -m venv /opt/pyenv && \
+    . /opt/pyenv/bin/activate && \
+    pip install boto3 requests
 
 # ============================================================================================================
 # ============================================================================================================
 # ============================================================================================================
 
-RUN python3 -m pip install --upgrade pip setuptools wheel && \
-    DEBIAN_FRONTEND="noninteractive" apt autoclean -y && \
+RUN DEBIAN_FRONTEND="noninteractive" apt autoclean -y && \
     DEBIAN_FRONTEND="noninteractive" apt autoremove -y && \
     echo "PermitRootLogin yes" >> /etc/ssh/sshd_config

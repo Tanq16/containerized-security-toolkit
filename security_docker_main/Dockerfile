@@ -21,7 +21,7 @@ RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \
     python3-dev python3-pip python3-setuptools ipython3 iproute2 python3-venv
 RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \
     inetutils-ping inetutils-telnet inetutils-tools inetutils-traceroute inetutils-ftp && \
-    mkdir /opt/executables
+    mkdir /opt/executables && python3 -m pip install --upgrade setuptools wheel pip
 
 COPY --from=intermediate_builder /executables /opt/executables
 COPY --from=intermediate_builder /neovim-linux64.deb /neovim-linux64.deb
@@ -86,14 +86,12 @@ RUN mkdir /opt/lists/ && cd /opt/lists/ && \
     echo $a && wget "https://golang.org$a" && \
     b=$(echo $a | cut -d "/" -f3) && \
     echo $b && tar -C /usr/local -xzf "$b" && \
-    rm "$b"
-
-RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
+    rm "$b" && \
+    curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
     unzip awscliv2.zip && \
     aws/install && \
     rm awscliv2.zip && \
     rm -rf aws && \
-    python3 -m pip install boto3 semgrep uploadserver && \
     mkdir /root/.aws && \
     touch /root/.aws/credentials && \
     touch /root/.aws/config && \
@@ -112,8 +110,7 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2
 # ========================================================================== Tool Installations Part Two =====
 # ============================================================================================================
 
-RUN python3 -m pip install --upgrade setuptools wheel pip && \
-    cd /opt/executables/ && \
+RUN cd /opt/executables/ && \
     curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" && \
     chmod +x kubectl && \
     a=$(curl -s https://api.github.com/repos/powershell/powershell/releases/latest | grep -E "browser_download_url.*" | grep -i "linux-x64.tar.gz" | cut -d '"' -f4) && \
@@ -122,10 +119,10 @@ RUN python3 -m pip install --upgrade setuptools wheel pip && \
     ln -s /opt/powershell/pwsh /usr/bin/pwsh && \
     cd /opt && git clone --depth 1 https://github.com/drwetter/testssl.sh.git
 
-RUN python3 -m pip install requests && \
+RUN python3 -m venv /opt/pyenv && \
+    . /opt/pyenv/bin/activate && \
+    pip install requests boto3 semgrep && \
     mkdir /opt/pycloudtools && \
-    python3 -m venv /opt/pycloudtools/pycloudenv && \
-    . /opt/pycloudtools/pycloudenv/bin/activate && \
     cd /opt/pycloudtools && \
     git clone --depth=1 https://github.com/nccgroup/ScoutSuite && cd ScoutSuite && \
     pip install --no-cache-dir -r requirements.txt && cd .. && \
@@ -141,7 +138,6 @@ RUN python3 -m pip install requests && \
 # ============================================================================================================
 # ============================================================================================================
 
-RUN python3 -m pip install --upgrade pip setuptools wheel && \
-    DEBIAN_FRONTEND="noninteractive" apt autoclean -y && \
+RUN DEBIAN_FRONTEND="noninteractive" apt autoclean -y && \
     DEBIAN_FRONTEND="noninteractive" apt autoremove -y && \
     echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
