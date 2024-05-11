@@ -19,7 +19,8 @@ RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \
 RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \
     p7zip-full python3 python3-pip python3-setuptools iproute2 python3-venv python3-dev \
     inetutils-ping inetutils-telnet inetutils-tools inetutils-traceroute inetutils-ftp && \
-    mkdir /opt/executables && python3 -m pip install --upgrade setuptools wheel pip
+    mkdir /opt/executables && python3 -m venv /opt/pyenv && \
+    . /opt/pyenv/bin/activate && pip install --upgrade setuptools wheel pip
 
 COPY --from=intermediate_builder /executables /opt/executables
 COPY --from=intermediate_builder /neovim-linux64.deb /neovim-linux64.deb
@@ -86,8 +87,7 @@ RUN cd / && \
 # ========================================================================== Tool Installations Part Two =====
 # ============================================================================================================
 
-RUN python3 -m venv /opt/pyenv && \
-    . /opt/pyenv/bin/activate && \
+RUN . /opt/pyenv/bin/activate && \
     pip install boto3 requests
 
 # ============================================================================================================

@@ -21,7 +21,8 @@ RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \
     python3-dev python3-pip python3-setuptools ipython3 iproute2 python3-venv
 RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \
     inetutils-ping inetutils-telnet inetutils-tools inetutils-traceroute inetutils-ftp && \
-    mkdir /opt/executables && python3 -m pip install --upgrade setuptools wheel pip
+    mkdir /opt/executables && python3 -m venv /opt/pyenv && \
+    . /opt/pyenv/bin/activate && pip install --upgrade setuptools wheel pip
 
 COPY --from=intermediate_builder /executables /opt/executables
 COPY --from=intermediate_builder /neovim-linux64.deb /neovim-linux64.deb
@@ -119,8 +120,7 @@ RUN cd /opt/executables/ && \
     ln -s /opt/powershell/pwsh /usr/bin/pwsh && \
     cd /opt && git clone --depth 1 https://github.com/drwetter/testssl.sh.git
 
-RUN python3 -m venv /opt/pyenv && \
-    . /opt/pyenv/bin/activate && \
+RUN . /opt/pyenv/bin/activate && \
     pip install requests boto3 semgrep && \
     mkdir /opt/pycloudtools && \
     cd /opt/pycloudtools && \
