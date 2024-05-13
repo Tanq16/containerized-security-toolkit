@@ -19,6 +19,8 @@ This project contains several Dockerfiles for ARM (Apple Silicon) and x86_64 var
 
 The x86_64 security image is built automatically on GH CI and the ARM is built by me on AWS EC2 (not via GitHub Actions due to free runner limits, ARM limits, and long ARM build times). Both images are pushed to Docker Hub.
 
+**Note** &rarr; The ARM images may be significantly out of date compared to the x86_64 images as several packages require additional care to be properly built on ARM, while some simply don't work outright. I don't readily update ARM, so local builds may fail too.
+
 The image is called `sec_docker` and multiple versions of it are uploaded as different tags, such as &rarr;
 
 | | x86\_64 | ARM |
