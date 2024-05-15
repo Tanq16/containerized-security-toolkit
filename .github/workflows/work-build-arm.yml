@@ -1,4 +1,4 @@
-name: Main (ARM)
+name: Work Main (ARM)
 
 on:
   push:
