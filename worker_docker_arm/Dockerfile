@@ -1,4 +1,4 @@
-FROM intermediate_builder as intermediate_builder
+FROM intermediate_builder:latest as intermediate_builder
 FROM ubuntu
 
 # ============================================================================================================
