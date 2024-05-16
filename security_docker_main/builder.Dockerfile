@@ -1,4 +1,4 @@
-FROM ubuntu AS executable_builder
+FROM ubuntu:jammy AS executable_builder
 RUN mkdir /executables && apt update -y && \
     apt install -y wget ninja-build gettext cmake unzip curl git file && \
     wget https://github.com/neovim/neovim/archive/refs/tags/stable.tar.gz && \

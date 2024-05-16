@@ -1,5 +1,5 @@
 FROM intermediate_builder as intermediate_builder
-FROM ubuntu
+FROM ubuntu:jammy
 
 # ============================================================================================================
 # ==================================================================== Environment and APT Installations =====
