@@ -29,3 +29,18 @@ jobs:
       #       docker build -t $DOCKERHUB_USERNAME/circleci-docker-example:$TAG .
             
       #       docker push $DOCKERHUB_USERNAME/circleci-docker-example:$TAG
+
+workflows:
+  commit:
+    jobs:
+      - build-arm-image
+  nightly:
+    triggers:
+      - schedule:
+          cron: "0 0 22 * *"
+          filters:
+            branches:
+              only:
+                - main
+    jobs:
+      - build-arm-image
