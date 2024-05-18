@@ -1,4 +1,4 @@
-FROM intermediate_builder as intermediate_builder
+FROM intermediate_builder:local as intermediate_builder
 FROM ubuntu:jammy
 
 # ============================================================================================================
