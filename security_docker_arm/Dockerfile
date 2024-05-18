@@ -1,4 +1,4 @@
-FROM intermediate_builder:local as intermediate_builder
+FROM tanq16/intermediate_builder:arm as intermediate_builder
 FROM ubuntu:jammy
 
 # ============================================================================================================
