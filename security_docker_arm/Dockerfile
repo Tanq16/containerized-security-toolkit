@@ -99,7 +99,7 @@ RUN mkdir /opt/lists/ && cd /opt/lists/ && \
     echo '[default]\naws_access_key_id = \naws_secret_access_key = ' >> /root/.aws/credentials && \
     echo '[default]\nregion = us-east-1' >> /root/.aws/config && \
     cd /root && \
-    wget $(curl -sL "https://cloud.google.com/sdk/docs/install" | grep -oE "https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-.{2,20}-linux-arm.tar.gz") && \
+    wget "https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-linux-arm.tar.gz" && \
     tar -xzf $(ls | grep "google.*\.tar\.gz") && \
     rm $(ls | grep "google.*\.tar\.gz") && \
     google-cloud-sdk/install.sh -q && \
