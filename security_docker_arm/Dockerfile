@@ -117,7 +117,7 @@ RUN cd /opt/executables/ && \
     a=$(curl -s https://api.github.com/repos/powershell/powershell/releases/latest | grep -E "browser_download_url.*" | grep -i "linux-arm64.tar.gz" | cut -d '"' -f4) && \
     mkdir /opt/powershell && cd /opt/powershell && \
     wget "$a" -O test.tar.gz && tar -xzf test.tar.gz && \
-    ln -s /opt/powershell/pwsh /usr/bin/pwsh && \
+    chmod +x /opt/powershell/pwsh && ln -s /opt/powershell/pwsh /usr/bin/pwsh && \
     cd /opt && git clone --depth 1 https://github.com/drwetter/testssl.sh.git
 
 RUN . /opt/pyenv/bin/activate && \
