@@ -23,11 +23,10 @@ RUN mkdir /testingground && cd /testingground && \
     a=$(curl -s https://api.github.com/repos/praetorian-inc/fingerprintx/releases/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "arm64" | cut -d '"' -f4) && \
     wget "$a" -O test.tar.gz && tar -xzf test.tar.gz && \
     mv fingerprintx /executables && cd .. && rm -rf testingground
-# Praetorian - NoseyParker - No ARM support
-# RUN mkdir /testingground && cd /testingground && \
-#     a=$(curl -s https://api.github.com/repos/praetorian-inc/noseyparker/releases/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "x86_64" | cut -d '"' -f4) && \
-#     wget "$a" -O test.tar.gz && tar -xzf test.tar.gz && \
-#     mv bin/noseyparker /executables && cd .. && rm -rf testingground
+RUN mkdir /testingground && cd /testingground && \
+    a=$(curl -s https://api.github.com/repos/praetorian-inc/noseyparker/releases/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "aarch64" | cut -d '"' -f4) && \
+    wget "$a" -O test.tar.gz && tar -xzf test.tar.gz && \
+    mv bin/noseyparker /executables && cd .. && rm -rf testingground
 RUN mkdir /testingground && cd /testingground && \
     a=$(curl -s https://api.github.com/repos/owasp-amass/amass/releases/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "arm64" | grep -i "zip" | cut -d '"' -f4) && \
     wget "$a" -O test.zip && unzip test.zip && \
@@ -147,17 +146,8 @@ RUN git clone --depth=1 https://github.com/tomnomnom/httprobe && \
 RUN git clone --depth=1 https://github.com/BishopFox/cloudfox && \
     cd cloudfox && go get && go build && mv cloudfox /executables
 
-# FROM rust AS noseyparker_builder
-# RUN mkdir /executables && \
-#     apt update -y && apt install -y cmake ninja-build git libboost-all-dev
-# RUN git clone --depth=1 https://github.com/praetorian-inc/noseyparker && \
-#     cd noseyparker && cargo build --release && mv target/release/noseyparker-cli /executables/noseyparker
-FROM ghcr.io/praetorian-inc/noseyparker:latest as noseyparker_builder
-
 FROM alpine
 RUN mkdir /executables/
 COPY --from=go_builder /executables/* /executables/
 COPY --from=executable_builder /executables/* /executables/
 COPY --from=executable_builder /nvim-linux64.deb /neovim-linux64.deb
-# Needed until noseyparker arm64 is available
-COPY --from=noseyparker_builder /usr/local/bin/noseyparker /executables/noseyparker
