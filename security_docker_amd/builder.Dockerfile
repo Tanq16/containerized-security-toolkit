@@ -117,6 +117,9 @@ RUN mkdir /testingground && cd /testingground && \
     a=$(curl -s https://api.github.com/repos/aquasecurity/trivy/releases/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "64bit" | grep -i "tar.gz" | grep -vE "sig|pem" | cut -d '"' -f4) && \
     wget "$a" -O test.tar.gz && tar -xzf test.tar.gz && \
     mv trivy /executables && cd .. && rm -rf testingground
+RUN mkdir /testingground && cd /testingground && \
+    a=$(curl -s https://api.github.com/repos/neilotoole/sq/releases/latest | grep "browser_download_url" | grep -i "linux" | grep -i "amd64.deb" | cut -d '"' -f4) && \
+    wget "$a" -O sq.deb && mv sq.deb /
 
 FROM golang AS go_builder
 RUN mkdir /executables
@@ -136,3 +139,4 @@ RUN mkdir /executables/
 COPY --from=go_builder /executables/* /executables/
 COPY --from=executable_builder /executables/* /executables/
 COPY --from=executable_builder /nvim-linux64.deb /neovim-linux64.deb
+COPY --from=executable_builder /sq.deb /sq.deb
