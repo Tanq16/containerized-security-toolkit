@@ -119,8 +119,7 @@ RUN cd /opt/executables/ && \
     a=$(curl -s https://api.github.com/repos/powershell/powershell/releases/latest | grep -E "browser_download_url.*" | grep -i "linux-x64.tar.gz" | cut -d '"' -f4) && \
     mkdir /opt/powershell && cd /opt/powershell && \
     wget "$a" -O test.tar.gz && tar -xzf test.tar.gz && \
-    chmod +x /opt/powershell/pwsh && ln -s /opt/powershell/pwsh /usr/bin/pwsh && \
-    cd /opt && git clone --depth 1 https://github.com/drwetter/testssl.sh.git
+    chmod +x /opt/powershell/pwsh && ln -s /opt/powershell/pwsh /usr/bin/pwsh
 
 RUN . /opt/pyenv/bin/activate && \
     pip install requests boto3 semgrep && \
@@ -131,10 +130,7 @@ RUN . /opt/pyenv/bin/activate && \
     git clone --depth=1 https://github.com/nccgroup/PMapper && cd PMapper && \
     pip install --no-cache-dir -r requirements.txt && \
     sed -i 's/from collections import Mapping, MutableMapping, OrderedDict/from collections.abc import Mapping, MutableMapping\nfrom collections import OrderedDict/g' principalmapper/util/case_insensitive_dict.py && cd .. && \
-    pip install --no-cache-dir checkov && \
-    pip install --no-cache-dir prowler && \
-    git clone --depth=1 https://github.com/aquasecurity/kube-hunter && cd kube-hunter && \
-    pip install --no-cache-dir -r requirements.txt
+    pip install --no-cache-dir prowler
 
 # ============================================================================================================
 # ============================================================================================================
