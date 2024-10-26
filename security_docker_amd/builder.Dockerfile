@@ -66,10 +66,6 @@ RUN mkdir /testingground && cd /testingground && \
     wget "$a" -O test.zip && unzip test.zip && \
     mv dnsx /executables && cd .. && rm -rf testingground
 RUN mkdir /testingground && cd /testingground && \
-    a=$(curl -s https://api.github.com/repos/projectdiscovery/mapcidr/releases/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "amd64" | cut -d '"' -f4) && \
-    wget "$a" -O test.zip && unzip test.zip && \
-    mv mapcidr /executables && cd .. && rm -rf testingground
-RUN mkdir /testingground && cd /testingground && \
     a=$(curl -s https://api.github.com/repos/projectdiscovery/proxify/releases/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "amd64" | cut -d '"' -f4) && \
     wget "$a" -O test.zip && unzip test.zip && \
     mv proxify /executables && cd .. && rm -rf testingground
@@ -82,17 +78,9 @@ RUN mkdir /testingground && cd /testingground && \
     wget "$a" -O test.zip && unzip test.zip && \
     mv cloudlist /executables && cd .. && rm -rf testingground
 RUN mkdir /testingground && cd /testingground && \
-    a=$(curl -s https://api.github.com/repos/projectdiscovery/uncover/releases/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "amd64" | cut -d '"' -f4) && \
-    wget "$a" -O test.zip && unzip test.zip && \
-    mv uncover /executables && cd .. && rm -rf testingground
-RUN mkdir /testingground && cd /testingground && \
     a=$(curl -s https://api.github.com/repos/projectdiscovery/katana/releases/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "amd64" | cut -d '"' -f4) && \
     wget "$a" -O test.zip && unzip test.zip && \
     mv katana /executables && cd .. && rm -rf testingground
-RUN mkdir /testingground && cd /testingground && \
-    a=$(curl -s https://api.github.com/repos/projectdiscovery/aix/releases/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "amd64" | cut -d '"' -f4) && \
-    wget "$a" -O test.zip && unzip test.zip && \
-    mv aix /executables && cd .. && rm -rf testingground
 RUN mkdir /testingground && cd /testingground && \
     a=$(curl -s https://api.github.com/repos/projectdiscovery/simplehttpserver/releases/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "amd64" | cut -d '"' -f4) && \
     wget "$a" -O test.zip && unzip test.zip && \
