@@ -54,10 +54,6 @@ RUN mkdir /testingground && cd /testingground && \
     wget "$a" -O test.zip && unzip test.zip && \
     mv subfinder /executables && cd .. && rm -rf testingground
 RUN mkdir /testingground && cd /testingground && \
-    a=$(curl -s https://api.github.com/repos/projectdiscovery/naabu/releases/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "amd64" | cut -d '"' -f4) && \
-    wget "$a" -O test.zip && unzip test.zip && \
-    mv naabu /executables && cd .. && rm -rf testingground
-RUN mkdir /testingground && cd /testingground && \
     a=$(curl -s https://api.github.com/repos/projectdiscovery/httpx/releases/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "amd64" | cut -d '"' -f4) && \
     wget "$a" -O test.zip && unzip test.zip && \
     mv httpx /executables && cd .. && rm -rf testingground
@@ -89,10 +85,6 @@ RUN mkdir /testingground && cd /testingground && \
     a=$(curl -s https://api.github.com/repos/tomnomnom/gron/releases/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "amd64" | cut -d '"' -f4) && \
     wget "$a" -O test.tar.gz && tar -xzf test.tar.gz && \
     mv gron /executables && cd .. && rm -rf testingground
-RUN mkdir /testingground && cd /testingground && \
-    a=$(curl -s https://api.github.com/repos/tomnomnom/httprobe/releases/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "amd64" | cut -d '"' -f4) && \
-    wget "$a" -O test.tar.gz && tar -xzf test.tar.gz && \
-    mv httprobe /executables && cd .. && rm -rf testingground
 RUN mkdir /testingground && cd /testingground && \
     a=$(curl -s https://api.github.com/repos/BishopFox/cloudfox/releases/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "amd64" | cut -d '"' -f4) && \
     wget "$a" -O test.zip && unzip test.zip && \
