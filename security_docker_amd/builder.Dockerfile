@@ -23,7 +23,7 @@ RUN mkdir /testingground && cd /testingground && \
     wget "$a" -O test.tar.gz && tar -xzf test.tar.gz && \
     mv fingerprintx /executables && cd .. && rm -rf testingground
 RUN mkdir /testingground && cd /testingground && \
-    a=$(curl -s https://api.github.com/repos/praetorian-inc/noseyparker/releases/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "x86_64" | cut -d '"' -f4) && \
+    a=$(curl -s https://api.github.com/repos/praetorian-inc/noseyparker/releases/latest | grep -E "browser_download_url.*" | grep -i "linux-gnu" | grep -i "x86_64" | cut -d '"' -f4) && \
     wget "$a" -O test.tar.gz && tar -xzf test.tar.gz && \
     mv bin/noseyparker /executables && cd .. && rm -rf testingground
 RUN mkdir /testingground && cd /testingground && \
