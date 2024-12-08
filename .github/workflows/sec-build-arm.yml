@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  docker:
+  intermediate_builder:
     runs-on: ubuntu-latest
     env:
       DOCKER_BUILDKIT: '1'
@@ -31,7 +31,36 @@ jobs:
 
       - run: |
           cd security_docker
-          docker buildx build -o type=docker --platform=linux/arm64 -f builder.Dockerfile -t intermediate_builder .
-          docker builder prune -f
+          docker buildx build -o type=docker --platform=linux/arm64 -f builder.Dockerfile -t tanq16/sec_docker:intermediate_builder .
+          docker push tanq16/sec_docker:intermediate_builder
+          # docker builder prune -f
+          # docker buildx build -o type=docker --platform=linux/arm64 -f Dockerfile -t tanq16/sec_docker:main_apple .
+          # docker push tanq16/sec_docker:main_apple
+
+  # Build the final image (needed to get around no space on device error - until ARM runners are mainstream)
+  final:
+    runs-on: ubuntu-latest
+    needs: intermediate_builder
+    env:
+      DOCKER_BUILDKIT: '1'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: tanq16
+          password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
+
+      - run: |
+          cd security_docker
+          sed -i 's/FROM intermediate_builder as intermediate_builder/FROM tanq16\/sec_docker:intermediate_builder as intermediate_builder/g' Dockerfile
           docker buildx build -o type=docker --platform=linux/arm64 -f Dockerfile -t tanq16/sec_docker:main_apple .
           docker push tanq16/sec_docker:main_apple
