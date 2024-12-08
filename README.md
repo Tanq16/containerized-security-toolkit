@@ -13,7 +13,7 @@
 
 <br>
 
-This project contains two Dockerfiles for a multi-stage image build that results in an ARM (useful for Apple Silicon) or x86_64 variants of a security focused docker image &rarr;
+This project contains two Dockerfiles for a multi-stage image build that results in an ARM (useful for Apple Silicon Macs) or x86_64 variants of a security focused docker image &rarr;
 
 - **Security Image for x86_64**
 - **Security Image for ARM64**
