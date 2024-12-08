@@ -26,9 +26,7 @@ RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \
 
 COPY --from=intermediate_builder /executables /opt/executables
 COPY --from=intermediate_builder /neovim-linux64.deb /neovim-linux64.deb
-COPY --from=intermediate_builder /sq.deb /sq.deb
 RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends /neovim-linux64.deb && rm /neovim-linux64.deb
-RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends /sq.deb && rm /sq.deb
 RUN chown -R root:root /opt/executables && chmod 755 /opt/executables/*
 
 # ============================================================================================================
@@ -120,14 +118,11 @@ RUN cd /opt/executables/ && \
     chmod +x /opt/powershell/pwsh && ln -s /opt/powershell/pwsh /usr/bin/pwsh
 
 RUN . /opt/pyenv/bin/activate && \
-    pip install requests boto3 semgrep && \
+    pip install requests semgrep && \
     mkdir /opt/pycloudtools && \
     cd /opt/pycloudtools && \
     git clone --depth=1 https://github.com/nccgroup/ScoutSuite && cd ScoutSuite && \
     pip install --no-cache-dir -r requirements.txt && cd .. && \
-    git clone --depth=1 https://github.com/nccgroup/PMapper && cd PMapper && \
-    pip install --no-cache-dir -r requirements.txt && \
-    sed -i 's/from collections import Mapping, MutableMapping, OrderedDict/from collections.abc import Mapping, MutableMapping\nfrom collections import OrderedDict/g' principalmapper/util/case_insensitive_dict.py && cd .. && \
     pip install --no-cache-dir prowler
 
 # ============================================================================================================
