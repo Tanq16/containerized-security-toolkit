@@ -11,6 +11,8 @@ on:
 jobs:
   docker:
     runs-on: ubuntu-latest
+    env:
+      DOCKER_BUILDKIT: '1'
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -27,5 +29,9 @@ jobs:
           username: tanq16
           password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
 
-      - run: chmod +x ./security_docker_arm/local-builder-script.sh
-      - run: cd ./security_docker_arm && bash local-builder-script.sh
+      - run: |
+          cd security_docker
+          docker buildx build -o type=docker --platform=linux/arm64 -f builder.Dockerfile -t intermediate_builder .
+          docker builder prune -f
+          docker buildx build -o type=docker --platform=linux/arm64 -f main.Dockerfile -t tanq16/sec_docker:main_apple .
+          docker push tanq16/sec_docker:main_apple
