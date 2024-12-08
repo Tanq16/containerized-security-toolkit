@@ -39,10 +39,8 @@ workflows:
       - build-arm-image
           filters:
             branches:
-              only:
-                - main
+              only: [ main ]
       - build-amd-image
           filters:
             branches:
-              only:
-                - main
+              only: [ main ]
