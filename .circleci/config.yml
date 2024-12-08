@@ -35,8 +35,9 @@ jobs:
 
 workflows:
   commit:
+    when:
+      condition:
+        equals: [main, pipeline.git.branch]
     jobs:
       - build-arm-image
-          filters: pipeline.git.branch == "main"
       - build-amd-image
-          filters: pipeline.git.branch == "main"
