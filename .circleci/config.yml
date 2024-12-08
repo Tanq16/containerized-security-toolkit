@@ -1,6 +1,9 @@
 version: 2.1
 jobs:
   build-arm-image:
+    branches:
+      only:
+        - main
     machine:
       image: ubuntu-2204:current
       # docker_layer_caching: true
@@ -17,6 +20,9 @@ jobs:
             cd security_docker
             bash cci-builder-script.sh main_apple
   build-amd-image:
+    branches:
+      only:
+        - main
     machine:
       image: ubuntu-2204:current
       # docker_layer_caching: true
@@ -37,10 +43,4 @@ workflows:
   commit:
     jobs:
       - build-arm-image
-          filters:
-            branches:
-              only: main
       - build-amd-image
-          filters:
-            branches:
-              only: main
