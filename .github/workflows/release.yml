@@ -1,0 +1,61 @@
+name: Release
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.new_version }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Determine Version
+        id: version
+        run: |
+          # Get the latest version tag, default to v0.1 if none exists
+          LATEST_TAG=$(gh release list -L 1 | cut -f 1 | sed 's/Release //' || echo "v0.0")
+          LATEST_TAG=${LATEST_TAG:-v0.0}
+          
+          # Extract current version numbers
+          MAJOR=$(echo $LATEST_TAG | cut -d. -f1 | sed 's/v//')
+          MINOR=$(echo $LATEST_TAG | cut -d. -f2)
+          
+          # Check commit message for version bump
+          if git log -1 --pretty=%B | grep -i "version bump"; then
+            NEW_VERSION="v$((MAJOR + 1)).0"
+          else
+            NEW_VERSION="v$MAJOR.$((MINOR + 1))"
+          fi
+          
+          echo "Previous version: $LATEST_TAG"
+          echo "New version: $NEW_VERSION"
+          echo "new_version=$NEW_VERSION" >> "$GITHUB_OUTPUT"
+        env:
+          GH_TOKEN: ${{ github.token }}
+      - name: Create Release
+        run: |
+          cat > release_notes.md << 'EOL'
+          # Container Security Toolkit Release ${{ steps.version.outputs.new_version }}
+
+          The following Docker images are available for this release:
+
+          - AMD64: `docker pull tanq16/sec_docker:main`
+          - ARM64: `docker pull tanq16/sec_docker:main_apple`
+
+          Both images contain the same security tools and CLI productivity suite. Choose the appropriate image based on your system architecture.
+          EOL
+          
+          gh release create "${{ steps.version.outputs.new_version }}" \
+            --title "Release ${{ steps.version.outputs.new_version }}" \
+            --notes-file release_notes.md
+        env:
+          GH_TOKEN: ${{ github.token }}
