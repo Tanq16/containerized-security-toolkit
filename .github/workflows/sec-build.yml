@@ -27,5 +27,5 @@ jobs:
           cd security_docker
           docker build -f builder.Dockerfile -t intermediate_builder .
           docker builder prune -f
-          docker build -f main.Dockerfile -t tanq16/sec_docker:main .
+          docker build -f Dockerfile -t tanq16/sec_docker:main .
           docker push tanq16/sec_docker:main
