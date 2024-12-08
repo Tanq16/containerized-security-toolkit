@@ -35,12 +35,9 @@ jobs:
 
 workflows:
   commit:
+    when:
+      condition:
+        equal: [ main, << pipeline.git.branch >> ]
     jobs:
       - build-arm-image
-          filters:
-            branches:
-              only: [ main ]
       - build-amd-image
-          filters:
-            branches:
-              only: [ main ]
