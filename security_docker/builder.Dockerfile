@@ -61,16 +61,10 @@ RUN go install github.com/projectdiscovery/dnsx/cmd/dnsx@latest && \
     mv /go/bin/dnsx /executables
 RUN go install github.com/projectdiscovery/proxify/cmd/proxify@latest && \
     mv /go/bin/proxify /executables
-RUN go install github.com/projectdiscovery/nuclei/v3/cmd/nuclei@latest && \
-    mv /go/bin/nuclei /executables
-RUN go install github.com/projectdiscovery/cloudlist/cmd/cloudlist@latest && \
-    mv /go/bin/cloudlist /executables
 RUN go install github.com/projectdiscovery/simplehttpserver/cmd/simplehttpserver@latest && \
     mv /go/bin/simplehttpserver /executables
 RUN go install github.com/tomnomnom/gron@latest && \
     mv /go/bin/gron /executables
-RUN go install github.com/BishopFox/cloudfox@latest && \
-    mv /go/bin/cloudfox /executables
 RUN go install github.com/neilotoole/sq@latest && \
     mv /go/bin/sq /executables
 RUN go install github.com/hakluke/hakrawler@latest && \
@@ -78,11 +72,21 @@ RUN go install github.com/hakluke/hakrawler@latest && \
 RUN go install github.com/hakluke/hakrevdns@latest && \
     mv /go/bin/hakrevdns /executables
 
+# Second go builder to speed up the build process
+FROM golang AS go_builder_two
+RUN mkdir /executables
+RUN go install github.com/projectdiscovery/nuclei/v3/cmd/nuclei@latest && \
+    mv /go/bin/nuclei /executables
+RUN go install github.com/BishopFox/cloudfox@latest && \
+    mv /go/bin/cloudfox /executables
+RUN go install github.com/projectdiscovery/cloudlist/cmd/cloudlist@latest && \
+    mv /go/bin/cloudlist /executables
 RUN git clone --depth=1 https://github.com/hashicorp/terraform.git && \
     cd terraform && go get && go build && mv terraform /executables
 
 FROM alpine
 RUN mkdir /executables/
 COPY --from=go_builder /executables/* /executables/
+COPY --from=go_builder_two /executables/* /executables/
 COPY --from=executable_builder /executables/* /executables/
 COPY --from=executable_builder /nvim-linux64.deb /neovim-linux64.deb
