@@ -11,7 +11,7 @@
 
 <br>
 
-This project contains several Dockerfiles for ARM (Apple Silicon) and x86_64 variants of security focussed docker images. The two main resources here are as follows &rarr;
+This project contains two Dockerfiles for a multi-stage image build that results in an ARM (useful for Apple Silicon) or x86_64 variants of a security focused docker image &rarr;
 
 - **Security Image for x86_64**
 - **Security Image for ARM64**
@@ -27,7 +27,7 @@ It has the [cli-productivity-suite](https://github.com/tanq16/cli-productivity-s
 
 ---
 
-A quick look into the container and its capabilities, built from this image, is as follows &rarr; 
+For a quick look into the container and its capabilities, built from this image, is as follows &rarr; 
 
 ```bash
 docker run --name="sec_docker_quickstart" --rm -it tanq16/sec_docker:main /bin/zsh
@@ -41,7 +41,13 @@ echo "America/Chicago" > /etc/timezone && rm -rf /etc/localtime && \
 ln -s "/usr/share/zoneinfo/$(cat /etc/timezone)" /etc/localtime
 ```
 
-If you exit the shell, the container will be destroyed along with the information in the ephemeral filesystem.
+If you exit the shell, the container will be destroyed along with the information in the ephemeral filesystem. I recommend reading the [companion blog post](https://tanishq.page/blog/posts/cst-guide/) for a better workflow
 
-There are several other nuances related to running the container, such as setting up a persistence diretcory across container restarts, using one-word shell functions to start and stop containers with customized settings. Read the [companion blog post](https://tanishq.page/blog/posts/cst-guide/), especially the *Example Workflow* section for a comprehensive and convenient setup process.
+There are several other nuances related to running the container, such as &rarr;
 
+- setting up a persistence diretcory across container restarts
+- using one-word shell functions to start and stop containers with customized settings
+- connecting to the container via SSH
+- dynamic port-forwarding over SSH to access container-local services
+
+All of the above nuances are comprehensively explained in the [companion blog post](https://tanishq.page/blog/posts/cst-guide/), especially the *Example Workflow* section.

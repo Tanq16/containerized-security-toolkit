@@ -53,7 +53,9 @@ RUN curl -L http://install.ohmyz.sh | sh && \
     git clone --depth 1 https://github.com/junegunn/fzf.git /root/.fzf && \
     /root/.fzf/install --all 1>/dev/null && \
     a=$(curl -s https://api.github.com/repos/lsd-rs/lsd/releases/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "aarch64" | grep -i "gnu" | cut -d '"' -f4) && \
-    wget "$a" -O test.tar.gz && tar -xzf test.tar.gz && \
+    b=$(curl -s https://api.github.com/repos/lsd-rs/lsd/releases/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "x86_64" | grep -i "gnu" | cut -d '"' -f4) && \
+    if [ "$(uname -m)" = "aarch64" ]; then wget "$a" -O test.tar.gz; else wget "$b" -O test.tar.gz; fi && \
+    tar -xzf test.tar.gz && \
     mv lsd-*/lsd /usr/bin/lsd && \
     rm -rf lsd-* test.tar.gz && \
     git clone https://github.com/NvChad/starter /root/.config/nvim && \
@@ -82,11 +84,14 @@ RUN mkdir /opt/lists/ && cd /opt/lists/ && \
     rm rockyou.txt.tar.gz && \
     cd / && \
     a=$(curl -s https://go.dev/dl/ | grep -oE "(/dl/go[\.0-9]{2,7}\.linux-arm64\.tar\.gz)" | head -n 1) && \
-    echo $a && wget "https://golang.org$a" && \
-    b=$(echo $a | cut -d "/" -f3) && \
-    echo $b && tar -C /usr/local -xzf "$b" && \
-    rm "$b" && \
-    curl "https://awscli.amazonaws.com/awscli-exe-linux-aarch64.zip" -o "awscliv2.zip" && \
+    b=$(curl -s https://go.dev/dl/ | grep -oE "(/dl/go[\.0-9]{2,7}\.linux-amd64\.tar\.gz)" | head -n 1) && \
+    if [ "$(uname -m)" = "aarch64" ]; then wget "https://golang.org$a"; else wget "https://golang.org$b"; fi && \
+    if [ "$(uname -m)" = "aarch64" ]; then c=$(echo $a | cut -d "/" -f3); else c=$(echo $b | cut -d "/" -f3); fi && \
+    tar -C /usr/local -xzf "$c" && \
+    rm "$c" && \
+    awsurla="https://awscli.amazonaws.com/awscli-exe-linux-aarch64.zip" && \
+    awsurlb="https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" && \
+    if [ "$(uname -m)" = "aarch64" ]; then curl "$awsurla" -o "awscliv2.zip"; else curl "$awsurlb" -o "awscliv2.zip"; fi && \
     unzip awscliv2.zip && \
     aws/install && \
     rm awscliv2.zip && \
@@ -97,7 +102,9 @@ RUN mkdir /opt/lists/ && cd /opt/lists/ && \
     echo '[default]\naws_access_key_id = \naws_secret_access_key = ' >> /root/.aws/credentials && \
     echo '[default]\nregion = us-east-1' >> /root/.aws/config && \
     cd /root && \
-    wget "https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-linux-arm.tar.gz" && \
+    gcurla="https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-linux-arm.tar.gz" && \
+    gcurlb="https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-linux-x86_64.tar.gz" && \
+    if [ "$(uname -m)" = "aarch64" ]; then wget "$gcurla"; else wget "$gcurlb"; fi && \
     tar -xzf $(ls | grep "google.*\.tar\.gz") && \
     rm $(ls | grep "google.*\.tar\.gz") && \
     google-cloud-sdk/install.sh -q && \
@@ -110,11 +117,15 @@ RUN mkdir /opt/lists/ && cd /opt/lists/ && \
 # ============================================================================================================
 
 RUN cd /opt/executables/ && \
-    curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/arm64/kubectl" && \
+    kctlurla="https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/arm64/kubectl" && \
+    kctlurlb="https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" && \
+    if [ "$(uname -m)" = "aarch64" ]; then curl -LO "$kctlurla"; else curl -LO "$kctlurlb"; fi && \
     chmod +x kubectl && \
     a=$(curl -s https://api.github.com/repos/powershell/powershell/releases/latest | grep -E "browser_download_url.*" | grep -i "linux-arm64.tar.gz" | cut -d '"' -f4) && \
+    b=$(curl -s https://api.github.com/repos/powershell/powershell/releases/latest | grep -E "browser_download_url.*" | grep -i "linux-x64.tar.gz" | cut -d '"' -f4) && \
     mkdir /opt/powershell && cd /opt/powershell && \
-    wget "$a" -O test.tar.gz && tar -xzf test.tar.gz && \
+    if [ "$(uname -m)" = "aarch64" ]; then wget "$a" -O test.tar.gz; else wget "$b" -O test.tar.gz; fi && \
+    tar -xzf test.tar.gz && \
     chmod +x /opt/powershell/pwsh && ln -s /opt/powershell/pwsh /usr/bin/pwsh
 
 RUN . /opt/pyenv/bin/activate && \

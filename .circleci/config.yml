@@ -14,8 +14,8 @@ jobs:
       - run:
           name: Execute Build Script
           command: |
-            cd security_docker_arm
-            bash local-builder-script.sh
+            cd security_docker
+            bash cci-builder-script.sh main_apple
   build-amd-image:
     machine:
       image: ubuntu-2204:current
@@ -30,8 +30,8 @@ jobs:
       - run:
           name: Execute Build Script
           command: |
-            cd security_docker_amd
-            bash local-builder-script.sh
+            cd security_docker
+            bash cci-builder-script.sh main
 
 workflows:
   commit:
