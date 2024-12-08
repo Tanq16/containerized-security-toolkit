@@ -1,8 +1,8 @@
-FROM interimarm1
-FROM interimarm2
+FROM tanq16/sec_docker:interimarm1 as interim1
+FROM tanq16/sec_docker:interimarm2 as interim2
 
 FROM alpine
 RUN mkdir /executables/
-COPY --from=interimarm1 /executables/* /executables/
-COPY --from=interimarm2 /executables/* /executables/
-COPY --from=interimarm1 /nvim-linux64.deb /neovim-linux64.deb
+COPY --from=interim1 /executables/* /executables/
+COPY --from=interim2 /executables/* /executables/
+COPY --from=interim1 /nvim-linux64.deb /neovim-linux64.deb

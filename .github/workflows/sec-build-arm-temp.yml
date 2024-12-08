@@ -31,11 +31,15 @@ jobs:
 
       - run: |
           cd security_docker
-          docker buildx build -o type=docker --platform=linux/arm64 -f temp-arm-1.Dockerfile -t interimarm1 .
+          docker buildx build -o type=docker --platform=linux/arm64 -f temp-arm-1.Dockerfile -t tanq16/sec_docker:interimarm1 .
           docker builder prune -f
-          docker buildx build -o type=docker --platform=linux/arm64 -f temp-arm-2.Dockerfile -t interimarm2 .
+          docker push tanq16/sec_docker:interimarm1
+          docker buildx build -o type=docker --platform=linux/arm64 -f temp-arm-2.Dockerfile -t tanq16/sec_docker:interimarm2 .
           docker builder prune -f
-          docker buildx build -o type=docker --platform=linux/arm64 -f temp-arm-3.Dockerfile -t intermediate_builder .
+          docker push tanq16/sec_docker:interimarm2
+          docker buildx build -o type=docker --platform=linux/arm64 -f temp-arm-3.Dockerfile -t tanq16/sec_docker:intermediate_builder .
           docker builder prune -f
+          docker push tanq16/sec_docker:intermediate_builder
+          sed -i 's/FROM intermediate_builder as intermediate_builder/FROM tanq16\/sec_docker:intermediate_builder as intermediate_builder/g' Dockerfile
           docker buildx build -o type=docker --platform=linux/arm64 -f Dockerfile -t tanq16/sec_docker:main_apple .
           docker push tanq16/sec_docker:main_apple
