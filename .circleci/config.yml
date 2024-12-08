@@ -37,10 +37,6 @@ workflows:
   commit:
     jobs:
       - build-arm-image
-          filters:
-            branches:
-              only: main
+          filters: pipeline.git.branch == "main"
       - build-amd-image
-          filters:
-            branches:
-              only: main
+          filters: pipeline.git.branch == "main"
