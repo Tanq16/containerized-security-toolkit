@@ -19,7 +19,6 @@ RUN mkdir /testingground && cd /testingground && \
     if [ "$(uname -m)" = "aarch64" ]; then wget "$a" -O test.tar.gz; else wget "$b" -O test.tar.gz; fi && \
     tar -xzf test.tar.gz && \
     if [ "$(uname -m)" = "aarch64" ]; then mv edge-arm64 /executables/edge; else mv edge-amd64 /executables/edge; fi && \
-    mv edge-arm64 /executables/edge && \
     cd .. && rm -rf testingground
 RUN mkdir /testingground && cd /testingground && \
     a=$(curl -s https://api.github.com/repos/BloodHoundAD/AzureHound/releases/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "arm64" | cut -d '"' -f4 | grep -v ".sha256") && \
