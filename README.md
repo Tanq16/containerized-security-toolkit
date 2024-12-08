@@ -8,8 +8,8 @@
     <a href="https://tanishq.page/blog/posts/cst-guide/"><b>Companion Blog</b></a>  &bull;  
     <a href="https://hub.docker.com/r/tanq16/sec_docker"><b>Docker Hub</b></a>
 </p>
-<p>
-  [![CircleCI](https://dl.circleci.com/status-badge/img/circleci/YPqXqLMjjXxLwPP9TvpyFc/W1CQsWfrfu4rKFiytoHbs9/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/circleci/YPqXqLMjjXxLwPP9TvpyFc/W1CQsWfrfu4rKFiytoHbs9/tree/main)
+<p align="center">
+  <a href="https://dl.circleci.com/status-badge/redirect/circleci/YPqXqLMjjXxLwPP9TvpyFc/W1CQsWfrfu4rKFiytoHbs9/tree/main">![CircleCI](https://dl.circleci.com/status-badge/img/circleci/YPqXqLMjjXxLwPP9TvpyFc/W1CQsWfrfu4rKFiytoHbs9/tree/main.svg?style=svg)</a>
 </p>
 
 <br>
