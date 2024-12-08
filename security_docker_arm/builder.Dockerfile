@@ -6,91 +6,15 @@ RUN mkdir /executables && apt update -y && \
     make CMAKE_BUILD_TYPE=RelWithDebInfo && \
     cd build && cpack -G DEB && \
     mv nvim-linux64.deb /
-RUN mkdir /testingground && cd /testingground && \
-    a=$(curl -s https://api.github.com/repos/OJ/gobuster/releases/latest | grep "browser_download_url" | grep -i "linux" | grep -i "arm64" | cut -d '"' -f4) && \
-    wget "$a" -O test.tar.gz && tar -xzf test.tar.gz && \
-    mv gobuster /executables && cd .. && rm -rf testingground
-# Insider Sec - Insider - No ARM support
-# RUN mkdir /testingground && cd /testingground && \
-#     a=$(curl -s https://api.github.com/repos/insidersec/insider/releases/latest | grep "browser_download_url" | grep -i "linux" | grep -i "x86_64" | cut -d '"' -f4) && \
-#     wget "$a" -O test.tar.gz && tar -xzf test.tar.gz && \
-#     mv insider /executables && cd .. && rm -rf testingground
-RUN mkdir /testingground && cd /testingground && \
-    a=$(curl -s https://api.github.com/repos/Shopify/kubeaudit/releases/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "arm64" | cut -d '"' -f4) && \
-    wget "$a" -O test.tar.gz && tar -xzf test.tar.gz && \
-    mv kubeaudit /executables && cd .. && rm -rf testingground
-RUN mkdir /testingground && cd /testingground && \
-    a=$(curl -s https://api.github.com/repos/praetorian-inc/fingerprintx/releases/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "arm64" | cut -d '"' -f4) && \
-    wget "$a" -O test.tar.gz && tar -xzf test.tar.gz && \
-    mv fingerprintx /executables && cd .. && rm -rf testingground
+
 RUN mkdir /testingground && cd /testingground && \
     a=$(curl -s https://api.github.com/repos/praetorian-inc/noseyparker/releases/latest | grep -E "browser_download_url.*" | grep -i "linux-gnu" | grep -i "aarch64" | cut -d '"' -f4) && \
     wget "$a" -O test.tar.gz && tar -xzf test.tar.gz && \
     mv bin/noseyparker /executables && cd .. && rm -rf testingground
 RUN mkdir /testingground && cd /testingground && \
-    a=$(curl -s https://api.github.com/repos/owasp-amass/amass/releases/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "arm64" | grep -i "zip" | cut -d '"' -f4) && \
-    wget "$a" -O test.zip && unzip test.zip && \
-    mv amass*/amass /executables && cd .. && rm -rf testingground
-RUN mkdir /testingground && cd /testingground && \
-    a=$(curl -s https://api.github.com/repos/lc/gau/releases/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "arm64" | cut -d '"' -f4) && \
-    wget "$a" -O test.tar.gz && tar -xzf test.tar.gz && \
-    mv gau /executables/getallurls && cd .. && rm -rf testingground
-RUN mkdir /testingground && cd /testingground && \
     a=$(curl -s https://api.github.com/repos/iknowjason/edge/releases/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "arm64" | cut -d '"' -f4) && \
     wget "$a" -O test.tar.gz && tar -xzf test.tar.gz && \
     mv edge-arm64 /executables/edge && cd .. && rm -rf testingground
-RUN mkdir /testingground && cd /testingground && \
-    a=$(curl -s https://api.github.com/repos/ffuf/ffuf/releases/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "arm64" | cut -d '"' -f4) && \
-    wget "$a" -O test.tar.gz && tar -xzf test.tar.gz && \
-    mv ffuf /executables && cd .. && rm -rf testingground
-RUN mkdir /testingground && cd /testingground && \
-    a=$(curl -s https://api.github.com/repos/mikefarah/yq/releases/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "arm64" | grep -v "tar.gz" | cut -d '"' -f4) && \
-    wget "$a" && mv yq_linux_arm64 /executables/yq && cd .. && rm -rf testingground
-RUN mkdir /testingground && cd /testingground && \
-    a=$(curl -s https://api.github.com/repos/fullstorydev/grpcurl/releases/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "arm64" | grep "tar.gz" | cut -d '"' -f4) && \
-    wget "$a" -O test.tar.gz && tar -xzf test.tar.gz && \
-    mv grpcurl /executables && cd .. && rm -rf testingground
-RUN mkdir /testingground && cd /testingground && \
-    a=$(curl -s https://api.github.com/repos/projectdiscovery/subfinder/releases/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "arm64" | cut -d '"' -f4) && \
-    wget "$a" -O test.zip && unzip test.zip && \
-    mv subfinder /executables && cd .. && rm -rf testingground
-RUN mkdir /testingground && cd /testingground && \
-    a=$(curl -s https://api.github.com/repos/projectdiscovery/httpx/releases/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "arm64" | cut -d '"' -f4) && \
-    wget "$a" -O test.zip && unzip test.zip && \
-    mv httpx /executables && cd .. && rm -rf testingground
-RUN mkdir /testingground && cd /testingground && \
-    a=$(curl -s https://api.github.com/repos/projectdiscovery/dnsx/releases/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "arm64" | cut -d '"' -f4) && \
-    wget "$a" -O test.zip && unzip test.zip && \
-    mv dnsx /executables && cd .. && rm -rf testingground
-RUN mkdir /testingground && cd /testingground && \
-    a=$(curl -s https://api.github.com/repos/projectdiscovery/proxify/releases/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "arm64" | cut -d '"' -f4) && \
-    wget "$a" -O test.zip && unzip test.zip && \
-    mv proxify /executables && cd .. && rm -rf testingground
-RUN mkdir /testingground && cd /testingground && \
-    a=$(curl -s https://api.github.com/repos/projectdiscovery/nuclei/releases/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "arm64" | cut -d '"' -f4) && \
-    wget "$a" -O test.zip && unzip test.zip && \
-    mv nuclei /executables && cd .. && rm -rf testingground
-RUN mkdir /testingground && cd /testingground && \
-    a=$(curl -s https://api.github.com/repos/projectdiscovery/cloudlist/releases/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "arm64" | cut -d '"' -f4) && \
-    wget "$a" -O test.zip && unzip test.zip && \
-    mv cloudlist /executables && cd .. && rm -rf testingground
-RUN mkdir /testingground && cd /testingground && \
-    a=$(curl -s https://api.github.com/repos/projectdiscovery/katana/releases/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "arm64" | cut -d '"' -f4) && \
-    wget "$a" -O test.zip && unzip test.zip && \
-    mv katana /executables && cd .. && rm -rf testingground
-RUN mkdir /testingground && cd /testingground && \
-    a=$(curl -s https://api.github.com/repos/projectdiscovery/simplehttpserver/releases/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "arm64" | cut -d '"' -f4) && \
-    wget "$a" -O test.zip && unzip test.zip && \
-    mv simplehttpserver /executables && cd .. && rm -rf testingground
-RUN mkdir /testingground && cd /testingground && \
-    a=$(curl -s https://api.github.com/repos/tomnomnom/gron/releases/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "arm64" | cut -d '"' -f4) && \
-    wget "$a" -O test.tar.gz && tar -xzf test.tar.gz && \
-    mv gron /executables && cd .. && rm -rf testingground
-# BishopFox - CloudFox - No ARM support
-# RUN mkdir /testingground && cd /testingground && \
-#     a=$(curl -s https://api.github.com/repos/BishopFox/cloudfox/releases/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "amd64" | cut -d '"' -f4) && \
-#     wget "$a" -O test.zip && unzip test.zip && \
-#     mv cloudfox/cloudfox /executables && cd .. && rm -rf testingground
 RUN mkdir /testingground && cd /testingground && \
     a=$(curl -s https://api.github.com/repos/BloodHoundAD/AzureHound/releases/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "arm64" | cut -d '"' -f4 | grep -v ".sha256") && \
     wget "$a" -O test.zip && unzip test.zip && \
@@ -99,32 +23,57 @@ RUN mkdir /testingground && cd /testingground && \
     a=$(curl -s https://api.github.com/repos/aquasecurity/trivy/releases/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "arm64" | grep -i "tar.gz" | grep -vE "sig|pem" | cut -d '"' -f4) && \
     wget "$a" -O test.tar.gz && tar -xzf test.tar.gz && \
     mv trivy /executables && cd .. && rm -rf testingground
-RUN mkdir /testingground && cd /testingground && \
-    a=$(curl -s https://api.github.com/repos/neilotoole/sq/releases/latest | grep "browser_download_url" | grep -i "linux" | grep -i "arm64.deb" | cut -d '"' -f4) && \
-    wget "$a" -O sq.deb && mv sq.deb /
 
 FROM golang AS go_builder
 RUN mkdir /executables
+RUN go install github.com/OJ/gobuster/v3@latest && \
+    mv /go/bin/gobuster /executables
+RUN go install github.com/insidersec/insider/cmd/insider@latest && \
+    mv /go/bin/insider /executables
+RUN go install github.com/Shopify/kubeaudit/cmd@latest && \
+    mv /go/bin/cmd /executables/kubeaudit
+RUN go install github.com/praetorian-inc/fingerprintx/cmd/fingerprintx@latest && \
+    mv /go/bin/fingerprintx /executables
+RUN go install -v github.com/owasp-amass/amass/v4/...@master && \
+    mv /go/bin/amass /executables
+RUN go install github.com/lc/gau/v2/cmd/gau@latest && \
+    mv /go/bin/gau /executables/getallurls
+RUN go install github.com/ffuf/ffuf/v2@latest && \
+    mv /go/bin/ffuf /executables
+RUN go install github.com/mikefarah/yq/v4@latest && \
+    mv /go/bin/yq /executables
+RUN go install github.com/fullstorydev/grpcurl/cmd/grpcurl@latest && \
+    mv /go/bin/grpcurl /executables
+RUN go install github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest && \
+    mv /go/bin/subfinder /executables
+RUN go install github.com/projectdiscovery/httpx/cmd/httpx@latest && \
+    mv /go/bin/httpx /executables
+RUN go install github.com/projectdiscovery/dnsx/cmd/dnsx@latest && \
+    mv /go/bin/dnsx /executables
+RUN go install github.com/projectdiscovery/proxify/cmd/proxify@latest && \
+    mv /go/bin/proxify /executables
+RUN go install github.com/projectdiscovery/nuclei/v3/cmd/nuclei@latest && \
+    mv /go/bin/nuclei /executables
+RUN go install github.com/projectdiscovery/cloudlist/cmd/cloudlist@latest && \
+    mv /go/bin/cloudlist /executables
+RUN go install github.com/projectdiscovery/simplehttpserver/cmd/simplehttpserver@latest && \
+    mv /go/bin/simplehttpserver /executables
+RUN go install github.com/tomnomnom/gron@latest && \
+    mv /go/bin/gron /executables
+RUN go install github.com/BishopFox/cloudfox@latest && \
+    mv /go/bin/cloudfox /executables
+RUN go install github.com/neilotoole/sq@latest && \
+    mv /go/bin/sq /executables
+RUN go install github.com/hakluke/hakrawler@latest && \
+    mv /go/bin/hakrawler /executables
+RUN go install github.com/hakluke/hakrevdns@latest && \
+    mv /go/bin/hakrevdns /executables
+
 RUN git clone --depth=1 https://github.com/hashicorp/terraform.git && \
     cd terraform && go get && go build && mv terraform /executables
-RUN git clone --depth=1 https://github.com/hakluke/hakrawler && \
-    cd hakrawler && go get && go build && mv hakrawler /executables
-RUN git clone --depth=1 https://github.com/hakluke/hakrevdns && \
-    cd hakrevdns && go mod init hakrevdns && go mod tidy && go get && go build && mv hakrevdns /executables
-RUN git clone --depth=1 https://github.com/hakluke/haktldextract && \
-    cd haktldextract && go get && go build && mv haktldextract /executables
-RUN git clone --depth=1 https://github.com/tomnomnom/assetfinder && \
-    cd assetfinder && go mod init assetfinder && go mod tidy && go get && go build && mv assetfinder /executables
-
-# Projects that did not work for executable builder because of lack of ARM support
-RUN git clone --depth=1 https://github.com/insidersec/insider && \
-    cd insider/cmd/insider && go get && go build && mv insider /executables
-RUN git clone --depth=1 https://github.com/BishopFox/cloudfox && \
-    cd cloudfox && go get && go build && mv cloudfox /executables
 
 FROM alpine
 RUN mkdir /executables/
 COPY --from=go_builder /executables/* /executables/
 COPY --from=executable_builder /executables/* /executables/
 COPY --from=executable_builder /nvim-linux64.deb /neovim-linux64.deb
-COPY --from=executable_builder /sq.deb /sq.deb
