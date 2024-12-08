@@ -37,7 +37,7 @@ workflows:
   commit:
     when:
       condition:
-        equal: [ main, << pipeline.git.branch >> ]
+        equals: [main, pipeline.git.branch]
     jobs:
       - build-arm-image
       - build-amd-image
