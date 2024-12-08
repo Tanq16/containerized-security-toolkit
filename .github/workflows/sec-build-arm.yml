@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  intermediate_builder:
+  docker:
     runs-on: ubuntu-latest
     env:
       DOCKER_BUILDKIT: '1'
