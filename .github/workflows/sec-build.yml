@@ -5,12 +5,14 @@ on:
     branches:
       - 'main'
   schedule:
-    - cron: '0 0 10 * *'
+    - cron: '0 0 25 * *'
   workflow_dispatch:
 
 jobs:
   docker:
     runs-on: ubuntu-latest
+    env:
+      DOCKER_BUILDKIT: '1'
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -21,5 +23,9 @@ jobs:
           username: tanq16
           password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
         
-      - run: chmod +x ./security_docker_main/local-builder-script.sh
-      - run: cd ./security_docker_main && bash local-builder-script.sh
+      - run: |
+          cd security_docker
+          docker build -f builder.Dockerfile -t intermediate_builder .
+          docker builder prune -f
+          docker build -f main.Dockerfile -t tanq16/sec_docker:main .
+          docker push tanq16/sec_docker:main
