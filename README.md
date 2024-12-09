@@ -8,7 +8,8 @@
     <a href="https://tanishq.page/blog/posts/cst-guide/"><b>Companion Blog</b></a>  &bull;  
     <a href="https://hub.docker.com/r/tanq16/sec_docker"><b>Docker Hub</b></a><br><br>
     <a href="https://github.com/tanq16/containerized-security-toolkit/actions/workflows/sec-build.yml"><img src="https://github.com/tanq16/containerized-security-toolkit/actions/workflows/sec-build.yml/badge.svg" alt="Release Build"></a>
-    <a href="https://github.com/tanq16/containerized-security-toolkit/actions/workflows/sec-build-arm-temp.yml"><img src="https://github.com/tanq16/containerized-security-toolkit/actions/workflows/sec-build-arm-temp.yml/badge.svg" alt="Release Build"></a>
+    <a href="https://github.com/tanq16/containerized-security-toolkit/actions/workflows/sec-build-arm-temp.yml"><img src="https://github.com/tanq16/containerized-security-toolkit/actions/workflows/sec-build-arm-temp.yml/badge.svg" alt="Release Build"></a><br>
+    (ARM builds work, but are temporarily offloaded to CCI due to lack of ARM GHA runners)
 </p>
 
 <br>
