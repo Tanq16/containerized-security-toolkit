@@ -5,4 +5,4 @@ FROM alpine
 RUN mkdir /executables/
 COPY --from=interim1 /executables/* /executables/
 COPY --from=interim2 /executables/* /executables/
-COPY --from=interim1 /nvim-linux64.deb /neovim-linux64.deb
+COPY --from=interim1 /neovim-linux64.deb /neovim-linux64.deb
