@@ -44,14 +44,13 @@ jobs:
       - name: Create Release
         run: |
           cat > release_notes.md << 'EOL'
-          # Container Security Toolkit Release ${{ steps.version.outputs.new_version }}
+          # Container Security Toolkit Images - Release ${{ steps.version.outputs.new_version }}
 
           The following Docker images are available for this release:
 
-          - AMD64: `docker pull tanq16/sec_docker:main`
-          - ARM64: `docker pull tanq16/sec_docker:main_apple`
+          - TODO
 
-          Both images contain the same security tools and CLI productivity suite. Choose the appropriate image based on your system architecture.
+          Refer to the [documentation](https://tanishq.page/containerized-security-toolkit) for more information.
           EOL
           
           gh release create "${{ steps.version.outputs.new_version }}" \

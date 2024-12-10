@@ -7,8 +7,7 @@
 <p align="center">
     <a href="https://tanishq.page/blog/posts/cst-guide/"><b>Companion Blog</b></a>  &bull;  
     <a href="https://hub.docker.com/r/tanq16/sec_docker"><b>Docker Hub</b></a><br><br>
-    <a href="https://github.com/tanq16/containerized-security-toolkit/actions/workflows/sec-build.yml"><img src="https://github.com/tanq16/containerized-security-toolkit/actions/workflows/sec-build.yml/badge.svg" alt="Release Build"></a>
-    <a href="https://github.com/tanq16/containerized-security-toolkit/actions/workflows/sec-build-arm.yml"><img src="https://github.com/tanq16/containerized-security-toolkit/actions/workflows/sec-build-arm.yml/badge.svg" alt="Release Build"></a>
+    <a href="https://github.com/tanq16/containerized-security-toolkit/actions/workflows/rice-build.yml"><img src="https://github.com/tanq16/containerized-security-toolkit/actions/workflows/rice-build.yml/badge.svg" alt="Release Build"></a>
     <a href="https://dl.circleci.com/status-badge/redirect/circleci/YPqXqLMjjXxLwPP9TvpyFc/W1CQsWfrfu4rKFiytoHbs9/tree/main"><img src="https://dl.circleci.com/status-badge/img/circleci/YPqXqLMjjXxLwPP9TvpyFc/W1CQsWfrfu4rKFiytoHbs9/tree/main.svg?style=shield"></a><br>
     (ARM builds through CCI until ARM GHA runners are available)
 </p>

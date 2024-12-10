@@ -1,6 +1,6 @@
 version: 2.1
 jobs:
-  build-arm-image:
+  cst-rice-arm64:
     machine:
       image: ubuntu-2204:current
       # docker_layer_caching: true
@@ -21,7 +21,7 @@ jobs:
             docker push tanq16/sec_docker:main_apple
 
 workflows:
-  commit:
+  build-arm-images:
     when: pipeline.git.branch == "main"
     jobs:
-      - build-arm-image
+      - cst-rice-arm64
