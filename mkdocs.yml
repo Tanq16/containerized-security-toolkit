@@ -1,9 +1,56 @@
 site_name: Containerized Security Toolkit
+site_url: https://tanq16.github.io/containerized-security-toolkit
+repo_name: tanq16/containerized-security-toolkit
+repo_url: https://github.com/tanq16/containerized-security-toolkit
+
 theme:
   name: material
+  logo: assets/CST-Logo.png
+  favicon: assets/CST-Logo.png
+  icon:
+    repo: fontawesome/brands/github
+  
+  # Color scheme settings
+  palette:
+    # Light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: teal
+      accent: teal
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    # Dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: teal
+      accent: teal
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  
+  # Enable useful features
   features:
     - navigation.tabs
     - navigation.sections
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.tabs.link
+    - content.code.annotation
+    - content.code.copy
+
+# Extra customization
+extra:
+  social:
+    - icon: fontawesome/solid/user
+      link: https://tanishq.page
+      name: Personal Website
+    - icon: fontawesome/brands/github
+      link: https://github.com/tanq16
+      name: GitHub Profile
+
+# Navigation structure  
 nav:
   - Home: index.md
   - Getting Started: getting-started.md
@@ -11,3 +58,18 @@ nav:
     - Overview: variants/index.md
     - General: variants/general.md
     - Rice: variants/rice.md
+
+# Markdown extensions
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - admonition
+  - pymdownx.arithmatex:
+      generic: true
+  - footnotes
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.mark
+  - attr_list
