@@ -1,0 +1,13 @@
+site_name: Containerized Security Toolkit
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.sections
+nav:
+  - Home: index.md
+  - Getting Started: getting-started.md
+  - Image Variants:
+    - Overview: variants/index.md
+    - General: variants/general.md
+    - Rice: variants/rice.md

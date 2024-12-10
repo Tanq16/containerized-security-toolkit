@@ -32,7 +32,6 @@ jobs:
       - run: |
           cd security_docker
           docker buildx build -o type=docker --platform=linux/arm64 -f builder.Dockerfile -t intermediate_builder .
-          # docker push tanq16/sec_docker:intermediate_builder
           docker builder prune -f
           docker buildx build -o type=docker --platform=linux/arm64 -f Dockerfile -t tanq16/sec_docker:main_apple .
           docker push tanq16/sec_docker:main_apple
