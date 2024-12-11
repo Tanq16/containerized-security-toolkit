@@ -52,12 +52,25 @@ extra:
 
 # Navigation structure  
 nav:
-  - Home: index.md
-  - Getting Started: getting-started.md
+  - Home:
+    - Overview: home/index.md
+    - Getting Started: home/getting-started.md
+    - Conventions: home/conventions.md
+    - Contributing: home/contributing.md
   - Image Variants:
     - Overview: variants/index.md
     - General: variants/general.md
+    - Cloud: variants/cloud.md
     - Rice: variants/rice.md
+  - Tools List:
+    - General: tools/general-tools.md
+    - Cloud: tools/cloud-tools.md
+    - Rice: tools/rice-tools.md
+  - Advanced:
+    - Shell Shortcuts: advanced/shortcuts.md
+    - SSH & TMUX: advanced/ssh-tmux.md
+    - DIY Build: advanced/build.md
+    - Example Workflow: advanced/rice-workflow.md
 
 # Markdown extensions
 markdown_extensions:

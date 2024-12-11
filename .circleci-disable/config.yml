@@ -3,7 +3,6 @@ jobs:
   cst-rice-arm64:
     machine:
       image: ubuntu-2204:current
-      # docker_layer_caching: true
     resource_class: arm.large
     steps:
       - checkout
@@ -14,14 +13,54 @@ jobs:
       - run:
           name: Execute Build Script
           command: |
-            cd security_docker
+            cd images/rice
             docker build -f builder.Dockerfile -t intermediate_builder .
             docker builder prune -f
-            docker build -t tanq16/sec_docker:main_apple .
-            docker push tanq16/sec_docker:main_apple
+            docker build -t tanq16/cst-rice:arm .
+            docker push tanq16/cst-rice:arm
+
+  cst-general-arm64:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: arm.large
+    steps:
+      - checkout
+      - run:
+          name: Docker Login
+          command: |
+            echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin
+      - run:
+          name: Execute Build Script
+          command: |
+            cd images/general
+            docker build -f builder.Dockerfile -t intermediate_builder .
+            docker builder prune -f
+            docker build -t tanq16/cst-general:arm .
+            docker push tanq16/cst-general:arm
+
+  cst-cloud-arm64:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: arm.large
+    steps:
+      - checkout
+      - run:
+          name: Docker Login
+          command: |
+            echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin
+      - run:
+          name: Execute Build Script
+          command: |
+            cd images/cloud
+            docker build -f builder.Dockerfile -t intermediate_builder .
+            docker builder prune -f
+            docker build -t tanq16/cst-cloud:arm .
+            docker push tanq16/cst-cloud:arm
 
 workflows:
   build-arm-images:
     when: pipeline.git.branch == "main"
     jobs:
       - cst-rice-arm64
+      - cst-general-arm64
+      - cst-cloud-arm64
