@@ -66,7 +66,7 @@ RUN a=$(curl -s https://go.dev/dl/ | grep -oE "(/dl/go[\.0-9]{2,7}\.linux-arm64\
 
 RUN . /opt/pyenv/bin/activate && \
     pip install requests boto3 semgrep && \
-    pip3 install --user cloudsplaining && \
+    pip3 install cloudsplaining && \
     cd /opt/ && \
     git clone --depth=1 https://github.com/nccgroup/ScoutSuite && cd ScoutSuite && \
     pip install --no-cache-dir -r requirements.txt && cd .. && \
