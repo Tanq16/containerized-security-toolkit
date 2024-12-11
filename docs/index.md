@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="../assets/CST-Logo.png" alt="CST" width="250">
+  <img src="assets/CST-Logo.png" alt="CST" width="250">
 </p>
 
 # Containerized Security Toolkit
