@@ -7,6 +7,7 @@ The Dev variant provides a security-focused development environment with compreh
 ### Development Environment
 
 Includes robust support for:
+
 - Python development with Anaconda
 - Golang development environment
 - Node.js and npm
@@ -14,6 +15,7 @@ Includes robust support for:
 - Testing frameworks
 
 Perfect for:
+
 - Security tool development
 - Secure application development
 - Security automation

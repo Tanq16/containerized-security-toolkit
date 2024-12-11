@@ -60,19 +60,19 @@ docker buildx build --platform linux/arm64 -t cst-<variant>:local .
 
 ## Coding Guidelines
 
-1. **Dockerfiles**
+- **Dockerfiles**
    - Use multi-stage builds
    - Group related installations
    - Document non-obvious commands
    - Follow best practices for size optimization
 
-2. **Documentation**
+- **Documentation**
    - Use clear, concise language
    - Prefer short and bulleted information
    - Keep formatting consistent
    - Update relevant sections
 
-3. **Scripts**
+- **Scripts**
    - Include shebang line
    - Add usage comments
    - Make scripts portable

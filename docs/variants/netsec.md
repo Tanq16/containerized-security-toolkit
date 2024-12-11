@@ -7,6 +7,7 @@ The Network Security variant focuses on network assessment, monitoring, and secu
 ### Capabilities
 
 Specialized for:
+
 - Network vulnerability assessment
 - Protocol analysis
 - Traffic monitoring
@@ -14,6 +15,7 @@ Specialized for:
 - Network forensics
 
 Ideal applications include:
+
 - Network penetration testing
 - Security monitoring
 - Network architecture review

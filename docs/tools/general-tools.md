@@ -5,6 +5,7 @@ The General variant provides a comprehensive set of security and utility tools. 
 ## Core System Tools
 
 The base system includes essential utilities installed via apt:
+
 - `curl`, `wget`: Network data transfer
 - `git`: Version control
 - `tmux`: Terminal multiplexer
@@ -81,6 +82,7 @@ The base system includes essential utilities installed via apt:
 ## Wordlists and Resources
 
 Located in `/opt/lists/`:
+
 - SubDomains: `subdomains_top_110000.txt`
 - Infrastructure: `common_router_ips.txt`, `common_http_ports.txt`
 - Web Content: `directory_brute_medium.txt`, `directory_brute_common.txt`
@@ -91,6 +93,7 @@ Located in `/opt/lists/`:
 ## Python Environment
 
 A dedicated Python virtual environment is available at `/opt/pyenv/` with:
+
 - Requests: HTTP library
 - Semgrep: Pattern-based code scanning
 

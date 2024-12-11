@@ -11,6 +11,7 @@ The General variant serves as both a standalone security operations environment 
 - Base for custom security images
 
 This variant is ideal for:
+
 - Security professionals needing a reliable base environment
 - Teams building custom security toolkits
 - General security assessment work

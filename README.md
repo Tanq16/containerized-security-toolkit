@@ -10,44 +10,43 @@
   <a href="https://github.com/tanq16/containerized-security-toolkit/releases">
     <img src="https://img.shields.io/github/v/release/tanq16/containerized-security-toolkit?include_prereleases&style=flat-square">
   </a>
-  <a href="https://hub.docker.com/r/tanq16/cst">
-    <img src="https://img.shields.io/docker/pulls/tanq16/cst?style=flat-square">
-  </a>
   <a href="https://github.com/tanq16/containerized-security-toolkit/blob/main/LICENSE">
     <img src="https://img.shields.io/github/license/tanq16/containerized-security-toolkit?style=flat-square">
   </a>
+  <a href="https://hub.docker.com/r/tanq16/sec_docker">
+    <img src="https://img.shields.io/docker/pulls/tanq16/sec_docker?style=flat-square">
+  </a>
+  <a href="https://hub.docker.com/r/tanq16/cst-rice">
+    <img src="https://img.shields.io/docker/pulls/tanq16/cst-rice?style=flat-square">
+  </a>
+  <a href="https://hub.docker.com/r/tanq16/cst-cloud">
+    <img src="https://img.shields.io/docker/pulls/tanq16/cst-cloud?style=flat-square">
+  </a>
+  <a href="https://hub.docker.com/r/tanq16/cst-general">
+    <img src="https://img.shields.io/docker/pulls/tanq16/cst-general?style=flat-square">
+  </a>
   <br>
   <a href="https://tanishq.page/containerized-security-toolkit">Documentation</a> •
-  <a href="https://hub.docker.com/r/tanq16/cst">Docker Hub</a>
+  <a href="https://hub.docker.com/r/tanq16/cst">Docker Hub (User Space)</a> •
+  <a href="https://hub.docker.com/r/tanq16/sec_docker">Docker Hub (Legacy)</a>
 </p>
 
-<h4 align="center">A comprehensive suite of containerized security toolkits for various security operations</h4>
+<h3 align="center">A comprehensive suite of containerized security toolkits for various security operations</h3>
 
 <p align="center">
   <b>Build Status:</b><br>
-  General: 
   <a href="https://github.com/tanq16/containerized-security-toolkit/actions/workflows/general-build.yml">
     <img src="https://github.com/tanq16/containerized-security-toolkit/actions/workflows/general-build.yml/badge.svg" alt="General Build">
   </a>
-  <a href="https://dl.circleci.com/status-badge/redirect/circleci/YPqXqLMjjXxLwPP9TvpyFc/general/tree/main">
-    <img src="https://dl.circleci.com/status-badge/img/circleci/YPqXqLMjjXxLwPP9TvpyFc/general/tree/main.svg?style=shield" alt="General ARM Build">
-  </a>
-  <br>
-  Cloud: 
   <a href="https://github.com/tanq16/containerized-security-toolkit/actions/workflows/cloud-build.yml">
     <img src="https://github.com/tanq16/containerized-security-toolkit/actions/workflows/cloud-build.yml/badge.svg" alt="Cloud Build">
   </a>
-  <a href="https://dl.circleci.com/status-badge/redirect/circleci/YPqXqLMjjXxLwPP9TvpyFc/cloud/tree/main">
-    <img src="https://dl.circleci.com/status-badge/img/circleci/YPqXqLMjjXxLwPP9TvpyFc/cloud/tree/main.svg?style=shield" alt="Cloud ARM Build">
-  </a>
-  <br>
-  Rice: 
   <a href="https://github.com/tanq16/containerized-security-toolkit/actions/workflows/rice-build.yml">
     <img src="https://github.com/tanq16/containerized-security-toolkit/actions/workflows/rice-build.yml/badge.svg" alt="Rice Build">
   </a>
-  <a href="https://dl.circleci.com/status-badge/redirect/circleci/YPqXqLMjjXxLwPP9TvpyFc/rice/tree/main">
-    <img src="https://dl.circleci.com/status-badge/img/circleci/YPqXqLMjjXxLwPP9TvpyFc/rice/tree/main.svg?style=shield" alt="Rice ARM Build">
-  </a>
+  <br>
+  <a href="https://dl.circleci.com/status-badge/redirect/circleci/YPqXqLMjjXxLwPP9TvpyFc/W1CQsWfrfu4rKFiytoHbs9/tree/main"><img src="https://dl.circleci.com/status-badge/img/circleci/YPqXqLMjjXxLwPP9TvpyFc/W1CQsWfrfu4rKFiytoHbs9/tree/main.svg?style=svg"></a><br>
+  (All ARM images build through CCI until ARM GHA runners are available)
 </p>
 
 ## Overview

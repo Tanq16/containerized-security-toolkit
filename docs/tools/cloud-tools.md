@@ -80,6 +80,7 @@ The Cloud variant extends the General variant with specialized tools for cloud s
 ## Python Security Tools
 
 Located in Python virtual environment at `/opt/pyenv/`:
+
 - **ScoutSuite**: Multi-cloud security auditing tool
   - Usage: `/opt/ScoutSuite/scout.py`
   - Purpose: Cloud security posture assessment
@@ -106,6 +107,7 @@ Located in Python virtual environment at `/opt/pyenv/`:
 ## Development Environment
 
 Includes standard development tools:
+
 - Python 3 with specialized libraries
 - Go language environment
 - PowerShell Core

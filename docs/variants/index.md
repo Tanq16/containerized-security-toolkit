@@ -5,6 +5,7 @@ The Containerized Security Toolkit provides purpose-built variants for different
 ## Variant Selection Guide
 
 Choose your variant based on primary use case:
+
 - **General**: Basic security operations or base for custom images
 - **Cloud**: Cloud security assessments and operations
 - **Dev**: Security tool and application development

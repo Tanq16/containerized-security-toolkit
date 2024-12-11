@@ -56,22 +56,22 @@ Standard environment details used across variants:
 
 ## Best Practices
 
-1. **Data Persistence**
+- **Data Persistence**
    - Store important data in `/persist/`
    - Use version control for project files
    - Back up configurations regularly
 
-2. **Resource Management**
+- **Resource Management**
    - Clean up unused containers
    - Prune Docker images periodically
    - Monitor disk space usage
 
-3. **Security**
+- **Security**
    - Change SSH password for every run
    - Use SSH keys when possible
    - Keep host directory permissions restrictive
 
-4. **Workflow**
+- **Workflow**
    - Use shell functions for container management
    - Maintain separate instances for different projects
    - Document custom configurations

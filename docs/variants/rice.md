@@ -5,6 +5,7 @@ The Rice variant enhances the General variant with the CLI Productivity Suite, c
 ### Enhancements
 
 The Rice variant adds:
+
 - Customized shell configuration
 - Enhanced terminal utilities
 - Productivity shortcuts
@@ -12,6 +13,7 @@ The Rice variant adds:
 - Workflow optimizations
 
 Perfect for:
+
 - Daily security operations
 - Extended terminal sessions
 - Text-based workflows
@@ -21,6 +23,7 @@ Perfect for:
 ### Rice-Specific Features
 
 The integrated CLI Productivity Suite provides:
+
 - Custom shell prompts
 - Advanced tab completion
 - Git integrations

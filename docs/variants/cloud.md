@@ -5,6 +5,7 @@ The Cloud variant extends the General variant with specialized tools for cloud s
 ### Focus Areas
 
 Cloud security capabilities include:
+
 - Infrastructure security assessment
 - Cloud configuration analysis
 - Identity and access management review
@@ -12,6 +13,7 @@ Cloud security capabilities include:
 - Serverless function analysis
 
 This variant excels at:
+
 - Cloud security posture assessments
 - Cloud penetration testing
 - Cloud architecture review
@@ -21,6 +23,7 @@ This variant excels at:
 ### Notable Tooling
 
 The Cloud variant includes specialized tools for:
+
 - AWS environment assessment
 - Azure security testing
 - GCP security analysis

@@ -81,6 +81,7 @@ Includes all tools from the General variant:
 ### Shell Improvements
 
 The CLI Productivity Suite adds:
+
 - Intelligent command history
 - Enhanced tab completion
 - Directory navigation shortcuts
@@ -89,6 +90,7 @@ The CLI Productivity Suite adds:
 ### Editor Enhancements
 
 NeoVim configuration includes:
+
 - Code syntax highlighting
 - File navigation
 - Split pane management
@@ -97,6 +99,7 @@ NeoVim configuration includes:
 ### Terminal Multiplexer
 
 Tmux enhancements include:
+
 - Session management
 - Window organization
 - Pane controls
@@ -105,6 +108,7 @@ Tmux enhancements include:
 ## Standard Tools
 
 All tools from the General variant remain available:
+
 - Security assessment tools
 - Network utilities
 - Development tools
@@ -113,6 +117,7 @@ All tools from the General variant remain available:
 ## Resource Location
 
 The standard CST directory structure is maintained:
+
 - `/opt/executables/`: Binary tools
 - `/opt/pyenv/`: Python environment
 - `/opt/lists/`: Security wordlists

@@ -1,5 +1,7 @@
 FROM ubuntu:jammy AS executable_builder
-RUN mkdir /testingground && cd /testingground && \
+RUN mkdir /executables && apt update -y && \
+    apt install -y wget ninja-build gettext cmake unzip curl git file && \
+    mkdir /testingground && cd /testingground && \
     a=$(curl -s https://api.github.com/repos/praetorian-inc/noseyparker/releases/latest | grep -E "browser_download_url.*" | grep -i "linux-gnu" | grep -i "aarch64" | cut -d '"' -f4) && \
     b=$(curl -s https://api.github.com/repos/praetorian-inc/noseyparker/releases/latest | grep -E "browser_download_url.*" | grep -i "linux-gnu" | grep -i "x86_64" | cut -d '"' -f4) && \
     if [ "$(uname -m)" = "aarch64" ]; then wget "$a" -O test.tar.gz; else wget "$b" -O test.tar.gz; fi && \
