@@ -136,21 +136,21 @@ docker buildx build \
 ## Best Practices
 
 - **Version Control**
-   - Tag images with version numbers
-   - Document changes in changelog
-   - Use semantic versioning
+      - Tag images with version numbers
+      - Document changes in changelog
+      - Use semantic versioning
 
 - **Documentation**
-   - Update tool lists
-   - Document new features
-   - Include usage examples
+      - Update tool lists
+      - Document new features
+      - Include usage examples
 
 - **Security**
-   - Scan images for vulnerabilities
-   - Update base images regularly
-   - Follow security best practices
+      - Scan images for vulnerabilities
+      - Update base images regularly
+      - Follow security best practices
 
 - **Maintenance**
-   - Regular dependency updates
-   - Version compatibility checks
-   - Performance optimization
+      - Regular dependency updates
+      - Version compatibility checks
+      - Performance optimization

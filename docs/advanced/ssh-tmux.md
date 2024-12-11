@@ -132,21 +132,21 @@ send-keys 'htop' C-m
 ## Best Practices
 
 - **Session Naming:** Use consistent naming conventions
-   - `dev-*` for development sessions
-   - `sec-*` for security assessment
-   - `mon-*` for monitoring
+      - `dev-*` for development sessions
+      - `sec-*` for security assessment
+      - `mon-*` for monitoring
 
 - **Window Management:** Organize windows by function
-   - Main workspace window
-   - Monitoring window
-   - Log window
-   - Tool-specific windows
+      - Main workspace window
+      - Monitoring window
+      - Log window
+      - Tool-specific windows
 
 - **Pane Layout:** Design efficient layouts
-   - Command input at top
-   - Logs at bottom
-   - Monitoring on side
-   - Status in corner
+      - Command input at top
+      - Logs at bottom
+      - Monitoring on side
+      - Status in corner
 
 - **Key Bindings:** Configure task-specific bindings
    ```bash
