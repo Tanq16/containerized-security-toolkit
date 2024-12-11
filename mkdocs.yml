@@ -1,5 +1,5 @@
 site_name: Containerized Security Toolkit
-site_url: https://tanq16.github.io/containerized-security-toolkit
+site_url: https://tanishq.page/containerized-security-toolkit
 repo_name: tanq16/containerized-security-toolkit
 repo_url: https://github.com/tanq16/containerized-security-toolkit
 
@@ -61,6 +61,8 @@ nav:
     - Overview: variants/index.md
     - General: variants/general.md
     - Cloud: variants/cloud.md
+    - Dev: variants/dev.md
+    - NetSec: variants/netsec.md
     - Rice: variants/rice.md
   - Tools List:
     - General: tools/general-tools.md
@@ -70,7 +72,6 @@ nav:
     - Shell Shortcuts: advanced/shortcuts.md
     - SSH & TMUX: advanced/ssh-tmux.md
     - DIY Build: advanced/build.md
-    - Example Workflow: advanced/rice-workflow.md
 
 # Markdown extensions
 markdown_extensions:
