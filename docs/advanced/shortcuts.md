@@ -35,6 +35,7 @@ stop_cst() {
 ```
 
 These functions provide:
+
 - Automatic architecture detection (ARM/AMD)
 - Command history persistence
 - SSH access with random password generation

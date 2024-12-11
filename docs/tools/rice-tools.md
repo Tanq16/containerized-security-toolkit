@@ -7,34 +7,34 @@ The Rice variant enhances the General variant with the CLI Productivity Suite an
 ### Shell Environment
 
 - **Oh My Zsh**: Enhanced shell framework
-  - Location: `/root/.oh-my-zsh/`
-  - Features:
-    - Spaceship prompt theme
-    - Auto-suggestions
-    - Syntax highlighting
-    - Git integration
+    - Location: `/root/.oh-my-zsh/`
+    - Features:
+        - Spaceship prompt theme
+        - Auto-suggestions
+        - Syntax highlighting
+        - Git integration
 
 - **Tmux Configuration**: Enhanced terminal multiplexer
-  - Location: `/root/.tmux/`
-  - Custom key bindings
-  - Status bar enhancements
-  - Plugin management
+    - Location: `/root/.tmux/`
+    - Custom key bindings
+    - Status bar enhancements
+    - Plugin management
 
 ### Enhanced Utilities
 
 - **FZF**: Fuzzy finder
-  - Location: `/root/.fzf/`
-  - Usage: Enhanced command history search
-  - File and directory fuzzy finding
+    - Location: `/root/.fzf/`
+    - Usage: Enhanced command history search
+    - File and directory fuzzy finding
 
 - **LSD**: Enhanced ls command
-  - Location: System PATH
-  - Usage: Improved file listing with icons
+    - Location: System PATH
+    - Usage: Improved file listing with icons
 
 - **Neovim**: Advanced text editor
-  - Location: System installation
-  - Includes NvChad configuration
-  - Enhanced development features
+    - Location: System installation
+    - Includes NvChad configuration
+    - Enhanced development features
 
 ## Security Tools
 

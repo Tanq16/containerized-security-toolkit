@@ -68,7 +68,9 @@ RUN mkdir /opt/lists/ && cd /opt/lists/ && \
 # ========================================================================== Tool Installations Part Two =====
 # ============================================================================================================
 
-RUN mkdir /opt/powershell && cd /opt/powershell && \
+RUN a=$(curl -s https://api.github.com/repos/powershell/powershell/releases/latest | grep -E "browser_download_url.*" | grep -i "linux-arm64.tar.gz" | cut -d '"' -f4) && \
+    b=$(curl -s https://api.github.com/repos/powershell/powershell/releases/latest | grep -E "browser_download_url.*" | grep -i "linux-x64.tar.gz" | cut -d '"' -f4) && \
+    mkdir /opt/powershell && cd /opt/powershell && \
     if [ "$(uname -m)" = "aarch64" ]; then wget "$a" -O test.tar.gz; else wget "$b" -O test.tar.gz; fi && \
     tar -xzf test.tar.gz && \
     chmod +x /opt/powershell/pwsh && ln -s /opt/powershell/pwsh /usr/bin/pwsh

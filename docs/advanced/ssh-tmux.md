@@ -131,28 +131,24 @@ send-keys 'htop' C-m
 
 ## Best Practices
 
-1. **Session Naming**
-   Use consistent naming conventions:
+- **Session Naming:** Use consistent naming conventions
    - `dev-*` for development sessions
    - `sec-*` for security assessment
    - `mon-*` for monitoring
 
-2. **Window Management**
-   Organize windows by function:
+- **Window Management:** Organize windows by function
    - Main workspace window
    - Monitoring window
    - Log window
    - Tool-specific windows
 
-3. **Pane Layout**
-   Design efficient layouts:
+- **Pane Layout:** Design efficient layouts
    - Command input at top
    - Logs at bottom
    - Monitoring on side
    - Status in corner
 
-4. **Key Bindings**
-   Configure task-specific bindings:
+- **Key Bindings:** Configure task-specific bindings
    ```bash
    # ~/.tmux.conf
    bind-key M-s source-file ~/.tmux/layouts/security

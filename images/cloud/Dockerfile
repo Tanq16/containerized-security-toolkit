@@ -20,7 +20,7 @@ RUN DEBIAN_FRONTEND="noninteractive" apt install -y --no-install-recommends \
     inetutils-ping inetutils-telnet inetutils-tools inetutils-traceroute inetutils-ftp iproute2
 RUN mkdir /opt/executables && python3 -m venv /opt/pyenv && \
     . /opt/pyenv/bin/activate && \
-    pip install --upgrade setuptools wheel pip && \
+    pip install --upgrade setuptools wheel pip
 RUN git clone --depth 1 https://github.com/junegunn/fzf.git /root/.fzf && \
     /root/.fzf/install --all 1>/dev/null
 

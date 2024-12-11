@@ -1,5 +1,5 @@
 site_name: Containerized Security Toolkit
-site_url: https://tanishq.page/containerized-security-toolkit/home
+site_url: https://tanishq.page/containerized-security-toolkit/
 repo_name: tanq16/containerized-security-toolkit
 repo_url: https://github.com/tanq16/containerized-security-toolkit
 
@@ -7,6 +7,8 @@ theme:
   name: material
   logo: assets/CST-Logo.png
   favicon: assets/CST-Logo.png
+  features:
+    - navigation.instant
   icon:
     repo: fontawesome/brands/github
   
@@ -49,14 +51,16 @@ extra:
     - icon: fontawesome/brands/github
       link: https://github.com/tanq16
       name: GitHub Profile
+    - icon: fontawesome/brands/docker
+      link: https://hub.docker.com/r/tanq16
+      name: DockerHub Profile
 
 # Navigation structure  
 nav:
-  - Home:
-    - Overview: home/index.md
-    - Getting Started: home/getting-started.md
-    - Conventions: home/conventions.md
-    - Contributing: home/contributing.md
+  - Overview: index.md
+  - Getting Started: getting-started.md
+  - Conventions: conventions.md
+  - Contributing: contributing.md
   - Image Variants:
     - Overview: variants/index.md
     - General: variants/general.md

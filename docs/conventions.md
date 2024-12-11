@@ -42,10 +42,10 @@ Standard environment details used across variants:
 - Mount point: `/persist/`
 - Recommended host location: `$HOME/docker_work/`
 - Used for:
-  - Project files
-  - Configuration files
-  - Shell history
-  - Tool configurations
+   - Project files
+   - Configuration files
+   - Shell history
+   - Tool configurations
 
 ## SSH Configuration
 
@@ -57,24 +57,24 @@ Standard environment details used across variants:
 ## Best Practices
 
 - **Data Persistence**
-   - Store important data in `/persist/`
-   - Use version control for project files
-   - Back up configurations regularly
+      - Store important data in `/persist/`
+      - Use version control for project files
+      - Back up configurations regularly
 
 - **Resource Management**
-   - Clean up unused containers
-   - Prune Docker images periodically
-   - Monitor disk space usage
+      - Clean up unused containers
+      - Prune Docker images periodically
+      - Monitor disk space usage
 
 - **Security**
-   - Change SSH password for every run
-   - Use SSH keys when possible
-   - Keep host directory permissions restrictive
+      - Change SSH password for every run
+      - Use SSH keys when possible
+      - Keep host directory permissions restrictive
 
 - **Workflow**
-   - Use shell functions for container management
-   - Maintain separate instances for different projects
-   - Document custom configurations
+      - Use shell functions for container management
+      - Maintain separate instances for different projects
+      - Document custom configurations
 
 ## Version Control
 

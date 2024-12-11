@@ -20,30 +20,30 @@ The base system includes essential utilities installed via apt:
 ### Web Application Security
 
 - **Gobuster**: Directory/file enumeration tool
-  - Location: `/opt/executables/gobuster`
-  - Usage: Web application directory brute forcing
+    - Location: `/opt/executables/gobuster`
+    - Usage: Web application directory brute forcing
 
 - **FFuf**: Web fuzzer
-  - Location: `/opt/executables/ffuf`
-  - Usage: Web fuzzing, directory discovery, parameter fuzzing
+    - Location: `/opt/executables/ffuf`
+    - Usage: Web fuzzing, directory discovery, parameter fuzzing
 
 - **Hakrawler**: Web crawler
-  - Location: `/opt/executables/hakrawler`
-  - Usage: Web crawling and asset discovery
+    - Location: `/opt/executables/hakrawler`
+    - Usage: Web crawling and asset discovery
 
 ### Network Security
 
 - **Fingerprintx**: Service identification tool
-  - Location: `/opt/executables/fingerprintx`
-  - Usage: Service and version detection
+    - Location: `/opt/executables/fingerprintx`
+    - Usage: Service and version detection
 
 - **Nuclei**: Vulnerability scanner
-  - Location: `/opt/executables/nuclei`
-  - Usage: Automated vulnerability scanning
+    - Location: `/opt/executables/nuclei`
+    - Usage: Automated vulnerability scanning
 
 - **Subfinder**: Subdomain discovery tool
-  - Location: `/opt/executables/subfinder`
-  - Usage: Subdomain enumeration
+    - Location: `/opt/executables/subfinder`
+    - Usage: Subdomain enumeration
 
 ### Infrastructure Security
 
@@ -54,30 +54,30 @@ The base system includes essential utilities installed via apt:
 ### Reconnaissance Tools
 
 - **Amass**: Attack surface mapping tool
-  - Location: `/opt/executables/amass`
-  - Usage: Network mapping and asset discovery
+    - Location: `/opt/executables/amass`
+    - Usage: Network mapping and asset discovery
 
 - **DNSx**: DNS toolkit
-  - Location: `/opt/executables/dnsx`
-  - Usage: DNS enumeration and discovery
+    - Location: `/opt/executables/dnsx`
+    - Usage: DNS enumeration and discovery
 
 - **HTTPx**: HTTP toolkit
-  - Location: `/opt/executables/httpx`
-  - Usage: HTTP probe and analyzer
+    - Location: `/opt/executables/httpx`
+    - Usage: HTTP probe and analyzer
 
 ### Utility Tools
 
 - **YQ**: YAML processor
-  - Location: `/opt/executables/yq`
-  - Usage: YAML/JSON processing
+    - Location: `/opt/executables/yq`
+    - Usage: YAML/JSON processing
 
 - **GRPCurl**: gRPC testing tool
-  - Location: `/opt/executables/grpcurl`
-  - Usage: gRPC API testing
+    - Location: `/opt/executables/grpcurl`
+    - Usage: gRPC API testing
 
 - **Gron**: JSON flattening utility
-  - Location: `/opt/executables/gron`
-  - Usage: Make JSON greppable
+    - Location: `/opt/executables/gron`
+    - Usage: Make JSON greppable
 
 ## Wordlists and Resources
 

@@ -61,22 +61,22 @@ docker buildx build --platform linux/arm64 -t cst-<variant>:local .
 ## Coding Guidelines
 
 - **Dockerfiles**
-   - Use multi-stage builds
-   - Group related installations
-   - Document non-obvious commands
-   - Follow best practices for size optimization
+      - Use multi-stage builds
+      - Group related installations
+      - Document non-obvious commands
+      - Follow best practices for size optimization
 
 - **Documentation**
-   - Use clear, concise language
-   - Prefer short and bulleted information
-   - Keep formatting consistent
-   - Update relevant sections
+      - Use clear, concise language
+      - Prefer short and bulleted information
+      - Keep formatting consistent
+      - Update relevant sections
 
 - **Scripts**
-   - Include shebang line
-   - Add usage comments
-   - Make scripts portable
-   - Include error handling
+      - Include shebang line
+      - Add usage comments
+      - Make scripts portable
+      - Include error handling
 
 ## Pull Request Process
 
