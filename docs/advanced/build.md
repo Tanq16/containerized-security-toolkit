@@ -50,8 +50,7 @@ docker build -t cst-<variant>:local .
 docker builder prune -f
 ```
 
-> [!TIP]
-> Don't forget to cleanup otherwise the builder cache will pile up and really eat up disk space slowly.
+!!! tip "Cleanup" Don't forget to cleanup otherwise the builder cache will pile up and really eat up disk space slowly.
 
 ## Advanced Building
 
@@ -76,5 +75,4 @@ docker buildx build \
 - Use `DEBIAN_FRONTEND="noninteractive"` as the environment variable for `apt` to prevent failures
 - Use `--no-install-recommends` with `apt` to ensure only required packages are installed
 
-> [!IMPORTANT]
-> While a method of reducing size can be to use `alpine` images for the final image, in reality it does not make much of a difference when tools are installed. This is because there are tools like Azure CLI, which take up 2GB alone. Also, using `ubuntu` helps with debugging and maintaining a common environment that most people use.
+!!! danger "Image Name" While a method of reducing size can be to use `alpine` images for the final image, in reality it does not make much of a difference when tools are installed. This is because there are tools like Azure CLI, which take up 2GB alone. Also, using `ubuntu` helps with debugging and maintaining a common environment that most people use.

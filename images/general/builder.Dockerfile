@@ -8,12 +8,6 @@ RUN mkdir /executables && apt update -y && \
     tar -xzf test.tar.gz && \
     mv bin/noseyparker /executables && cd .. && rm -rf testingground
 RUN mkdir /testingground && cd /testingground && \
-    a=$(curl -s https://api.github.com/repos/BloodHoundAD/AzureHound/releases/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "arm64" | cut -d '"' -f4 | grep -v ".sha256") && \
-    b=$(curl -s https://api.github.com/repos/BloodHoundAD/AzureHound/releases/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "amd64" | cut -d '"' -f4 | grep -v ".sha256") && \
-    if [ "$(uname -m)" = "aarch64" ]; then wget "$a" -O test.zip; else wget "$b" -O test.zip; fi && \
-    unzip test.zip && \
-    mv azurehound /executables && cd .. && rm -rf testingground
-RUN mkdir /testingground && cd /testingground && \
     a=$(curl -s https://api.github.com/repos/aquasecurity/trivy/releases/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "arm64" | grep -i "tar.gz" | grep -vE "sig|pem" | cut -d '"' -f4) && \
     b=$(curl -s https://api.github.com/repos/aquasecurity/trivy/releases/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "64bit" | grep -i "tar.gz" | grep -vE "sig|pem" | cut -d '"' -f4) && \
     if [ "$(uname -m)" = "aarch64" ]; then wget "$a" -O test.tar.gz; else wget "$b" -O test.tar.gz; fi && \

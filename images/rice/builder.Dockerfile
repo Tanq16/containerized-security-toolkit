@@ -21,8 +21,8 @@ RUN mkdir /testingground && cd /testingground && \
     if [ "$(uname -m)" = "aarch64" ]; then mv edge-arm64 /executables/edge; else mv edge-amd64 /executables/edge; fi && \
     cd .. && rm -rf testingground
 RUN mkdir /testingground && cd /testingground && \
-    a=$(curl -s https://api.github.com/repos/BloodHoundAD/AzureHound/releases/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "arm64" | cut -d '"' -f4 | grep -v ".sha256") && \
-    b=$(curl -s https://api.github.com/repos/BloodHoundAD/AzureHound/releases/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "amd64" | cut -d '"' -f4 | grep -v ".sha256") && \
+    a=$(curl -s https://api.github.com/repos/SpecterOps/AzureHound/releases/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "arm64" | cut -d '"' -f4 | grep -v ".sha256") && \
+    b=$(curl -s https://api.github.com/repos/SpecterOps/AzureHound/releases/latest | grep -E "browser_download_url.*" | grep -i "linux" | grep -i "amd64" | cut -d '"' -f4 | grep -v ".sha256") && \
     if [ "$(uname -m)" = "aarch64" ]; then wget "$a" -O test.zip; else wget "$b" -O test.zip; fi && \
     unzip test.zip && \
     mv azurehound /executables && cd .. && rm -rf testingground

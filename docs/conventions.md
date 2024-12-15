@@ -44,10 +44,10 @@ Standard environment details used across variants:
 - Mount point: `/persist/`
 - Recommended host location: `$HOME/docker_work/`
 - Used for:
-   - Project files
-   - Configuration files
-   - Shell history
-   - Tool configurations
+      - Project files
+      - Configuration files
+      - Shell history
+      - Tool configurations
 
 ## SSH Configuration
 
