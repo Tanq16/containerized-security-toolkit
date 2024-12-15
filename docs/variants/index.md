@@ -6,10 +6,10 @@ The Containerized Security Toolkit provides purpose-built variants for different
 
 Choose your variant based on primary use case:
 
-- **General**: Basic security operations or base for custom images
+- **General**: Basic security operations or as a base for building custom images
 - **Cloud**: Cloud security assessments and operations
-- **Dev**: Security tool and application development
-- **Netsec**: Network security testing and monitoring
-- **Rice**: Enhanced productivity for daily security work
+- **Dev**: Security tools and application development (`WIP`)
+- **Netsec**: Network security testing and monitoring (`WIP`)
+- **Rice**: All round security operations with [CLI Productivity Suite](https://github.com/tanq16/cli-productivity-suite) for shell interface
 
 Each variant follows CST's core conventions while providing specialized capabilities for its target use case.

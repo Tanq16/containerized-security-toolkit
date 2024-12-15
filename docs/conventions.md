@@ -8,10 +8,9 @@ This document outlines the standard conventions used across all CST variants.
 /
 ├── opt/
 │   ├── executables/    # Binary tools and utilities
-│   ├── tools/          # Tool-specific directories
-│   └── pyenv/         # Python virtual environment
-├── persist/           # Mount point for persistent storage
-└── root/             # User home directory
+│   └── pyenv/          # Python virtual environment
+├── persist/            # Mount point for persistent storage
+└── root/               # User home directory
 ```
 
 ## Port Mapping Conventions
@@ -22,6 +21,9 @@ When exposing ports from the container, follow these conventions:
 - HTTP: `50080` (host) → `80` (container)
 - HTTPS: `50443` (host) → `443` (container)
 - Dynamic Ports: Start at `50000` + original port
+- Dynamic Port Forward: always use `65500`
+
+These conventions are generally only needed if you're adding new port publish arguments using the `-p` flag to the start command. Otherwise, it's easiest to use SSH dynamic port forwarding. Refer to the [example workflow](advanced/workflow.md) for more details.
 
 ## Environment Variables
 

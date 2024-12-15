@@ -12,15 +12,30 @@ For getting started quickly, visit the [Getting Started Guide](getting-started.m
 
 - **General**: Core security tools and utilities for general security operations
 - **Cloud**: Specialized for cloud security assessments and operations
-- **Dev**: Development environment with security tools (Python, Go, Node.js) - WIP
-- **Netsec**: Network security assessment and monitoring tools - WIP
-- **Rice**: Enhanced version of General with CLI Productivity Suite
+- **Dev**: Development environment with security tools (Python, Go, Node.js) - `Still a WIP`
+- **Netsec**: Network security assessment and monitoring tools - `Still a WIP`
+- **Rice**: Enhanced version of General with [CLI Productivity Suite](https://github.com/tanq16/cli-productivity-suite)
 
 Each variant is available for both x86_64 and ARM64 architectures:
 
 ```
 tanq16/cst-<variant>:amd  # For x86_64 systems
 tanq16/cst-<variant>:arm  # For ARM64 systems (Apple Silicon, etc.)
+```
+
+## Quick Start
+
+Get started with the General variant in seconds:
+
+```bash
+# Create persistence directory
+mkdir -p $HOME/docker_work/
+
+# Run container (use general-arm for ARM64 systems)
+docker run --name="cst_general" \
+  -v $HOME/docker_work/:/persist \
+  --rm -it tanq16/cst-general:amd \
+  /bin/bash
 ```
 
 ## Key Features
@@ -34,6 +49,9 @@ tanq16/cst-<variant>:arm  # For ARM64 systems (Apple Silicon, etc.)
 
 ## Quick Reference
 
-- **Documentation**: [https://tanishq.page/containerized-security-toolkit](https://tanishq.page/containerized-security-toolkit)
-- **Docker Hub**: [https://hub.docker.com/r/tanq16/cst](https://hub.docker.com/r/tanq16/cst)
-- **Source Code**: [https://github.com/tanq16/containerized-security-toolkit](https://github.com/tanq16/containerized-security-toolkit)
+- **[Documentation](https://tanishq.page/containerized-security-toolkit)**
+- **[Docker Hub - CST General](https://hub.docker.com/r/tanq16/cst-general)**
+- **[Docker Hub - CST Cloud](https://hub.docker.com/r/tanq16/cst-cloud)**
+- **[Docker Hub - CST Rice](https://hub.docker.com/r/tanq16/cst-rice)**
+- **[Docker Hub - Legacy CST](https://hub.docker.com/r/tanq16/sec_docker)**
+- **[Source Code](https://github.com/tanq16/containerized-security-toolkit)**

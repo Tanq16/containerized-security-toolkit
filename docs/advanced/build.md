@@ -1,31 +1,45 @@
 # DIY Build Guide
 
-The CST images can be customized and built locally. This guide explains the build process and customization options.
+This guide details how to build custom images for specific purposes. The main idea is to use the `cst-general` image Dockerfiles as base and add tool and services onto it for custom operations.
 
 ## Basic Build Process
 
 CST uses a multi-stage build process for efficient image creation:
 
-1. **Builder Stage**
+1. **Builder Stage**: This stage builds or downloads tools. It is primarily meant for tools that are installed as executables, such as `go` installs or executable downloads. Often it would require multiple images being used in a multi-stage build to store executables inside an alpine image to copy to the main stage later. Example:
    ```dockerfile
    FROM ubuntu:jammy AS executable_builder
    # Tool compilation and binary creation
+
+   FROM golang as go_builder
+   # Go installs
+
+   FROM alpine
+   COPY --from=go_builder /executables/* /executables/
+   COPY --from=executable_builder /executables/* /executables/
    ```
 
-2. **Final Stage**
+2. **Final Stage**: This uses the resulting image from the builder stage to copy artifacts into the main Dockerfile to produce the final image. This also includes non-binary installs (such as Tmux or `apt` installs). Example:
    ```dockerfile
+   FROM intermediate_builder as intermediate_builder
+
    FROM ubuntu:jammy
    # System setup and tool installation
+
+   COPY --from=intermediate_builder /executables /opt/executables
+   RUN chown -R root:root /opt/executables && chmod 755 /opt/executables/*
    ```
 
-### Building Images
-
-Basic build commands:
+Now, to build a custom image, create a new variant directory as follows:
 
 ```bash
-# Change to variant directory
-cd images/<variant>
+cp -r images/general images/myvariant && \
+cd images/myvariant
+```
 
+Then modify the two Dockerfiles, based on the details mentioned earlier. After that, you can build as follows:
+
+```bash
 # Build intermediate layer
 docker build -f builder.Dockerfile -t intermediate_builder .
 
@@ -36,44 +50,8 @@ docker build -t cst-<variant>:local .
 docker builder prune -f
 ```
 
-## Customization Options
-
-### Adding New Tools
-
-1. **Builder Stage Modifications**
-   ```dockerfile
-   # In builder.Dockerfile
-   RUN go install github.com/your/tool@latest && \
-       mv /go/bin/tool /executables/
-   ```
-
-2. **Final Stage Additions**
-   ```dockerfile
-   # In Dockerfile
-   RUN apt-get update && apt-get install -y \
-       your-additional-package
-
-   # Add custom scripts
-   COPY ./scripts/custom.sh /opt/scripts/
-   ```
-
-### Creating New Variants
-
-1. Create new variant directory:
-   ```bash
-   mkdir -p images/custom
-   cp images/general/* images/custom/
-   ```
-
-2. Modify Dockerfiles for specific needs:
-   ```dockerfile
-   # Add specialized tools
-   RUN apt-get update && apt-get install -y \
-       specialized-package
-
-   # Add custom configurations
-   COPY configs/ /etc/custom/
-   ```
+> [!TIP]
+> Don't forget to cleanup otherwise the builder cache will pile up and really eat up disk space slowly.
 
 ## Advanced Building
 
@@ -93,64 +71,10 @@ docker buildx build \
 
 ### Optimization Techniques
 
-1. **Layer Optimization**
-   ```dockerfile
-   # Combine related operations
-   RUN apt-get update && \
-       apt-get install -y \
-       package1 \
-       package2 && \
-       apt-get clean && \
-       rm -rf /var/lib/apt/lists/*
-   ```
+- A multi-stage build itself reduces size significantly
+- When cloning repositories with `git`, use `--depth=1` to save `.git` space
+- Use `DEBIAN_FRONTEND="noninteractive"` as the environment variable for `apt` to prevent failures
+- Use `--no-install-recommends` with `apt` to ensure only required packages are installed
 
-2. **Size Reduction**
-   ```dockerfile
-   # Use multi-stage builds
-   FROM build-image AS builder
-   # Build tools
-   
-   FROM runtime-image
-   # Copy only necessary files
-   COPY --from=builder /app/binary /usr/local/bin/
-   ```
-
-## Testing Builds
-
-1. **Basic Testing**
-   ```bash
-   # Build test image
-   docker build -t cst-test .
-   
-   # Run basic tests
-   docker run --rm cst-test which tool1 tool2 tool3
-   ```
-
-2. **Feature Testing**
-   ```bash
-   # Test specific features
-   docker run --rm cst-test \
-       bash -c "tool --version && tool --help"
-   ```
-
-## Best Practices
-
-- **Version Control**
-      - Tag images with version numbers
-      - Document changes in changelog
-      - Use semantic versioning
-
-- **Documentation**
-      - Update tool lists
-      - Document new features
-      - Include usage examples
-
-- **Security**
-      - Scan images for vulnerabilities
-      - Update base images regularly
-      - Follow security best practices
-
-- **Maintenance**
-      - Regular dependency updates
-      - Version compatibility checks
-      - Performance optimization
+> [!IMPORTANT]
+> While a method of reducing size can be to use `alpine` images for the final image, in reality it does not make much of a difference when tools are installed. This is because there are tools like Azure CLI, which take up 2GB alone. Also, using `ubuntu` helps with debugging and maintaining a common environment that most people use.
