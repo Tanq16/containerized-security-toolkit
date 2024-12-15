@@ -75,7 +75,6 @@ nav:
     - Rice: tools/rice-tools.md
   - Advanced:
     - Shell Shortcuts: advanced/shortcuts.md
-    - SSH & TMUX: advanced/ssh-tmux.md
     - DIY Build: advanced/build.md
     - Example Workflow: advanced/workflow.md
 
