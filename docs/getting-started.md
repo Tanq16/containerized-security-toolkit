@@ -72,7 +72,8 @@ alias sshide='ssh -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null
 
 Restart or respawn your shell after saving to ensure the new commands are available.
 
-!!! tip "Disk Space Consideration" Remember the `--rm` flag is necessary to delete the container after stopping it. This is very important because usual work can cause the container's ephemeral filesystem to become as large as 1GB or more. If the containers aren't automatically removed, it can eat up disk space rapidly.
+!!! tip "Disk Space Consideration"
+    Remember the `--rm` flag is necessary to delete the container after stopping it. This is very important because usual work can cause the container's ephemeral filesystem to become as large as 1GB or more. If the containers aren't automatically removed, it can eat up disk space rapidly.
 
 ### Using SSH for Access
 
