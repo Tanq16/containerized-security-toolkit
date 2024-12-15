@@ -4,7 +4,7 @@ The CST environment can be enhanced with shell functions that streamline contain
 
 ## Core Container Management
 
-The following shell functions handle container lifecycle management. Add these to your shell's RC file (`.bashrc`, `.zshrc`, etc.):
+As mentioned in [Getting Started](../getting-started.md), the following shell functions handle container lifecycle management. Add these to your shell's RC file (`.bashrc`, `.zshrc`, etc.):
 
 ```bash
 start_cst() {
@@ -22,7 +22,7 @@ start_cst() {
     # Generate and set SSH password
     new_pass=$(cat /dev/random | head -c 20 | base64 | tr -d '=+/')
     echo "Password: $new_pass"
-    echo $new_pass > current_docker_password
+    echo $new_pass > $HOME/.cst-pw
     docker exec -e newpp="$new_pass" cst_${variant} bash -c 'echo "root:$(printenv newpp)" | chpasswd'
 }
 
@@ -32,15 +32,20 @@ stop_cst() {
     docker cp cst_${variant}:/root/.bash_history $HOME/docker_work/.bash_history 2>/dev/null
     docker stop cst_${variant} -t 0
 }
+
+# SSH alias without known host file write
+alias sshide='ssh -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null"'
 ```
 
 These functions provide:
 
 - Automatic architecture detection (ARM/AMD)
-- Command history persistence
-- SSH access with random password generation
-- Flexible port mapping
-- Volume mounting for persistence
+- The first argument to the `start_cst` function will be the variant name
+- Command history is automatically copied on container start and stop to ensure persistence
+- SSH server is enabled with access to a random password stored in `$HOME/.cst-pw`
+- Additional parameters possible due to `${@:2}`, where you can specify arguments from second argument onwards
+- Additional arguments can be new port mappings or volume mounts, etc.
+- A default volume in `$HOME/docker_work` is already mounted for persistence
 
 ## Enhanced Access Functions
 
@@ -61,15 +66,6 @@ ssh_cst() {
         -D 65500 \
         root@localhost -p 50022
 }
-
-port_cst() {
-    # Add port mapping to running container
-    variant=${1:-general}
-    host_port=$2
-    container_port=$3
-    docker exec cst_${variant} \
-    iptables -t nat -A DOCKER -p tcp --dport $container_port -j DNAT --to-destination :$host_port
-}
 ```
 
 ## Usage Examples
@@ -89,7 +85,7 @@ ssh_cst cloud
 Adding port mapping to a running container:
 
 ```bash
-port_cst general 8080 80
+connect_cst general
 ```
 
 ## Advanced Configuration Tips
@@ -130,35 +126,23 @@ start_cst_enhanced() {
 
 ## Best Practices
 
-1. **Resource Management**
-   Create cleanup functions for maintenance:
+1. **Resource Management**: Create cleanup functions for maintenance
    ```bash
    cleanup_cst() {
        docker ps -a | grep 'cst_' | awk '{print $1}' | xargs docker stop
        docker container prune -f
    }
    ```
-
-2. **Development Workflow**
-   Mount development directories:
+2. **Network Security**: Use SSH dynamic port forwarding for securely accessing container-internal services
    ```bash
-   start_cst dev \
-   -v ~/projects:/persist/projects \
-   -v ~/.gitconfig:/root/.gitconfig
+   sshide -D 65500 root@localhost -p 50022
    ```
 
-3. **Network Security**
-   Use SSH dynamic port forwarding for securely accessing container-internal services:
-   ```bash
-   ssh -D 65500 root@localhost -p 50022
-   ```
-
-4. **Data Persistence**
-   Structure your persistent storage:
+3. **Data Persistence**: Structure your persistent storage
    ```
    docker_work/
    ├── projects/
-   ├── .aws/
    ├── .bash_history
-   └── configs/
+   ├── configs/
+   └── run.sh
    ```

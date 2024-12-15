@@ -16,10 +16,7 @@ Thank you for your interest in contributing to the Containerized Security Toolki
 
 ## Development Environment
 
-1. Install prerequisites:
-   - Docker
-   - Docker Buildx (if working cross-platform)
-
+1. Install prerequisites: Docker & Docker Buildx (if working cross-platform)
 2. Install documentation dependencies:
    ```bash
    pip install mkdocs-material
@@ -62,7 +59,7 @@ docker buildx build --platform linux/arm64 -t cst-<variant>:local .
 
 - **Dockerfiles**
       - Use multi-stage builds
-      - Group related installations
+      - `builder.Dockerfile` should contain `go` installs and release downloads
       - Document non-obvious commands
       - Follow best practices for size optimization
 
@@ -70,44 +67,31 @@ docker buildx build --platform linux/arm64 -t cst-<variant>:local .
       - Use clear, concise language
       - Prefer short and bulleted information
       - Keep formatting consistent
-      - Update relevant sections
+      - Update relevant sections only
 
 - **Scripts**
-      - Include shebang line
-      - Add usage comments
-      - Make scripts portable
-      - Include error handling
+      - Add usage comments where applicable
+      - Name them `<variant>-<action>.sh`
 
 ## Pull Request Process
 
 1. Update documentation for new features
-2. Ensure all tests pass
-3. Create succint PR description
-4. Link relevant issues (if any)
+2. Create succint PR description
+3. Link relevant issues (if any)
 
-## Testing
-
-Before submitting a PR:
+Before submitting the PR:
 
 1. Build images locally
 2. Test basic functionality
 3. Verify installed tools work
-4. Verify documentation changes
-
-## Documentation
-
-When adding or modifying features:
-
-1. Update relevant documentation
-2. Add examples if appropriate
-3. Document any breaking changes
+4. Add examples to documentation if appropriate
+5. Explicitly state any breaking changes in PR
 
 ## Questions?
 
-- Open an issue for discussion
-- Contact maintainers
-- Check existing documentation
+- Open an issue
+- Check documentation
 
 ## License
 
-By contributing, you agree that your contributions will be licensed under the MIT License.
+Your contributions will be licensed under the MIT License.
