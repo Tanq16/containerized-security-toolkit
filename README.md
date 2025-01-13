@@ -9,7 +9,7 @@
 <p align="center">
   <a href="https://hub.docker.com/r/tanq16/sec_docker"><img src="https://img.shields.io/docker/pulls/tanq16/sec_docker?style=flat"></a><a href="https://hub.docker.com/r/tanq16/cst-rice"><img src="https://img.shields.io/docker/pulls/tanq16/cst-rice?style=flat"></a><a href="https://hub.docker.com/r/tanq16/cst-cloud"><img src="https://img.shields.io/docker/pulls/tanq16/cst-cloud?style=flat"></a><a href="https://hub.docker.com/r/tanq16/cst-general"><img src="https://img.shields.io/docker/pulls/tanq16/cst-general?style=flat"></a>
   <br>
-  <a href="https://tanishq.page/containerized-security-toolkit">Documentation</a> • <a href="https://hub.docker.com/r/tanq16/">Docker Hub (User)</a>
+  <a href="https://tanishq.page/containerized-security-toolkit"><img alt="Static Badge" src="https://img.shields.io/badge/Documentation"></a> • <a href="https://hub.docker.com/r/tanq16/"><img alt="Static Badge" src="https://img.shields.io/badge/DockerHub%20(User)"></a>
   <br>
   <a href="https://github.com/tanq16/containerized-security-toolkit/releases"><img src="https://img.shields.io/github/v/release/tanq16/containerized-security-toolkit?include_prereleases&style=flat"></a><a href="https://github.com/tanq16/containerized-security-toolkit/blob/main/LICENSE"><img src="https://img.shields.io/github/license/tanq16/containerized-security-toolkit?style=flat"></a><a href=""><img src="https://img.shields.io/github/stars/tanq16/containerized-security-toolkit?style=flat"></a>
 </p>
@@ -30,8 +30,8 @@ The Containerized Security Toolkit (CST) provides a comprehensive suite of Docke
 
 - **General** (`tanq16/cst-general:*`): Core security tools and utilities for general security operations
 - **Cloud** (`tanq16/cst-cloud:*`): Specialized for cloud security assessments and operations
-- **Dev** (`tanq16/cst-dev:*`): Development environment with security tools (Python, Go, Node.js) - `WIP`
-- **Netsec** (`tanq16/cst-netsec:*`): Network security assessment and monitoring tools - `WIP`
+- **Dev** (`tanq16/cst-dev:*`): Development environment with security tools (Python, Go, Node.js) - ***`WIP`***
+- **Netsec** (`tanq16/cst-netsec:*`): Network security assessment and monitoring tools - ***`WIP`***
 - **Rice** (`tanq16/cst-rice:*`): Enhanced version of General with [CLI Productivity Suite](https://github.com/Tanq16/cli-productivity-suite)
 
 Each variant is available for both x86_64 and ARM64 architectures:
@@ -58,7 +58,8 @@ docker run --name="cst_general" \
 
 For advanced usage patterns, variant-specific guides, and comprehensive documentation:
 - 📚 [Full Documentation](https://tanishq.page/containerized-security-toolkit)
-- 🚀 [Advanced Workflows](https://tanishq.page/containerized-security-toolkit/advanced/shortcuts)
+- 🚀 [Shell Shortcuts](https://tanishq.page/containerized-security-toolkit/advanced/shortcuts/)
+- 🚀 [Advanced Workflow](https://tanishq.page/containerized-security-toolkit/advanced/workflow/)
 - 🔧 [Tool Lists](https://tanishq.page/containerized-security-toolkit/tools/general-tools)
 
 ## Key Features
@@ -72,7 +73,7 @@ For advanced usage patterns, variant-specific guides, and comprehensive document
 
 ## Contributing
 
-Check out [contribution guidelines](https://tanishq.page/containerized-security-toolkit/home/contributing) for details on how to submit changes.
+Check out [contribution guidelines](https://tanishq.page/containerized-security-toolkit/contributing/) for details on how to submit changes.
 
 ## License
 

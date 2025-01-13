@@ -41,14 +41,14 @@ Create the persistence directory as shown above. Then, add these functions and a
 ```bash
 # Start Container
 start_cst() {
-    # First argument is the variant name, defaulting to 'general'
+    # Tkes in an argument is the variant name, defaulting to 'general'
     variant=${1:-general}
     arch=$(uname -m | grep -q "aarch64" && echo "arm" || echo "amd")
     
     # Run container with SSH enabled and history persistence
     docker run --name="cst_${variant}" --rm -d \
     -v $HOME/docker_work/:/persist \
-    -p 50022:22 ${@:2} \
+    -p 50022:22 \
     -it tanq16/cst-${variant}:${arch} \
     bash -c "service ssh start; cp /persist/.bash_history /root/.bash_history 2>/dev/null; tail -f /dev/null"
     
@@ -74,6 +74,9 @@ Restart or respawn your shell after saving to ensure the new commands are availa
 
 !!! tip "Disk Space Consideration"
     Remember the `--rm` flag is necessary to delete the container after stopping it. This is very important because usual work can cause the container's ephemeral filesystem to become as large as 1GB or more. If the containers aren't automatically removed, it can eat up disk space rapidly.
+
+!!! note "For the rice variant"
+    The `rice` variant uses `zsh` by default, so the functions should be edited to maintain the `.zsh_history` file instead of `.bash_history`.
 
 ### Using SSH for Access
 

@@ -15,7 +15,7 @@ start_cst() {
     # Run container with SSH enabled and history persistence
     docker run --name="cst_${variant}" --rm -d \
     -v $HOME/docker_work/:/persist \
-    -p 50022:22 ${@:2} \
+    -p 50022:22 \
     -it tanq16/cst-${variant}:${arch} \
     bash -c "service ssh start; cp /persist/.bash_history /root/.bash_history 2>/dev/null; tail -f /dev/null"
     
@@ -43,8 +43,6 @@ These functions provide:
 - The first argument to the `start_cst` function will be the variant name
 - Command history is automatically copied on container start and stop to ensure persistence
 - SSH server is enabled with access to a random password stored in `$HOME/.cst-pw`
-- Additional parameters possible due to `${@:2}`, where you can specify arguments from second argument onwards
-- Additional arguments can be new port mappings or volume mounts, etc.
 - A default volume in `$HOME/docker_work` is already mounted for persistence
 
 ## Enhanced Access Functions
@@ -73,7 +71,7 @@ ssh_cst() {
 Starting a Cloud variant container with extra port mapping:
 
 ```bash
-start_cst cloud -p 50080:80 -p 50443:443
+start_cst cloud
 ```
 
 Accessing the container via SSH with dynamic port forwarding:
@@ -86,42 +84,6 @@ Adding port mapping to a running container:
 
 ```bash
 connect_cst general
-```
-
-## Advanced Configuration Tips
-
-### Persistent Configurations
-
-Create a `.cst_config` file in your home directory:
-
-```bash
-# ~/.cst_config
-CST_PERSIST_DIR="$HOME/docker_work"
-CST_DEFAULT_PORTS="-p 50080:80 -p 50443:443"
-CST_EXTRA_MOUNTS="-v $HOME/.aws:/root/.aws"
-
-# Source this in your shell RC file
-if [ -f ~/.cst_config ]; then
-    source ~/.cst_config
-fi
-```
-
-### Shell Function Enhancements
-
-Extended start function with configurations:
-
-```bash
-start_cst_enhanced() {
-    variant=${1:-general}
-    docker run --name="cst_${variant}" --rm -d \
-    -v "${CST_PERSIST_DIR:-$HOME/docker_work}":/persist \
-    -p 50022:22 \
-    ${CST_DEFAULT_PORTS} \
-    ${CST_EXTRA_MOUNTS} \
-    ${@:2} \
-    -it tanq16/cst-${variant}:${arch} \
-    bash -c "service ssh start && tail -f /dev/null"
-}
 ```
 
 ## Best Practices

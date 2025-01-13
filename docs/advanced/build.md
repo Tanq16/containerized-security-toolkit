@@ -76,5 +76,5 @@ docker buildx build \
 - Use `DEBIAN_FRONTEND="noninteractive"` as the environment variable for `apt` to prevent failures
 - Use `--no-install-recommends` with `apt` to ensure only required packages are installed
 
-!!! danger "Image Name"
-    While a method of reducing size can be to use `alpine` images for the final image, in reality it does not make much of a difference when tools are installed. This is because there are tools like Azure CLI, which take up 2GB alone. Also, using `ubuntu` helps with debugging and maintaining a common environment that most people use.
+!!! danger "Base Image"
+    The base image being used is the `ubuntu:jammy` image. While a method of reducing size can be to use `alpine` images for the final image, in reality it does not make much of a difference with tools installed; essentially 250+ MB vs 15+ MB doesn't matter when the final images are sized in giga bytes. This is because there are tools like Azure CLI, which take up 2GB alone. Also, the `jammy` variant is being used for better overall stability. This may change in the future as needed. Also, using `ubuntu` helps with debugging and maintaining a common environment that most people use and have the best online support for.

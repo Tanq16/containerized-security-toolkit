@@ -83,6 +83,10 @@ RUN go install github.com/projectdiscovery/cloudlist/cmd/cloudlist@latest && \
     mv /go/bin/cloudlist /executables
 RUN git clone --depth=1 https://github.com/hashicorp/terraform.git && \
     cd terraform && go get && go build && mv terraform /executables
+RUN go install github.com/tanq16/ai-context@latest && \
+    mv /go/bin/ai-context /executables
+RUN go install github.com/tanq16/nottif@latest && \
+    mv /go/bin/nottif /executables
 
 FROM alpine
 RUN mkdir /executables/

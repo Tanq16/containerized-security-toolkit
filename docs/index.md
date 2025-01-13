@@ -20,7 +20,7 @@ Each variant is available for both x86_64 and ARM64 architectures:
 
 ```
 tanq16/cst-<variant>:amd  # For x86_64 systems
-tanq16/cst-<variant>:arm  # For ARM64 systems (Apple Silicon, etc.)
+tanq16/cst-<variant>:arm  # For ARM64 systems (incl. Apple Silicon, etc.)
 ```
 
 ## Quick Start
@@ -31,7 +31,7 @@ Get started with the General variant in seconds:
 # Create persistence directory
 mkdir -p $HOME/docker_work/
 
-# Run container (use general-arm for ARM64 systems)
+# Run container (use cst-general:arm for ARM64 systems)
 docker run --name="cst_general" \
   -v $HOME/docker_work/:/persist \
   --rm -it tanq16/cst-general:amd \
