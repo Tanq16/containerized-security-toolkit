@@ -9,7 +9,7 @@
 <p align="center">
   <a href="https://hub.docker.com/r/tanq16/sec_docker"><img src="https://img.shields.io/docker/pulls/tanq16/sec_docker?style=flat"></a><a href="https://hub.docker.com/r/tanq16/cst-rice"><img src="https://img.shields.io/docker/pulls/tanq16/cst-rice?style=flat"></a><a href="https://hub.docker.com/r/tanq16/cst-cloud"><img src="https://img.shields.io/docker/pulls/tanq16/cst-cloud?style=flat"></a><a href="https://hub.docker.com/r/tanq16/cst-general"><img src="https://img.shields.io/docker/pulls/tanq16/cst-general?style=flat"></a>
   <br>
-  <a href="https://tanishq.page/containerized-security-toolkit"><img alt="Static Badge" src="https://img.shields.io/badge/Documentation"></a> • <a href="https://hub.docker.com/r/tanq16/"><img alt="Static Badge" src="https://img.shields.io/badge/DockerHub%20(User)"></a>
+  <a href="https://tanishq.page/containerized-security-toolkit"><img alt="Static Badge" src="https://img.shields.io/badge/-Documentation-blue"></a> • <a href="https://hub.docker.com/r/tanq16/"><img alt="Static Badge" src="https://img.shields.io/badge/-DockerHub%20(User)-blue"></a>
   <br>
   <a href="https://github.com/tanq16/containerized-security-toolkit/releases"><img src="https://img.shields.io/github/v/release/tanq16/containerized-security-toolkit?include_prereleases&style=flat"></a><a href="https://github.com/tanq16/containerized-security-toolkit/blob/main/LICENSE"><img src="https://img.shields.io/github/license/tanq16/containerized-security-toolkit?style=flat"></a><a href=""><img src="https://img.shields.io/github/stars/tanq16/containerized-security-toolkit?style=flat"></a>
 </p>
