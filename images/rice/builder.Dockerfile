@@ -5,7 +5,7 @@ RUN mkdir /executables && apt update -y && \
     tar -xvf stable.tar.gz && cd neovim-stable && \
     make CMAKE_BUILD_TYPE=RelWithDebInfo && \
     cd build && cpack -G DEB && \
-    mv nvim-linux64.deb /
+    if [ "$(uname -m)" = "aarch64" ]; then mv nvim-linux-arm64.deb /nvim-linux64.deb; else mv nvim-linux-x86_64.deb /nvim-linux64.deb; fi
 
 RUN mkdir /testingground && cd /testingground && \
     a=$(curl -s https://api.github.com/repos/praetorian-inc/noseyparker/releases/latest | grep -E "browser_download_url.*" | grep -i "linux-gnu" | grep -i "aarch64" | cut -d '"' -f4) && \
