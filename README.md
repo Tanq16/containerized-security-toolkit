@@ -11,18 +11,10 @@
   <br>
   <a href="https://tanishq.page/containerized-security-toolkit"><img alt="Static Badge" src="https://img.shields.io/badge/-Documentation-blue"></a> • <a href="https://hub.docker.com/r/tanq16/"><img alt="Static Badge" src="https://img.shields.io/badge/-DockerHub%20(User)-blue"></a>
   <br>
-  <a href="https://github.com/tanq16/containerized-security-toolkit/releases"><img src="https://img.shields.io/github/v/release/tanq16/containerized-security-toolkit?include_prereleases&style=flat"></a><a href="https://github.com/tanq16/containerized-security-toolkit/blob/main/LICENSE"><img src="https://img.shields.io/github/license/tanq16/containerized-security-toolkit?style=flat"></a><a href=""><img src="https://img.shields.io/github/stars/tanq16/containerized-security-toolkit?style=flat"></a>
+  <a href="https://github.com/tanq16/containerized-security-toolkit/releases"><img src="https://img.shields.io/github/v/release/tanq16/containerized-security-toolkit?include_prereleases&style=flat"></a><a href="https://github.com/tanq16/containerized-security-toolkit/blob/main/LICENSE"><img src="https://img.shields.io/github/license/tanq16/containerized-security-toolkit?style=flat"></a><a href="https://github.com/tanq16/containerized-security-toolkit/actions/workflows/image-build.yml"><img src="https://github.com/tanq16/containerized-security-toolkit/actions/workflows/image-build.yml/badge.svg" alt="Build"></a>
 </p>
 
 <h3 align="center">A comprehensive suite of containerized security toolkits for various security operations</h3>
-
-<p align="center">
-  <b>Build Status:</b><br>
-  <a href="https://github.com/tanq16/containerized-security-toolkit/actions/workflows/general-build.yml"><img src="https://github.com/tanq16/containerized-security-toolkit/actions/workflows/general-build.yml/badge.svg" alt="General Build"></a><a href="https://github.com/tanq16/containerized-security-toolkit/actions/workflows/cloud-build.yml"><img src="https://github.com/tanq16/containerized-security-toolkit/actions/workflows/cloud-build.yml/badge.svg" alt="Cloud Build"></a><a href="https://github.com/tanq16/containerized-security-toolkit/actions/workflows/rice-build.yml"><img src="https://github.com/tanq16/containerized-security-toolkit/actions/workflows/rice-build.yml/badge.svg" alt="Rice Build"></a>
-  <br>
-  <a href="https://dl.circleci.com/status-badge/redirect/circleci/YPqXqLMjjXxLwPP9TvpyFc/W1CQsWfrfu4rKFiytoHbs9/tree/main"><img src="https://dl.circleci.com/status-badge/img/circleci/YPqXqLMjjXxLwPP9TvpyFc/W1CQsWfrfu4rKFiytoHbs9/tree/main.svg?style=svg"></a><br>
-  (All ARM images build through CCI until ARM GHA runners are available)
-</p>
 
 ## Overview
 

@@ -1,0 +1,66 @@
+name: CST Builds
+
+on:
+  push:
+    branches:
+      - 'main'
+  workflow_dispatch:
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        include:
+          # CST General
+          - project: general
+            folder: images/general
+            image: tanq16/cst-general
+            tag: amd
+            runs_on: ubuntu-latest
+          - project: general
+            folder: images/general
+            image: tanq16/cst-general
+            tag: arm
+            runs_on: ubuntu-24.04-arm
+          # CST Cloud
+          - project: cloud
+            folder: images/cloud
+            image: tanq16/cst-cloud
+            tag: amd
+            runs_on: ubuntu-latest
+          - project: cloud
+            folder: images/cloud
+            image: tanq16/cst-cloud
+            tag: arm
+            runs_on: ubuntu-latest
+          # CST Rice
+          - project: rice
+            folder: images/rice
+            image: tanq16/cst-rice
+            tag: amd
+            runs_on: ubuntu-latest
+          - project: rice
+            folder: images/rice
+            image: tanq16/cst-rice
+            tag: arm
+            runs_on: ubuntu-latest
+    runs-on: ${{ matrix.runs_on }}
+    env:
+      DOCKER_BUILDKIT: '1'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Docker Login
+        uses: docker/login-action@v3
+        with:
+          username: tanq16
+          password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
+
+      - name: Build and Push Image for ${{ matrix.project }} ({{ matrix.tag }})
+        run: |
+          cd ${{ matrix.folder }}
+          docker build -f builder.Dockerfile -t intermediate_builder .
+          docker builder prune -f
+          docker build -f Dockerfile -t ${{ matrix.image }}:${{ matrix.tag }} .
+          docker push ${{ matrix.image }}:${{ matrix.tag }}

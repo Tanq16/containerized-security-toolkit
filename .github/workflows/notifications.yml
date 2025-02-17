@@ -7,7 +7,7 @@ on:
   issue_comment:
     types: [created]
   workflow_run:
-    workflows: ["CST Rice", "CST Cloud", "CST General", "Deploy Documentation"]
+    workflows: ["CST Builds", "Deploy Documentation"]
     types: [completed]
   pull_request:
     types: [opened, closed, edited, review_requested]
