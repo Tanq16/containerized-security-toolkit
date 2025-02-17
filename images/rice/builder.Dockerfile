@@ -1,6 +1,6 @@
 FROM ubuntu:jammy AS executable_builder
 RUN mkdir /executables && apt update -y && \
-    apt install -y wget ninja-build gettext cmake unzip curl git file && \
+    apt install -y wget unzip curl git file && \
     wget https://github.com/neovim/neovim/archive/refs/tags/stable.tar.gz && \
     tar -xvf stable.tar.gz && cd neovim-stable && \
     make CMAKE_BUILD_TYPE=RelWithDebInfo && \
@@ -39,8 +39,8 @@ RUN go install github.com/OJ/gobuster/v3@latest && \
     mv /go/bin/gobuster /executables
 RUN go install github.com/insidersec/insider/cmd/insider@latest && \
     mv /go/bin/insider /executables
-RUN go install github.com/Shopify/kubeaudit/cmd@latest && \
-    mv /go/bin/cmd /executables/kubeaudit
+RUN go install go install github.com/aquasecurity/kube-bench@latest && \
+    mv /go/bin/kube-bench /executables
 RUN go install github.com/praetorian-inc/fingerprintx/cmd/fingerprintx@latest && \
     mv /go/bin/fingerprintx /executables
 RUN go install -v github.com/owasp-amass/amass/v4/...@master && \
@@ -87,6 +87,8 @@ RUN go install github.com/tanq16/ai-context@latest && \
     mv /go/bin/ai-context /executables
 RUN go install github.com/tanq16/nottif@latest && \
     mv /go/bin/nottif /executables
+RUN go install github.com/tanq16/ai-context@latest && \
+    mv /go/bin/ai-context /executables
 
 FROM alpine
 RUN mkdir /executables/

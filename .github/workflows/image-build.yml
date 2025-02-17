@@ -32,7 +32,7 @@ jobs:
             folder: images/cloud
             image: tanq16/cst-cloud
             tag: arm
-            runs_on: ubuntu-latest
+            runs_on: ubuntu-24.04-arm
           # CST Rice
           - project: rice
             folder: images/rice
@@ -43,7 +43,7 @@ jobs:
             folder: images/rice
             image: tanq16/cst-rice
             tag: arm
-            runs_on: ubuntu-latest
+            runs_on: ubuntu-24.04-arm
     runs-on: ${{ matrix.runs_on }}
     env:
       DOCKER_BUILDKIT: '1'

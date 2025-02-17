@@ -1,6 +1,6 @@
 FROM ubuntu:jammy AS executable_builder
 RUN mkdir /executables && apt update -y && \
-    apt install -y wget ninja-build gettext cmake unzip curl git file && \
+    apt install -y wget unzip curl git file && \
     mkdir /testingground && cd /testingground && \
     a=$(curl -s https://api.github.com/repos/praetorian-inc/noseyparker/releases/latest | grep -E "browser_download_url.*" | grep -i "linux-gnu" | grep -i "aarch64" | cut -d '"' -f4) && \
     b=$(curl -s https://api.github.com/repos/praetorian-inc/noseyparker/releases/latest | grep -E "browser_download_url.*" | grep -i "linux-gnu" | grep -i "x86_64" | cut -d '"' -f4) && \
@@ -26,6 +26,8 @@ RUN go install github.com/OJ/gobuster/v3@latest && \
     mv /go/bin/gobuster /executables
 RUN go install github.com/insidersec/insider/cmd/insider@latest && \
     mv /go/bin/insider /executables
+RUN go install go install github.com/aquasecurity/kube-bench@latest && \
+    mv /go/bin/kube-bench /executables
 RUN go install github.com/praetorian-inc/fingerprintx/cmd/fingerprintx@latest && \
     mv /go/bin/fingerprintx /executables
 RUN go install github.com/lc/gau/v2/cmd/gau@latest && \
