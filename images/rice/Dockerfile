@@ -59,6 +59,7 @@ RUN curl -L http://install.ohmyz.sh | sh && \
     mv lsd-*/lsd /usr/bin/lsd && \
     rm -rf lsd-* test.tar.gz && \
     git clone https://github.com/NvChad/starter /root/.config/nvim && \
+    sed -i 's/theme =.*/theme = "catppuccin", transparency = true,/' /root/.config/nvim/lua/chadrc.lua
     nvim --headless -c 'quitall' && \
     sed -i "s/autoload -Uz bracketed-paste-magic/#autoload -Uz bracketed-paste-magic/" /root/.oh-my-zsh/lib/misc.zsh && \
     sed -i "s/zle -N bracketed-paste bracketed-paste-magic/#zle -N bracketed-paste bracketed-paste-magic/" /root/.oh-my-zsh/lib/misc.zsh && \
