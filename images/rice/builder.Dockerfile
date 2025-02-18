@@ -1,6 +1,6 @@
 FROM ubuntu:jammy AS executable_builder
 RUN mkdir /executables && apt update -y && \
-    apt install -y wget unzip curl git file && \
+    apt install -y wget make cmake unzip curl git file && \
     wget https://github.com/neovim/neovim/archive/refs/tags/stable.tar.gz && \
     tar -xvf stable.tar.gz && cd neovim-stable && \
     make CMAKE_BUILD_TYPE=RelWithDebInfo && \
