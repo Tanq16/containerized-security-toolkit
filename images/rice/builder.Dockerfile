@@ -39,7 +39,7 @@ RUN go install github.com/OJ/gobuster/v3@latest && \
     mv /go/bin/gobuster /executables
 RUN go install github.com/insidersec/insider/cmd/insider@latest && \
     mv /go/bin/insider /executables
-RUN go install go install github.com/aquasecurity/kube-bench@latest && \
+RUN go install github.com/aquasecurity/kube-bench@latest && \
     mv /go/bin/kube-bench /executables
 RUN go install github.com/praetorian-inc/fingerprintx/cmd/fingerprintx@latest && \
     mv /go/bin/fingerprintx /executables
