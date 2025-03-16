@@ -46,11 +46,7 @@ jobs:
           cat > release_notes.md << 'EOL'
           # Container Security Toolkit Images - Release ${{ steps.version.outputs.new_version }}
 
-          The following Docker images are available for this release:
-
-          - TODO
-
-          Refer to the [documentation](https://tanishq.page/containerized-security-toolkit) for more information.
+          Refer to the [documentation](https://tanishq.page/containerized-security-toolkit) for information on using the images.
           EOL
           
           gh release create "${{ steps.version.outputs.new_version }}" \
