@@ -88,7 +88,7 @@ RUN go install github.com/tanq16/ai-context@latest && \
 RUN go install github.com/tanq16/nottif@latest && \
     mv /go/bin/nottif /executables
 RUN go install github.com/tanq16/danzo@latest && \
-    mv /go/bin/ai-context /executables
+    mv /go/bin/danzo /executables
 
 FROM alpine
 RUN mkdir /executables/
