@@ -139,20 +139,20 @@ RUN . /opt/pyenv/bin/activate && \
 
 RUN mkdir testingground && cd testingground && \
     a=$(curl -s https://api.github.com/repos/tanq16/danzo/releases/latest | grep -E "browser_download_url.*" | grep linux-arm64 | cut -d '"' -f4) && \
-    a=$(curl -s https://api.github.com/repos/tanq16/danzo/releases/latest | grep -E "browser_download_url.*" | grep linux-amd64 | cut -d '"' -f4) && \
+    b=$(curl -s https://api.github.com/repos/tanq16/danzo/releases/latest | grep -E "browser_download_url.*" | grep linux-amd64 | cut -d '"' -f4) && \
     if [ "$(uname -m)" = "aarch64" ]; then wget "$a" -O danzo.zip; else wget "$b" -O danzo.zip; fi && \
     unzip danzo.zip && mv danzo /opt/executables/danzo && \
-    rm danzo.zip LICENSE README.md && \
+    rm * && \
     a=$(curl -s https://api.github.com/repos/tanq16/nottif/releases/latest | grep -E "browser_download_url.*" | grep linux-arm64 | cut -d '"' -f4) && \
-    a=$(curl -s https://api.github.com/repos/tanq16/nottif/releases/latest | grep -E "browser_download_url.*" | grep linux-amd64 | cut -d '"' -f4) && \
+    b=$(curl -s https://api.github.com/repos/tanq16/nottif/releases/latest | grep -E "browser_download_url.*" | grep linux-amd64 | cut -d '"' -f4) && \
     if [ "$(uname -m)" = "aarch64" ]; then wget "$a" -O nottif.zip; else wget "$b" -O nottif.zip; fi && \
     unzip nottif.zip && mv nottif /opt/executables/nottif && \
-    rm danzo.zip LICENSE README.md && \
+    rm * && \
     a=$(curl -s https://api.github.com/repos/tanq16/ai-context/releases/latest | grep -E "browser_download_url.*" | grep linux-arm64 | cut -d '"' -f4) && \
-    a=$(curl -s https://api.github.com/repos/tanq16/ai-context/releases/latest | grep -E "browser_download_url.*" | grep linux-amd64 | cut -d '"' -f4) && \
+    b=$(curl -s https://api.github.com/repos/tanq16/ai-context/releases/latest | grep -E "browser_download_url.*" | grep linux-amd64 | cut -d '"' -f4) && \
     if [ "$(uname -m)" = "aarch64" ]; then wget "$a" -O ai-context.zip; else wget "$b" -O ai-context.zip; fi && \
     unzip ai-context.zip && mv ai-context /opt/executables/ai-context && \
-    rm danzo.zip LICENSE README.md && \
+    rm * && \
     cd .. && rm -rf testingground
 
 # ============================================================================================================
