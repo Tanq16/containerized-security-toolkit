@@ -9,9 +9,7 @@
 <p align="center">
   <a href="https://hub.docker.com/r/tanq16/cst-rice"><img src="https://img.shields.io/docker/pulls/tanq16/cst-rice?style=flat"></a> <a href="https://hub.docker.com/r/tanq16/cst-cloud"><img src="https://img.shields.io/docker/pulls/tanq16/cst-cloud?style=flat"></a> <a href="https://hub.docker.com/r/tanq16/cst-general"><img src="https://img.shields.io/docker/pulls/tanq16/cst-general?style=flat"></a>
   <br>
-  <a href="https://tanishq.page/containerized-security-toolkit"><img alt="Static Badge" src="https://img.shields.io/badge/-Documentation-blue"></a> <a href="https://hub.docker.com/r/tanq16/"><img alt="Static Badge" src="https://img.shields.io/badge/-DockerHub%20(User)-blue"></a>
-  <br>
-  <a href="https://github.com/tanq16/containerized-security-toolkit/actions/workflows/image-build.yml"><img src="https://github.com/tanq16/containerized-security-toolkit/actions/workflows/image-build.yml/badge.svg" alt="Build"></a>
+  <a href="https://tanishq.page/containerized-security-toolkit"><img alt="Static Badge" src="https://img.shields.io/badge/-Documentation-teal"></a> <a href="https://github.com/tanq16/containerized-security-toolkit/actions/workflows/image-build.yml"><img src="https://github.com/tanq16/containerized-security-toolkit/actions/workflows/image-build.yml/badge.svg" alt="Build"></a>
 </p>
 
 <h3 align="center">A comprehensive suite of containerized security toolkits for various security operations</h3>
