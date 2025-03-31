@@ -35,60 +35,54 @@ RUN mkdir /testingground && cd /testingground && \
 
 FROM golang AS go_builder
 RUN mkdir /executables
-RUN go install github.com/OJ/gobuster/v3@latest && \
+RUN go install -ldflags="-s -w" github.com/OJ/gobuster/v3@latest && \
     mv /go/bin/gobuster /executables
-RUN go install github.com/insidersec/insider/cmd/insider@latest && \
+RUN go install -ldflags="-s -w" github.com/insidersec/insider/cmd/insider@latest && \
     mv /go/bin/insider /executables
-RUN go install github.com/aquasecurity/kube-bench@latest && \
+RUN go install -ldflags="-s -w" github.com/aquasecurity/kube-bench@latest && \
     mv /go/bin/kube-bench /executables
-RUN go install github.com/praetorian-inc/fingerprintx/cmd/fingerprintx@latest && \
+RUN go install -ldflags="-s -w" github.com/praetorian-inc/fingerprintx/cmd/fingerprintx@latest && \
     mv /go/bin/fingerprintx /executables
-RUN go install -v github.com/owasp-amass/amass/v4/...@master && \
+RUN go install -ldflags="-s -w" -v github.com/owasp-amass/amass/v4/...@master && \
     mv /go/bin/amass /executables
-RUN go install github.com/lc/gau/v2/cmd/gau@latest && \
+RUN go install -ldflags="-s -w" github.com/lc/gau/v2/cmd/gau@latest && \
     mv /go/bin/gau /executables/getallurls
-RUN go install github.com/ffuf/ffuf/v2@latest && \
+RUN go install -ldflags="-s -w" github.com/ffuf/ffuf/v2@latest && \
     mv /go/bin/ffuf /executables
-RUN go install github.com/mikefarah/yq/v4@latest && \
+RUN go install -ldflags="-s -w" github.com/mikefarah/yq/v4@latest && \
     mv /go/bin/yq /executables
-RUN go install github.com/fullstorydev/grpcurl/cmd/grpcurl@latest && \
+RUN go install -ldflags="-s -w" github.com/fullstorydev/grpcurl/cmd/grpcurl@latest && \
     mv /go/bin/grpcurl /executables
-RUN go install github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest && \
+RUN go install -ldflags="-s -w" github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest && \
     mv /go/bin/subfinder /executables
-RUN go install github.com/projectdiscovery/httpx/cmd/httpx@latest && \
+RUN go install -ldflags="-s -w" github.com/projectdiscovery/httpx/cmd/httpx@latest && \
     mv /go/bin/httpx /executables
-RUN go install github.com/projectdiscovery/dnsx/cmd/dnsx@latest && \
+RUN go install -ldflags="-s -w" github.com/projectdiscovery/dnsx/cmd/dnsx@latest && \
     mv /go/bin/dnsx /executables
-RUN go install github.com/projectdiscovery/proxify/cmd/proxify@latest && \
+RUN go install -ldflags="-s -w" github.com/projectdiscovery/proxify/cmd/proxify@latest && \
     mv /go/bin/proxify /executables
-RUN go install github.com/projectdiscovery/simplehttpserver/cmd/simplehttpserver@latest && \
+RUN go install -ldflags="-s -w" github.com/projectdiscovery/simplehttpserver/cmd/simplehttpserver@latest && \
     mv /go/bin/simplehttpserver /executables
-RUN go install github.com/tomnomnom/gron@latest && \
+RUN go install -ldflags="-s -w" github.com/tomnomnom/gron@latest && \
     mv /go/bin/gron /executables
-RUN go install github.com/neilotoole/sq@latest && \
+RUN go install -ldflags="-s -w" github.com/neilotoole/sq@latest && \
     mv /go/bin/sq /executables
-RUN go install github.com/hakluke/hakrawler@latest && \
+RUN go install -ldflags="-s -w" github.com/hakluke/hakrawler@latest && \
     mv /go/bin/hakrawler /executables
-RUN go install github.com/hakluke/hakrevdns@latest && \
+RUN go install -ldflags="-s -w" github.com/hakluke/hakrevdns@latest && \
     mv /go/bin/hakrevdns /executables
 
 # Second go builder to speed up the build process
 FROM golang AS go_builder_two
 RUN mkdir /executables
-RUN go install github.com/projectdiscovery/nuclei/v3/cmd/nuclei@latest && \
+RUN go install -ldflags="-s -w" github.com/projectdiscovery/nuclei/v3/cmd/nuclei@latest && \
     mv /go/bin/nuclei /executables
-RUN go install github.com/BishopFox/cloudfox@latest && \
+RUN go install -ldflags="-s -w" github.com/BishopFox/cloudfox@latest && \
     mv /go/bin/cloudfox /executables
-RUN go install github.com/projectdiscovery/cloudlist/cmd/cloudlist@latest && \
+RUN go install -ldflags="-s -w" github.com/projectdiscovery/cloudlist/cmd/cloudlist@latest && \
     mv /go/bin/cloudlist /executables
 RUN git clone --depth=1 https://github.com/hashicorp/terraform.git && \
     cd terraform && go get && go build && mv terraform /executables
-RUN go install github.com/tanq16/ai-context@latest && \
-    mv /go/bin/ai-context /executables
-RUN go install github.com/tanq16/nottif@latest && \
-    mv /go/bin/nottif /executables
-RUN go install github.com/tanq16/danzo@latest && \
-    mv /go/bin/danzo /executables
 
 FROM alpine
 RUN mkdir /executables/
