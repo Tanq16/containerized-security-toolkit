@@ -9,12 +9,8 @@ on:
   workflow_run:
     workflows: ["CST Builds", "Deploy Documentation"]
     types: [completed]
-  pull_request:
+  pull_request_target:
     types: [opened, closed, edited, review_requested]
-  pull_request_review_comment:
-    types: [created]
-  pull_request_review:
-    types: [submitted]
 
 jobs:
   weekly-summary:
@@ -51,7 +47,7 @@ jobs:
           -d "{\"content\": \"*Workflow run for **${{ github.repository }}***\n${{ github.event.workflow_run.name }} - ${{ github.event.workflow_run.conclusion }}\"}" ${{ secrets.DISCORD_WEBHOOK }}
 
   pull-request-notification:
-    if: github.event_name == 'pull_request' || github.event_name == 'pull_request_review_comment' || github.event_name == 'pull_request_review'
+    if: github.event_name == 'pull_request_target'
     runs-on: ubuntu-latest
     steps:
       - name: Notify on PR related activities

@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  <img src="docs/assets/CST-Logo.png" alt="CST" width="280">
+  <img src="docs/assets/CST-Logo.png" alt="CST" width="275">
   <br>
   Containerized Security Toolkit (CST)
   <br>
@@ -12,7 +12,7 @@
   <a href="https://tanishq.page/containerized-security-toolkit"><img alt="Static Badge" src="https://img.shields.io/badge/-Documentation-teal"></a> <a href="https://github.com/tanq16/containerized-security-toolkit/actions/workflows/image-build.yml"><img src="https://github.com/tanq16/containerized-security-toolkit/actions/workflows/image-build.yml/badge.svg" alt="Build"></a>
 </p>
 
-<h3 align="center">A comprehensive suite of containerized security toolkits for various security operations</h3>
+<h4 align="center">A comprehensive suite of containerized security toolkits for various security operations</h4>
 
 ## Overview
 
