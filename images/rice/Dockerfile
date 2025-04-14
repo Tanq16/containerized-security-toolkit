@@ -143,15 +143,14 @@ RUN mkdir testingground && cd testingground && \
     if [ "$(uname -m)" = "aarch64" ]; then wget "$a" -O danzo.zip; else wget "$b" -O danzo.zip; fi && \
     unzip danzo.zip && mv danzo /opt/executables/danzo && \
     rm * && \
-    a=$(curl -s https://api.github.com/repos/tanq16/nottif/releases/latest | grep -E "browser_download_url.*" | grep linux-arm64 | cut -d '"' -f4) && \
-    b=$(curl -s https://api.github.com/repos/tanq16/nottif/releases/latest | grep -E "browser_download_url.*" | grep linux-amd64 | cut -d '"' -f4) && \
-    if [ "$(uname -m)" = "aarch64" ]; then wget "$a" -O nottif.zip; else wget "$b" -O nottif.zip; fi && \
-    unzip nottif.zip && mv nottif /opt/executables/nottif && \
+    /opt/executables/danzo github.com/tanq16/nottif && \
+    unzip nottif*.zip && mv nottif /opt/executables/nottif && \
     rm * && \
-    a=$(curl -s https://api.github.com/repos/tanq16/ai-context/releases/latest | grep -E "browser_download_url.*" | grep linux-arm64 | cut -d '"' -f4) && \
-    b=$(curl -s https://api.github.com/repos/tanq16/ai-context/releases/latest | grep -E "browser_download_url.*" | grep linux-amd64 | cut -d '"' -f4) && \
-    if [ "$(uname -m)" = "aarch64" ]; then wget "$a" -O ai-context.zip; else wget "$b" -O ai-context.zip; fi && \
-    unzip ai-context.zip && mv ai-context /opt/executables/ai-context && \
+    /opt/executables/danzo github.com/tanq16/ai-context && \
+    unzip ai-context*.zip && mv ai-context /opt/executables/ai-context && \
+    rm * && \
+    /opt/executables/danzo github.com/tanq16/anbu && \
+    unzip anbu*.zip && mv anbu /opt/executables/anbu && \
     rm * && \
     cd .. && rm -rf testingground
 
