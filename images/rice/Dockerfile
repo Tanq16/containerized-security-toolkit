@@ -143,13 +143,13 @@ RUN mkdir testingground && cd testingground && \
     if [ "$(uname -m)" = "aarch64" ]; then wget "$a" -O danzo.zip; else wget "$b" -O danzo.zip; fi && \
     unzip danzo.zip && mv danzo /opt/executables/danzo && \
     rm * && \
-    /opt/executables/danzo github://tanq16/nottif -o nottif.zip && \
+    /opt/executables/danzo ghrelease tanq16/nottif -o nottif.zip && \
     unzip nottif.zip && mv nottif /opt/executables/nottif && \
     rm * && \
-    /opt/executables/danzo github://tanq16/ai-context -o aic.zip && \
+    /opt/executables/danzo ghrelease tanq16/ai-context -o aic.zip && \
     unzip aic.zip && mv ai-context /opt/executables/ai-context && \
     rm * && \
-    /opt/executables/danzo github://tanq16/anbu -o anbu.zip && \
+    /opt/executables/danzo ghrelease tanq16/anbu -o anbu.zip && \
     unzip anbu.zip && mv anbu /opt/executables/anbu && \
     rm * && \
     cd .. && rm -rf testingground
