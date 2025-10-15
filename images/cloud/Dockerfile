@@ -76,8 +76,6 @@ RUN . /opt/pyenv/bin/activate && \
     sed -i 's/\#\!\/usr\/bin\/env python/\#\!\/usr\/bin\/env python3/g' pmapper.py && cd .. && \
     pip install --no-cache-dir checkov && \
     pip install --no-cache-dir prowler && \
-    git clone --depth=1 https://github.com/aquasecurity/kube-hunter && cd kube-hunter && \
-    pip install . && cd .. && \
     git clone --depth=1 https://github.com/cyberark/KubiScan && cd KubiScan && \
     pip install -r requirements.txt && cd .. && \
     git clone --depth=1 https://github.com/RhinoSecurityLabs/GCP-IAM-Privilege-Escalation && cd GCP-IAM-Privilege-Escalation/PrivEscScanner && \
