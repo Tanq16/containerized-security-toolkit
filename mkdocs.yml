@@ -5,8 +5,8 @@ repo_url: https://github.com/tanq16/containerized-security-toolkit
 
 theme:
   name: material
-  logo: assets/CST-Logo.png
-  favicon: assets/CST-Logo.png
+  logo: assets/CST-Logo.svg
+  favicon: assets/CST-Logo.svg
   features:
     - navigation.instant
   icon:

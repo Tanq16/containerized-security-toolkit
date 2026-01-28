@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  <img src="docs/assets/CST-Logo.png" alt="CST" width="275">
+  <img src="docs/assets/CST-Logo.svg" alt="CST" width="275">
   <br>
   Containerized Security Toolkit (CST)
   <br>
